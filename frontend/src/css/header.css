@@ -1,0 +1,11 @@
+.header-div-conteiner-search{
+    background-color: oklch(14.5% 0 0);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-radius: 1rem;
+}
+
+.header-div-conteiner-input-and-search{
+    border: 1px solid white;
+}
