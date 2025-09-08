@@ -5,7 +5,7 @@ import '../css/navCategories.css'
 function NavCategories() {
   return (
     <>
-        <nav className="bg-slate-800 flex flex-wrap p-2 items-center gap-[1rem] text-white">
+        <nav className="bg-[oklch(14.5%_0_0)] flex flex-wrap p-2 items-center gap-[1rem] text-white">
             <Link to='/' className="flex items-center gap-[0.25rem] border border-transparent px-2 py-1 hover:border-white hover:text-white transition-colors duration-300">
                 <img src={MenuBurguer} alt="Icone para buscar todos os cursos" /> 
                 <p>Todos</p>
