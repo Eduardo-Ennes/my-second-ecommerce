@@ -45,7 +45,7 @@ function Header() {
                           <Link to="/register">Cadastrar-se como usuário</Link>
                         </NavigationMenuLink>
                         <NavigationMenuLink asChild>
-                          <Link to="/affiliate-login">Login como afiliado</Link>
+                          <Link to="/login/affiliate/">Login como afiliado</Link>
                         </NavigationMenuLink>
                         <NavigationMenuLink asChild>
                           <Link to="/become-affiliate">Seja um afiliado</Link>
