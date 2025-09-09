@@ -6,10 +6,10 @@ import Footer from '@/components/Footer'
 function Home() {
   return (
     <>
-        <Header />
-        <NavCategories />
-        <ListProducts />
-        <Footer />
+      <Header />
+      <NavCategories />
+      <ListProducts />
+      <Footer />
     </>
   )
 }
