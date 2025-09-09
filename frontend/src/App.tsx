@@ -1,8 +1,9 @@
+import './App.css'
+import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import LoginUser from './pages/LoginUser'
 import LoginAffliate from './pages/LoginAffiliate'
-import './App.css'
-import { Route, Routes } from 'react-router-dom'
+import FormUser from './pages/FormUser'
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
         <Route path='/' element={<Home />}/>
         <Route path='/login/user/' element={<LoginUser />}/>
         <Route path='/login/affiliate/' element={<LoginAffliate />}/>
+        <Route path='/user/new/' element={<FormUser />}/>
       </Routes>
     </>
   )

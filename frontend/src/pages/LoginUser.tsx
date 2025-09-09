@@ -14,14 +14,14 @@ import { Link } from "react-router-dom"
 
 function LoginUser() {
   return (
-     <Card className="w-full max-w-sm ml-auto mr-auto mt-[3rem] bg-neutral-100">
+     <Card className="w-full max-w-sm ml-auto mr-auto mt-[3rem] bg-gray-950">
       <CardHeader>
         <CardTitle>Faça login com sua conta</CardTitle>
         <CardDescription>
           Digite seu e-mail abaixo para acessar sua conta
         </CardDescription>
         <CardAction>
-          <Link to='/' className="hover:underline">Cadastrar</Link>
+          <Link to='/user/new/' className="hover:underline">Cadastrar</Link>
         </CardAction>
       </CardHeader>
       <CardContent>

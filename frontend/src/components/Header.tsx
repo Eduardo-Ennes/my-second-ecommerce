@@ -42,7 +42,7 @@ function Header() {
                           <Link to="/login/user/">Login</Link>
                         </NavigationMenuLink>
                         <NavigationMenuLink asChild>
-                          <Link to="/register">Cadastrar-se como usuário</Link>
+                          <Link to="/user/new/">Cadastrar-se como usuário</Link>
                         </NavigationMenuLink>
                         <NavigationMenuLink asChild>
                           <Link to="/login/affiliate/">Login como afiliado</Link>
