@@ -1,6 +1,14 @@
-
+import { AlertCircleIcon } from "lucide-react"
+import { Link } from 'react-router-dom' 
+import {
+  Alert,
+  AlertTitle,
+} from "@/components/ui/alert"
+import { useState } from "react"
 
 function FormUser() {
+    const [error, setError] = useState('')
+
   return (
     <div className="isolate bg-black px-3 py-12 sm:py-16 lg:px-4">
         <div
@@ -16,9 +24,9 @@ function FormUser() {
             />
         </div>
         <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-4xl font-semibold tracking-tight text-balance text-white sm:text-5xl">
-            Formulário
-            </h2>
+            <Link to='/' className="text-4xl font-semibold tracking-tight text-balance text-white sm:text-5xl">
+            My Second E-commerce
+            </Link>
             <p className="mt-2 text-lg/8 text-gray-400">
             cadastre-se para ter acesso aos nossos cursos.
             </p>
@@ -149,6 +157,18 @@ function FormUser() {
                 />
                 </div>
             </div>
+
+            {error.length > 0 && (
+                <div className="sm:col-span-2">
+                    <div className="w-144 ml-auto mr-auto mt-2 mb-2">
+                        <Alert variant="destructive" className="bg-white">
+                            <AlertCircleIcon />
+                            <AlertTitle>{error}</AlertTitle>
+                        </Alert>
+                    </div>
+                </div>
+            )}
+
             <div className="flex gap-x-4 sm:col-span-2">
                 <div className="flex h-6 items-center">
                 <div className="group relative inline-flex w-8 shrink-0 rounded-full bg-white/5 p-px inset-ring inset-ring-white/10 outline-offset-2 outline-indigo-500 transition-colors duration-200 ease-in-out has-checked:bg-indigo-500 has-focus-visible:outline-2">
