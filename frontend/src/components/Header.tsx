@@ -14,7 +14,7 @@ import {
 import { useState } from 'react';
 
 function Header() {
-  const [logado, setLogado] = useState(true)
+  const [logado, setLogado] = useState(false)
 
   return (
     <>
@@ -39,7 +39,7 @@ function Header() {
                       </NavigationMenuTrigger>
                       <NavigationMenuContent className='!w-[13rem]'>
                         <NavigationMenuLink asChild>
-                          <Link to="/login">Login</Link>
+                          <Link to="/login/user/">Login</Link>
                         </NavigationMenuLink>
                         <NavigationMenuLink asChild>
                           <Link to="/register">Cadastrar-se como usuário</Link>
