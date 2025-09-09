@@ -37,18 +37,12 @@ function Header() {
                       <NavigationMenuTrigger className="bg-[oklch(14.5%_0_0)] cursor-pointer text-base">
                         Fazer login
                       </NavigationMenuTrigger>
-                      <NavigationMenuContent className='!w-[13rem]'>
+                      <NavigationMenuContent className='!w-[10rem]'>
                         <NavigationMenuLink asChild>
                           <Link to="/login/user/">Login</Link>
                         </NavigationMenuLink>
                         <NavigationMenuLink asChild>
-                          <Link to="/user/new/">Cadastrar-se como usuário</Link>
-                        </NavigationMenuLink>
-                        <NavigationMenuLink asChild>
-                          <Link to="/login/affiliate/">Login como afiliado</Link>
-                        </NavigationMenuLink>
-                        <NavigationMenuLink asChild>
-                          <Link to="/become-affiliate">Seja um afiliado</Link>
+                          <Link to="/user/new/">Cadastrar-se</Link>
                         </NavigationMenuLink>
                       </NavigationMenuContent>
                     </NavigationMenuItem>
@@ -61,7 +55,7 @@ function Header() {
                       <NavigationMenuTrigger className="bg-[oklch(14.5%_0_0)] cursor-pointer text-base">
                         My account
                       </NavigationMenuTrigger>
-                      <NavigationMenuContent className='!w-[13rem]'>
+                      <NavigationMenuContent className='!w-[10rem]'>
                         <NavigationMenuLink asChild>
                           <Link to="/login">Login</Link>
                         </NavigationMenuLink>
