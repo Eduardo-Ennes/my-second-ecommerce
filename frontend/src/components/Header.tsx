@@ -16,7 +16,6 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -25,13 +24,15 @@ import IconSearch from '../assets/search.png'
 import IconHeart from '../assets/heart.png'
 
 function Header() {
-  const [logado, setLogado] = useState(true)
+  const [logado, setLogado] = useState(false)
 
   return (
     <>
         <header className="flex items-center justify-around text-white p-4 bg-[oklch(14.5%_0_0)] shadow-md">
      
-            <h1 className="text-2xl font-bold">My Second E-commerce</h1>
+            <h1 className="text-2xl font-bold">
+              <Link to="/">My Second E-commerce</Link>
+            </h1>
 
 
             <div className="flex w-full max-w-sm items-center gap-2 border-1 border-white p-1 rounded-2xl hover:ring-1 hover:transition-[2s]">

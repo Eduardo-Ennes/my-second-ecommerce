@@ -8,11 +8,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { Separator } from "@/components/ui/separator"
+import { useState } from "react";
 
 function Footer() {
+  const [value, setValue] = useState<string | undefined>(undefined)
   return (
     <>
-        <footer className="bg-[oklch(14.5%_0_0)] text-white p-4 border-t border-gray-700">
+        <footer className="bg-[oklch(14.5%_0_0)] text-white p-4 border-t mt-[2rem] border-gray-700">
           <div>
             <div className="space-y-1">
               <h4 className="text-lg leading-none font-medium mb-6">Redes e contato</h4>
@@ -41,10 +43,7 @@ function Footer() {
           <Separator className="my-4" />
 
           <Accordion
-            type="single"
-            collapsible
-            className="w-full"
-            defaultValue="item-1"
+            type="single" collapsible className="rounded w-full" value={value} onValueChange={setValue}
           >
             <AccordionItem value="item-1">
               <AccordionTrigger className="text-base cursor-pointer">Sobre Mim</AccordionTrigger>
