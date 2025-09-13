@@ -24,7 +24,7 @@ import IconSearch from '../assets/search.png'
 import IconHeart from '../assets/heart.png'
 
 function Header() {
-  const [logado, setLogado] = useState(false)
+  const [logado, setLogado] = useState(true)
 
   return (
     <>
@@ -96,13 +96,16 @@ function Header() {
                   {/* Menu que aparece abaixo do Avatar */}
                   <DropdownMenuContent align="end" className="w-48">
                     <DropdownMenuItem>
+                      <Link to='/' className='w-full'>Home</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
                       <Link to='/login' className='w-full'>Meus cursos</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link to='/login' className='w-full'>Favoritos</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                      <Link to='/login' className='w-full'>Meu carrinho</Link>
+                      <Link to='/card' className='w-full'>Meu carrinho</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link to='/login' className='w-full'>Ensine na plataforma</Link>
