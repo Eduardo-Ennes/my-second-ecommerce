@@ -73,7 +73,7 @@ function Header() {
                   </NavigationMenuList>
                 </NavigationMenu>
 
-                <Link to='/'>
+                <Link to='/card'>
                   <img src={IconCard} alt="Icone do carrinho de compras" />
                 </Link>
               </>
@@ -133,7 +133,7 @@ function Header() {
                   <img src={IconHeart} alt="Icone da lista de favoritos" />
                 </Link>
 
-                <Link to='/'>
+                <Link to='/card'>
                   <img src={IconCard} alt="Icone do carrinho de compras" />
                 </Link>
               </div>
