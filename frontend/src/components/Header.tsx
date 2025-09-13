@@ -102,7 +102,7 @@ function Header() {
                       <Link to='/login' className='w-full'>Meus cursos</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                      <Link to='/login' className='w-full'>Favoritos</Link>
+                      <Link to='/favorites' className='w-full'>Favoritos</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link to='/card' className='w-full'>Meu carrinho</Link>
@@ -132,7 +132,7 @@ function Header() {
                   </DropdownMenuContent>
                 </DropdownMenu>
 
-                <Link to='/'>
+                <Link to='/favorites'>
                   <img src={IconHeart} alt="Icone da lista de favoritos" />
                 </Link>
 

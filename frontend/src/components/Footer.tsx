@@ -49,7 +49,7 @@ function Footer() {
               <AccordionTrigger className="text-base cursor-pointer">Sobre Mim</AccordionTrigger>
               <AccordionContent className="flex flex-col gap-4 text-balance">
                 <p>
-                  Estudando e me qualificando para me tornar desenvolvedor full-stack e também me aprofundando na área de DevOps. Cursando Análise e Desenvolvimento de Sistemas com o objetivo de em breve ingressar em Ciência da Computação.
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Non vel libero unde? Provident animi ut magnam asperiores, esse possimus eveniet.
                 </p>
                 <p>
                   Este site está sendo desenvolvido para fins de portifólio, nele mostrarei minhas competências e conhecimentos. 

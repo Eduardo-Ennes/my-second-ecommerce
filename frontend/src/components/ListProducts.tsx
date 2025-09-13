@@ -9,7 +9,7 @@ function ListProducts() {
                 <h2 className="sr-only text-white">Products</h2>
 
                 <div className="grid grid-cols-3 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-3 xl:gap-x-10">
-                <Link to="/data/product/10" className="group">
+                <Link to="/detail/product/10" className="group">
                     <img
                     src={imageTeste}
                     alt="Tall slender porcelain bottle with natural clay textured body and cork stopper."
