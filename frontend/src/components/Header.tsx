@@ -99,7 +99,7 @@ function Header() {
                       <Link to='/' className='w-full'>Home</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                      <Link to='/login' className='w-full'>Meus cursos</Link>
+                      <Link to='/my/corses' className='w-full'>Meus cursos</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link to='/favorites' className='w-full'>Favoritos</Link>

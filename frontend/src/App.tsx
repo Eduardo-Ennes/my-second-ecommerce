@@ -6,6 +6,7 @@ import FormUser from './pages/FormUser'
 import DetailProduct from './pages/DetailProduct'
 import Card from './pages/Card'
 import Favorites from './pages/Favorites'
+import MyCorses from './pages/MyCorses'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path='/login' element={<LoginUser />}/>
         <Route path='/card' element={<Card />}/>
         <Route path='/favorites' element={<Favorites />}/>
+        <Route path='/my/corses' element={<MyCorses />}/>
         <Route path='/user/new' element={<FormUser />}/>
         <Route path='/detail/product/:id' element={<DetailProduct />}/>
       </Routes>

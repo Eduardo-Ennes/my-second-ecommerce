@@ -8,6 +8,9 @@ function Favorites() {
   return (
     <>
         <Header />
+
+        <h2 className="w-[30rem] text-gray-200 text-4xl font-bold pl-[3rem] mt-3 mb-1 border-b border-zinc-700">Lista de favoritos</h2>
+
         <article className="grid grid-cols-4 gap-x-3 gap-y-10 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-4 xl:gap-x-4 p-[1rem] mt-5">
           <Link to="/detail/product/10" className="group w-[20rem]">
             <img
