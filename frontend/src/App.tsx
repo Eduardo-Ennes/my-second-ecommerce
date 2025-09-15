@@ -7,6 +7,7 @@ import DetailProduct from './pages/DetailProduct'
 import Card from './pages/Card'
 import Favorites from './pages/Favorites'
 import MyCorses from './pages/MyCorses'
+import VideoCorses from './pages/VideoCorses'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <Route path='/favorites' element={<Favorites />}/>
         <Route path='/my/corses' element={<MyCorses />}/>
         <Route path='/user/new' element={<FormUser />}/>
+        <Route path='/leassons/:id' element={<VideoCorses />}/>
         <Route path='/detail/product/:id' element={<DetailProduct />}/>
       </Routes>
     </>

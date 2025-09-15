@@ -1,9 +1,10 @@
 import Header from "@/components/Header"
 import Pagineted from "@/components/Pagineted"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import imageTeste from '../media/imagem-python.jpg'
 
 function MyCorses() {
+  const params = useParams<{id: string}>()
   
   return (
     <>
@@ -12,7 +13,7 @@ function MyCorses() {
         <h2 className="w-[30rem] text-gray-200 text-4xl font-bold pl-[3rem] mt-3 mb-1 border-b border-zinc-700">Meus cursos</h2>
 
         <article className="grid grid-cols-4 gap-x-3 gap-y-10 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-4 xl:gap-x-4 p-[1rem] mt-5 h-[27rem]">
-          <Link to="/detail/product/10" className="group w-[20rem]">
+          <Link to="/leassons/10" className="group w-[20rem]">
             <img
             src={imageTeste}
             alt="Tall slender porcelain bottle with natural clay textured body and cork stopper."
