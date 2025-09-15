@@ -2,7 +2,6 @@ import '../css/header.css'
 import { Input } from "@/components/ui/input"
 import { Link } from "react-router-dom";
 import IconCard from '../assets/shopping-cart.png'
-// import { Button } from './ui/button';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,17 +10,10 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useState } from 'react';
 import IconSearch from '../assets/search.png'
 import IconHeart from '../assets/heart.png'
+import DropdownMenuAvatar from './DropdownMenuAvatar';
 
 function Header() {
   const [logado, setLogado] = useState(true)
@@ -84,62 +76,16 @@ function Header() {
                 </div> */}
 
                 <div className='flex flex-wrap gap-5'>
-                <DropdownMenu>
-                    {/* Avatar como gatilho */}
-                  <DropdownMenuTrigger asChild>
-                    <Avatar className="cursor-pointer">
-                      <AvatarImage src="https://github.com/shadcn.png" />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                  </DropdownMenuTrigger>
+                    <DropdownMenuAvatar />
 
-                  {/* Menu que aparece abaixo do Avatar */}
-                  <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem>
-                      <Link to='/' className='w-full'>Home</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link to='/my/corses' className='w-full'>Meus cursos</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link to='/favorites' className='w-full'>Favoritos</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link to='/card' className='w-full'>Meu carrinho</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link to='/login' className='w-full'>Ensine na plataforma</Link>
-                    </DropdownMenuItem>
+                  <Link to='/favorites'>
+                    <img src={IconHeart} alt="Icone da lista de favoritos" />
+                  </Link>
 
-                    <DropdownMenuSeparator />
-                      <DropdownMenuItem>
-                        <Link to='/login' className='w-full'>Mensagens</Link>
-                      </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-
-                    <DropdownMenuItem>
-                      <Link to='/login' className='w-full'>Perfil</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link to='/login' className='w-full'>Forma de pagamento</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link to='/login' className='w-full'>Configurações</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link to='/login' className='w-full'>Sair</Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-
-                <Link to='/favorites'>
-                  <img src={IconHeart} alt="Icone da lista de favoritos" />
-                </Link>
-
-                <Link to='/card'>
-                  <img src={IconCard} alt="Icone do carrinho de compras" />
-                </Link>
-              </div>
+                  <Link to='/card'>
+                    <img src={IconCard} alt="Icone do carrinho de compras" />
+                  </Link>
+                </div>
               </>
             }
         </header>
