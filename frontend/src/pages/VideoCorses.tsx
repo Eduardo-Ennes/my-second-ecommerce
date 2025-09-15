@@ -1,24 +1,20 @@
 import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu"
-import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import ReactPlayer from "react-player";
 import { Link } from 'react-router-dom'
 import maltaVideo from '../media/malta.mp4'
 import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area"
 import Footer from "../components/Footer";
+import Avaliation from "@/components/Avaliation"
+import DropdownMenuAvatar from "@/components/DropdownMenuAvatar";
+import MaterialAndFeatures from "@/components/MaterialAndFeatures";
+import LeassonsQuestionsResponse from "@/components/LeassonsQuestionsResponse";
 
 export default function VideoCorses() {
     const [value, setValue] = useState<string | undefined>(undefined)
@@ -35,53 +31,10 @@ export default function VideoCorses() {
                     Aprender tecnologias modernas 
                 </p>
             </div>
-            <DropdownMenu>
-                {/* Avatar como gatilho */}
-                <DropdownMenuTrigger asChild>
-                    <Avatar className="cursor-pointer">
-                        <AvatarImage src="https://github.com/shadcn.png"/>
-                        <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                </DropdownMenuTrigger>
+            
+            {/* Template do avatar menu */}
+            <DropdownMenuAvatar />
 
-                {/* Menu que aparece abaixo do Avatar */}
-                <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem>
-                    <Link to='/' className='w-full'>Home</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                    <Link to='/my/corses' className='w-full'>Meus cursos</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                    <Link to='/favorites' className='w-full'>Favoritos</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                    <Link to='/card' className='w-full'>Meu carrinho</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                    <Link to='/login' className='w-full'>Ensine na plataforma</Link>
-                </DropdownMenuItem>
-
-                <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                    <Link to='/login' className='w-full'>Mensagens</Link>
-                    </DropdownMenuItem>
-                <DropdownMenuSeparator />
-
-                <DropdownMenuItem>
-                    <Link to='/login' className='w-full'>Perfil</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                    <Link to='/login' className='w-full'>Forma de pagamento</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                    <Link to='/login' className='w-full'>Configurações</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                    <Link to='/login' className='w-full'>Sair</Link>
-                </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
         </header>
         <main className="grid grid-cols-4 grid-rows-4 pl-[1rem] pt-[1rem] pr-[1rem] h-[33rem]">
             <div className="col-span-3 row-span-4 border-1 border-zinc-600">
@@ -121,13 +74,8 @@ export default function VideoCorses() {
 
                 <Link to="#" 
                 className="p-2 hover:outline rounded"
-                onClick={() => setComponent("materiais")}
-                >Materiais</Link>
-
-                <Link to="#" 
-                className="p-2 hover:outline rounded"
-                onClick={() => setComponent("recursos")}
-                >Recursos</Link>
+                onClick={() => setComponent("materiais e Recursos")}
+                >materiais e Recursos</Link>
 
                 <Link to="#" 
                 className="p-2 hover:outline rounded"
@@ -137,19 +85,15 @@ export default function VideoCorses() {
             
             <main className="p-[1rem] text-gray-200">
                 {component === "avaliacao" && (
-                    <p>Template de avaliação</p>
+                    <Avaliation args={true}/>
                 )}
 
-                {component === "materiais" && (
-                    <p>Template de materiais</p>
-                )}
-
-                {component === "recursos" && (
-                    <p>Template de recursos</p>
+                {component === "materiais e Recursos" && (
+                    <MaterialAndFeatures />
                 )}
 
                 {component === "perguntas" && (
-                    <p>Template de perguntas</p>
+                    <LeassonsQuestionsResponse />
                 )}
             </main>
         </section>

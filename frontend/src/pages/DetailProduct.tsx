@@ -183,7 +183,7 @@ function DetailProduct() {
             </div>
 
             {/* Área de avaliação do produto */}
-            <Avaliation />
+            <Avaliation args={false}/>
 
         </div>
         <Footer />
