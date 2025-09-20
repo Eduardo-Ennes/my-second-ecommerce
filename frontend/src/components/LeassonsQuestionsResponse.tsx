@@ -17,7 +17,7 @@ import { useState } from 'react'
 import iconComment from '../assets/comment-alt.png'
 
 function LeassonsQuestionsResponse() {
-    const [response, setResponse] = useState(true)
+    const [response, setResponse] = useState(false)
 
   return (
     <>

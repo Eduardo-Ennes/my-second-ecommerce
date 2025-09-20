@@ -5,10 +5,13 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
+import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Link } from "react-router-dom"
+import { useState } from "react"
 
 function DropdownMenuAvatar() {
+  const [role, setRole] = useState('instructor')
   return (
     <>
       <DropdownMenu>
@@ -35,12 +38,27 @@ function DropdownMenuAvatar() {
             <Link to='/card' className='w-full'>Meu carrinho</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link to='/login' className='w-full'>Ensine na plataforma</Link>
+            {role === 'user' && 
+              <Link to='/dashboard' className='w-full'>Ensine na plataforma</Link>
+            }
+
+            {role === 'instructor' && 
+              <Link to='/dashboard' className='w-full'>Dashboard</Link>
+            }
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link to='/login' className='w-full'>Mensagens</Link>
+              <Link to='/login' className='w-full flex flex-wrap items-center gap-x-13'>
+                <p>Mensagem</p>
+                <Badge
+                className="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
+                variant="destructive"
+              >
+                100
+              </Badge>
+              </Link>
+              
             </DropdownMenuItem>
           <DropdownMenuSeparator />
 

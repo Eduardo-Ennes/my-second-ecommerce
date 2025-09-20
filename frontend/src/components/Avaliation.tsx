@@ -131,7 +131,7 @@ function Avaliation({args}: AvaliationProps) {
                 <Dialog>
                     <form>
                         <DialogTrigger className="pl-5 mt-5">
-                        <Button className="w-full rounded cursor-pointer bg-yellow-400 px-4 py-2 text-base text-zinc-900">Avaliar</Button>
+                            <Button className="w-full rounded cursor-pointer bg-yellow-400 px-4 py-2 text-base text-zinc-900">Avaliar</Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[425px] bg-zinc-900 border-gray-500 text-gray-200">
                         <DialogHeader>
@@ -159,15 +159,18 @@ function Avaliation({args}: AvaliationProps) {
                             <DialogClose asChild>
                                 <Button 
                                     type="button"
-                                    className="rounded cursor-pointer bg-red-500 px-4 py-2 text-base text-zinc-900">
+                                    className="rounded cursor-pointer bg-red-500 hover:bg-red-600 px-4 py-2 text-base text-zinc-900">
                                     Cancelar
                                 </Button>
                             </DialogClose>
+
+                            <DialogClose asChild>
                                 <Button 
                                     type="button"
-                                    className="rounded cursor-pointer bg-zinc-700 px-4 py-2 text-base text-gray-200">
+                                    className="rounded cursor-pointer bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base text-gray-200">
                                     Enviar
                                 </Button>
+                            </DialogClose>
                         </DialogFooter>
                         </DialogContent>
                     </form>
