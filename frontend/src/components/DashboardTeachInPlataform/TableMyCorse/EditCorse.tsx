@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { Textarea } from "@/components/ui/textarea"
 
 // Icone, imagens ou video
 import maltaVideo from '../../../media/malta.mp4'
@@ -18,9 +19,17 @@ import ArrowRight from '../../../assets/arrow-small-right.png'
 import { Link } from 'react-router-dom'
 import ModalEditCorse from "../ModalEditCorse";
 import ReactPlayer from "react-player";
+import { useState } from "react"
 
 
 function EditCorse() {
+    const [description, setDescription] = useState("Eu quero e peço muito para arrumar um trabalho e começar minha vida profissional, e encontrar um amor verdadeiro.")
+
+    const handleUpdateDescriptionCorse = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        console.log("DESCRIÇÃO DO CURSO: ", description)
+    }
+
   return (
     <>
         <main className="grid grid-cols-4 grid-rows-4 w-[98%] pl-[1rem] pr-[1rem] mt-20 mr-auto ml-auto h-[33rem]">
@@ -77,7 +86,7 @@ function EditCorse() {
                 </li>
             </ul>
 
-            <form action="#" className="flex flex-col gap-y-5 p-[1rem]">
+            <form className="flex flex-col gap-y-5 p-[1rem]">
                 <div className="flex w-full max-w-sm items-center gap-2 text-gray-200">
                     <Input type="url" placeholder="https://exemplo.com" required className="text-gray-200"/>
                     <Button type="submit" variant="outline" className="rounded cursor-pointer bg-zinc-900 hover:bg-zinc-700 px-4 py-2 text-base text-gray-200 hover:text-gray-200 border-none">
@@ -91,6 +100,23 @@ function EditCorse() {
                         Send
                     </Button>
                 </div>
+            </form>
+        </section>
+
+        <section className="w-[90%] ml-auto mr-auto mt-25 mb-20 flex flex-col gap-y-10 pl-[2rem]">
+            <h2 className="text-gray-200 text-2xl font-bold">Descrição do curso: Programação em python</h2>
+            <form onSubmit={handleUpdateDescriptionCorse} className="flex flex-col gap-y-10">
+                <Textarea 
+                className="h-[10rem] block ml-auto mr-auto rounded-md bg-white/5 px-3.5 py-2 text-base text-gray-200 placeholder:text-gray-500 !border-gray-700" 
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Atualize a descrição do curso..." />  
+
+                <Button 
+                type="submit"
+                className="w-[10%] ml-auto rounded cursor-pointer bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base text-gray-200">
+                    Enviar
+                </Button>
             </form>
         </section>
     </>
