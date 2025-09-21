@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 
 import TableMyCorses from '@/components/DashboardTeachInPlataform/TableMyCorses'
 import CreateCorse from '@/components/DashboardTeachInPlataform/CreateCorse'
+import ResponseMessage from '@/components/DashboardTeachInPlataform/ResponseMessage'
 import { Link } from 'react-router-dom'
 
 function DashboardTeachInPlatarform() {
@@ -25,16 +26,16 @@ function DashboardTeachInPlatarform() {
                 </Link>
               </div>
               
-              <div className='flex flex-col gap-5'>
+              <div className='flex flex-col gap-1'>
                 <Button onClick={() => setTemplate("EditMyCorse")} className='bg-zinc-900 hover:bg-gray-800 cursor-pointer'> 
                   <img src={iconPlay} alt="Ícone play" title='Meus cursos'/>
                 </Button>
 
                 <Button onClick={() => setTemplate("CreateCorse")} className='bg-zinc-900 hover:bg-gray-800 cursor-pointer'> 
-                  <img src={iconAdd} alt="Ícone chart" title='Create corse'/>
+                  <img src={iconAdd} alt="Ícone chart" title='Criar curso'/>
                 </Button>
 
-                <Button className='bg-zinc-900 hover:bg-gray-800 cursor-pointer'> 
+                <Button onClick={() => setTemplate("ResponseMessages")} className='bg-zinc-900 hover:bg-gray-800 cursor-pointer'> 
                   <img src={iconEnvelope} alt="Ícone envelope" title='Mensagens'/>
                 </Button>
               </div>
@@ -53,6 +54,8 @@ function DashboardTeachInPlatarform() {
           {template === "EditMyCorse" && <TableMyCorses />}
 
           {template === "CreateCorse" && <CreateCorse />}
+
+          {template === "ResponseMessages" && <ResponseMessage />}
         </section>
       </main>
     </>
