@@ -48,28 +48,12 @@ function DropdownMenuAvatar() {
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Link to='/login' className='w-full flex flex-wrap items-center gap-x-13'>
-                <p>Mensagem</p>
-                <Badge
-                className="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
-                variant="destructive"
-              >
-                100
-              </Badge>
-              </Link>
-              
-            </DropdownMenuItem>
-          <DropdownMenuSeparator />
-
+            
           <DropdownMenuItem>
-            <Link to='/login' className='w-full'>Perfil</Link>
+            <Link to='/profile' className='w-full'>Perfil</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Link to='/login' className='w-full'>Forma de pagamento</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link to='/login' className='w-full'>Configurações</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Link to='/login' className='w-full'>Sair</Link>
