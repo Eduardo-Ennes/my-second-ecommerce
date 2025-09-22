@@ -4,10 +4,13 @@ import iconCreditCard from '../assets/credit-card.png'
 import iconKey from '../assets/key.png'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
+import { useState } from 'react'
 
+import ChangeEmail from '@/components/DashboarProfile/ChangeEmail'
 import { Link } from 'react-router-dom'
 
 function DashboardProfile() {
+  const [template, setTemplate] = useState("")
   return (
     <>
       <main>
@@ -15,13 +18,16 @@ function DashboardProfile() {
           <nav className='flex flex-col justify-between h-full p-2'>
             <div className='flex flex-col gap-20'>
 
+            <Link to="/">
               <Avatar className="cursor-pointer ml-auto mr-auto w-10 h-10">
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
+            </Link>
+              
               
               <div className='flex flex-col gap-1'>
-                <Button className='bg-zinc-900 hover:bg-gray-800 cursor-pointer'> 
+                <Button onClick={() => setTemplate("ChangeEmail")} className='bg-zinc-900 hover:bg-gray-800 cursor-pointer'> 
                   <img src={iconAt} alt="Ícone play" title='Trocar email'/>
                 </Button>
 
@@ -44,8 +50,9 @@ function DashboardProfile() {
         </aside>
 
         
-        <section className='text-gray-200 p-2 ml-10'>
-          
+        <section className='text-gray-200 p-2 ml-16'>
+          {template === "ChangeEmail" && <ChangeEmail />}
+
         </section>
       </main>
     </>
