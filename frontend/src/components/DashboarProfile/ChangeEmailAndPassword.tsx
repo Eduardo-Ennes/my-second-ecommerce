@@ -27,35 +27,77 @@ import {
 } from "@/components/ui/alert"
 import { useState } from "react"
 
-function ChangeEmail() {
+type ArgsArgument = {
+    args: string
+}
+
+function ChangeEmailAndPassword({args}: ArgsArgument) {
     const [error, setError] = useState("")
+    const [option, setoption] = useState("")
   return (
     <>
         <div className="flex w-full max-w-sm flex-col gap-6 ml-auto mr-auto mt-10">
             <Tabs defaultValue="account">
                 <TabsList className="bg-gray-500">
-                <TabsTrigger value="account">Email</TabsTrigger>
-                <TabsTrigger value="password">Token</TabsTrigger>
+                    {args === "email" ? 
+                        <>
+                            <TabsTrigger value="account">Email</TabsTrigger>
+                            <TabsTrigger value="password">Token</TabsTrigger>
+                        </>
+                    :
+                        <>
+                            <TabsTrigger value="account">Password</TabsTrigger>
+                            <TabsTrigger value="password">Token</TabsTrigger>
+                        </>
+                    }
+                
                 </TabsList>
                 <TabsContent value="account"> 
                 <Card className="bg-zinc-900 border-gray-700 text-gray-200">
                     <CardHeader>
-                    <CardTitle className="leading-normal">Digite nos campos abaixo para trocar o seu email de acesso</CardTitle>
+                        {args === "email" ?
+                            <CardTitle className="leading-normal">Digite nos campos abaixo para trocar o seu email de acesso</CardTitle>
+                        :
+                            <CardTitle className="leading-normal">Digite nos campos abaixo para trocar a sua senha</CardTitle>
+                        }
                     </CardHeader>
                     <CardContent className="grid gap-6 ">
-                    <div className="grid gap-3">
-                        <Label htmlFor="email">Email</Label>
-                        <Input 
-                        type="email"
-                        id="email" 
-                        placeholder="Digite o seu novo email" />
-                    </div>
-                    <div className="grid gap-3">
-                        <Label htmlFor="confirm_email">Confirme o seu email</Label>
-                        <Input 
-                        id="confirm_email" 
-                        placeholder="Confirme o seu email" />
-                    </div>
+                        {args === 'email' ?
+                            <>
+                                <div className="grid gap-3">
+                                    <Label htmlFor="email">Email</Label>
+                                    <Input 
+                                    type="email"
+                                    id="email" 
+                                    placeholder="Digite o seu novo email" />
+                                </div>
+                                <div className="grid gap-3">
+                                    <Label htmlFor="confirm_email">Confirme o seu email</Label>
+                                    <Input 
+                                    id="confirm_email" 
+                                    type="email"
+                                    placeholder="Confirme o seu email" />
+                                </div>
+                            </>
+                        :
+                            <>
+                                <div className="grid gap-3">
+                                    <Label htmlFor="password">Senha</Label>
+                                    <Input 
+                                    type="password"
+                                    id="password" 
+                                    placeholder="Digite sua nova senha" />
+                                </div>
+                                <div className="grid gap-3">
+                                    <Label htmlFor="confirm_password">Confirme sua senha</Label>
+                                    <Input 
+                                    id="confirm_password" 
+                                    type="password"
+                                    placeholder="Confirme sua senha" />
+                                </div>
+                            </>
+                        }
+                        
                     </CardContent>
 
                     {error.length > 0 && 
@@ -70,11 +112,20 @@ function ChangeEmail() {
                     }
                     
                     <CardFooter>
-                    <Button 
-                        type="button"
-                        className="rounded cursor-pointer bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base ml-auto text-gray-200">
-                        Enviar
-                    </Button>
+                        {args === "email" ?
+                            <Button 
+                                type="button"
+                                className="rounded cursor-pointer bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base ml-auto text-gray-200">
+                                Enviar
+                            </Button>
+                        :
+                            <Button 
+                                type="button"
+                                className="rounded cursor-pointer bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base ml-auto text-gray-200">
+                                Enviar
+                            </Button>
+                        }
+                   
                     </CardFooter>
                 </Card>
                 </TabsContent>
@@ -82,7 +133,7 @@ function ChangeEmail() {
                 <TabsContent value="password">
                 <Card className="bg-zinc-900 border-gray-700 text-gray-200">
                     <CardHeader>
-                    <CardTitle>Digite o token de verificação abaixo</CardTitle>
+                    <CardTitle className="leading-normal">Foi enviado um token de verificação para o email: usuario@gamil.com</CardTitle>
                     </CardHeader>
                     <CardContent className="grid gap-6">
                     <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
@@ -124,4 +175,4 @@ function ChangeEmail() {
   )
 }
 
-export default ChangeEmail
+export default ChangeEmailAndPassword

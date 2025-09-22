@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { useState } from 'react'
 
-import ChangeEmail from '@/components/DashboarProfile/ChangeEmail'
+import ChangeEmailAndPassword from '@/components/DashboarProfile/ChangeEmailAndPassword'
 import { Link } from 'react-router-dom'
 
 function DashboardProfile() {
@@ -31,7 +31,7 @@ function DashboardProfile() {
                   <img src={iconAt} alt="Ícone play" title='Trocar email'/>
                 </Button>
 
-                <Button className='bg-zinc-900 hover:bg-gray-800 cursor-pointer'> 
+                <Button onClick={() => setTemplate("ChangePassword")} className='bg-zinc-900 hover:bg-gray-800 cursor-pointer'> 
                   <img src={iconKey} alt="Ícone chart" title='Trocar senha'/>
                 </Button>
 
@@ -51,8 +51,8 @@ function DashboardProfile() {
 
         
         <section className='text-gray-200 p-2 ml-16'>
-          {template === "ChangeEmail" && <ChangeEmail />}
-
+          {template === "ChangeEmail" && <ChangeEmailAndPassword args={"email"} />}
+          {template === "ChangePassword" && <ChangeEmailAndPassword args={"password"} />}
         </section>
       </main>
     </>
