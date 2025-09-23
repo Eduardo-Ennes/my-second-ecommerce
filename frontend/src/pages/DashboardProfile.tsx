@@ -1,4 +1,5 @@
 // Icones
+import iconPortrait from '../assets/portrait.png'
 import iconAt from '../assets/at.png'
 import iconExit from '../assets/exit.png'
 import iconCreditCard from '../assets/credit-card.png'
@@ -12,7 +13,8 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 // Templates
-import MethodPayment from '@/components/FormPayment/MethodPayment'
+import ChangePhoto from '@/components/DashboarProfile/ChangePhoto'
+import MethodPayment from '@/components/DashboarProfile/MethodPayment'
 import ChangeEmailAndPassword from '@/components/DashboarProfile/ChangeEmailAndPassword'
 
 
@@ -34,6 +36,10 @@ function DashboardProfile() {
               
               
               <div className='flex flex-col gap-1'>
+                <Button onClick={() => setTemplate("ChangePhoto")} className='bg-zinc-900 hover:bg-gray-800 cursor-pointer'> 
+                  <img src={iconPortrait} alt="Ícone play" title='Trocar email'/>
+                </Button>
+
                 <Button onClick={() => setTemplate("ChangeEmail")} className='bg-zinc-900 hover:bg-gray-800 cursor-pointer'> 
                   <img src={iconAt} alt="Ícone play" title='Trocar email'/>
                 </Button>
@@ -58,6 +64,7 @@ function DashboardProfile() {
 
         
         <section className='text-gray-200 p-2 ml-16'>
+          {template === "ChangePhoto" && <ChangePhoto />}
           {template === "ChangeEmail" && <ChangeEmailAndPassword args={"email"} />}
           {template === "ChangePassword" && <ChangeEmailAndPassword args={"password"} />}
           {template === "FormPayment" && <MethodPayment />}
