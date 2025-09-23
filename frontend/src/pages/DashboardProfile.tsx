@@ -1,13 +1,20 @@
+// Icones
 import iconAt from '../assets/at.png'
 import iconExit from '../assets/exit.png'
 import iconCreditCard from '../assets/credit-card.png'
 import iconKey from '../assets/key.png'
+
+// Components shadcn
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { useState } from 'react'
 
-import ChangeEmailAndPassword from '@/components/DashboarProfile/ChangeEmailAndPassword'
 import { Link } from 'react-router-dom'
+
+// Templates
+import MethodPayment from '@/components/FormPayment/MethodPayment'
+import ChangeEmailAndPassword from '@/components/DashboarProfile/ChangeEmailAndPassword'
+
 
 function DashboardProfile() {
   const [template, setTemplate] = useState("")
@@ -35,7 +42,7 @@ function DashboardProfile() {
                   <img src={iconKey} alt="Ícone chart" title='Trocar senha'/>
                 </Button>
 
-                <Button className='bg-zinc-900 hover:bg-gray-800 cursor-pointer'> 
+                <Button onClick={() => setTemplate("FormPayment")} className='bg-zinc-900 hover:bg-gray-800 cursor-pointer'> 
                   <img src={iconCreditCard} alt="Ícone envelope" title='Froma de pagamento'/>
                 </Button>
               </div>
@@ -53,6 +60,7 @@ function DashboardProfile() {
         <section className='text-gray-200 p-2 ml-16'>
           {template === "ChangeEmail" && <ChangeEmailAndPassword args={"email"} />}
           {template === "ChangePassword" && <ChangeEmailAndPassword args={"password"} />}
+          {template === "FormPayment" && <MethodPayment />}
         </section>
       </main>
     </>

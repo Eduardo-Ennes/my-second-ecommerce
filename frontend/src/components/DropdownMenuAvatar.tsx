@@ -5,7 +5,6 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Link } from "react-router-dom"
 import { useState } from "react"
@@ -51,9 +50,6 @@ function DropdownMenuAvatar() {
             
           <DropdownMenuItem>
             <Link to='/profile' className='w-full'>Perfil</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link to='/login' className='w-full'>Forma de pagamento</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Link to='/login' className='w-full'>Sair</Link>
