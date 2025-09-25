@@ -28,6 +28,9 @@ function DropdownMenuAvatar() {
             <Link to='/' className='w-full'>Home</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
+            <Link to='/profile' className='w-full'>Perfil</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
             <Link to='/my/corses' className='w-full'>Meus cursos</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
@@ -35,6 +38,9 @@ function DropdownMenuAvatar() {
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Link to='/card' className='w-full'>Meu carrinho</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link to='/card' className='w-full'>Minhas compras</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             {role === 'user' && 
@@ -48,9 +54,6 @@ function DropdownMenuAvatar() {
 
           <DropdownMenuSeparator />
             
-          <DropdownMenuItem>
-            <Link to='/profile' className='w-full'>Perfil</Link>
-          </DropdownMenuItem>
           <DropdownMenuItem>
             <Link to='/login' className='w-full'>Sair</Link>
           </DropdownMenuItem>

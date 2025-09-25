@@ -15,24 +15,31 @@ import IconSearch from '../assets/search.png'
 import IconHeart from '../assets/heart.png'
 import DropdownMenuAvatar from './DropdownMenuAvatar';
 
-function Header() {
+
+type argsArgument = {
+  args: string
+}
+
+function Header({args}: argsArgument) {
   const [logado, setLogado] = useState(true)
 
   return (
     <>
-        <header className="flex items-center justify-around text-white p-4 bg-[oklch(14.5%_0_0)] shadow-md">
+        <header className="flex flex-wrap items-center justify-between text-white pt-4 pb-4 pl-10 pr-10 bg-[oklch(14.5%_0_0)] shadow-md">
      
             <h1 className="text-2xl font-bold">
               <Link to="/">My Second E-commerce</Link>
             </h1>
 
-
-            <div className="flex w-full max-w-sm items-center gap-2 border-1 border-white p-1 rounded-2xl hover:ring-1 hover:transition-[2s]">
-              <Input type="email" placeholder="Email" className='!border-none !outline-none !shadow-none !ring-0'/>
-              <Link to="/" className='bg-[oklch(14.5%_0_0)] cursor-pointer text-base pr-3'>
-                <img src={IconSearch} alt="Icone do search" />
-              </Link>
-            </div>
+            {args === "Yes" && 
+              <div className="flex w-full max-w-sm items-center gap-2 border-1 border-white p-1 rounded-2xl hover:ring-1 hover:transition-[2s]">
+                <Input type="email" placeholder="Email" className='!border-none !outline-none !shadow-none !ring-0'/>
+                <Link to="/" className='bg-[oklch(14.5%_0_0)] cursor-pointer text-base pr-3'>
+                  <img src={IconSearch} alt="Icone do search" />
+                </Link>
+              </div>
+            }
+            
 
             {/* <div className="flex w-full max-w-sm items-center gap-2">
               <Input type="email" placeholder="Email"/>
@@ -41,9 +48,12 @@ function Header() {
               </Button>
             </div> */}
 
-            <div className="p-1 hover:outline-1 hover:outline-gray-500 cursor-pointer">
-              <Link to='/user/new'>Apenas cursos em <br/> promoção</Link>
-            </div>
+            {args === "Yes" && 
+              <div className="p-1 hover:outline-1 hover:outline-gray-500 cursor-pointer">
+                <Link to='/user/new'>Apenas cursos em <br/> promoção</Link>
+              </div>
+            }
+            
 
             {!logado ?
               <>

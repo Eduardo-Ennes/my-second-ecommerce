@@ -12,7 +12,7 @@ function Card() {
 
   return (
     <>
-        <Header />
+        <Header args={"No"}/>
 
         <h2 className="w-[30rem] text-gray-200 text-4xl font-bold pl-[3rem] mt-3 mb-1 border-b border-zinc-700">Carrinho de compras</h2>
 
@@ -74,11 +74,12 @@ function Card() {
                         <p className="text-gray-200">Total:</p>
                         <p className="text-gray-200 mt-2 text-2xl font-bold">R$39,99</p>
                     </div>
-                    <Button 
-                    type="button"
-                    className="w-full rounded cursor-pointer bg-fuchsia-900 px-4 py-2 text-sm text-white data-hover:bg-fuchsia-950">
+                    <Link 
+                        to="/finish/buy"
+                        type="button"
+                        className="w-full text-center rounded cursor-pointer bg-fuchsia-900 px-4 py-2 text-sm text-white hover:bg-fuchsia-950">
                         Finalizar compra
-                    </Button>
+                    </Link>
                 </div>
             </div>
         </main>

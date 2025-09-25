@@ -10,6 +10,7 @@ import MyCorses from './pages/MyCorses'
 import VideoCorses from './pages/VideoCorses'
 import DashboardTeachInPlatarform from './pages/DashboardTeachInPlatarform.tsx'
 import DashboardProfile from './pages/DashboardProfile.tsx'
+import FinishBuy from './pages/FinishBuy.tsx'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Route path='/user/new' element={<FormUser />}/>
         <Route path='/dashboard' element={<DashboardTeachInPlatarform />}/>
         <Route path='/profile' element={<DashboardProfile />}/>
+        <Route path='/finish/buy' element={<FinishBuy />}/>
         <Route path='/leassons/:id' element={<VideoCorses />}/>
         <Route path='/detail/product/:id' element={<DetailProduct />}/>
       </Routes>

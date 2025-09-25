@@ -21,7 +21,7 @@ function DetailProduct() {
     const [valueDesc, setValueDesc] = useState<string | undefined>(undefined)
   return (
     <>
-        <Header />
+        <Header args={"No"}/>
 
         <div className="p-[1rem]">
             <div className="group flex flex-wrap gap-3">

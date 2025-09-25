@@ -6,7 +6,7 @@ import Footer from '@/components/Footer'
 function Home() {
   return (
     <>
-      <Header />
+      <Header args={"Yes"}/>
       <NavCategories />
       <ListProducts />
       <Footer />

@@ -8,7 +8,7 @@ function MyCorses() {
   
   return (
     <>
-        <Header />
+        <Header args={"No"}/>
 
         <h2 className="w-[30rem] text-gray-200 text-4xl font-bold pl-[3rem] mt-3 mb-1 border-b border-zinc-700">Meus cursos</h2>
 
