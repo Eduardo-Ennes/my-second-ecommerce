@@ -32,7 +32,7 @@ function Header({args}: argsArgument) {
             </h1>
 
             {args === "Yes" && 
-              <div className="flex w-full max-w-sm items-center gap-2 border-1 border-white p-1 rounded-2xl hover:ring-1 hover:transition-[2s]">
+              <div className="flex w-full max-w-sm items-center gap-2 border-1 border-gray-500 p-1 rounded-2xl hover:ring-1 hover:transition-[2s]">
                 <Input type="email" placeholder="Email" className='!border-none !outline-none !shadow-none !ring-0'/>
                 <Link to="/" className='bg-[oklch(14.5%_0_0)] cursor-pointer text-base pr-3'>
                   <img src={IconSearch} alt="Icone do search" />

@@ -6,14 +6,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { useState } from "react"
 import { Button } from '@headlessui/react'
@@ -39,7 +31,6 @@ function TableMyCorses() {
                     <TableHead className="text-gray-200">Sold</TableHead>
                     <TableHead className="text-gray-200">Date Create</TableHead>
                     <TableHead className="text-gray-200">Date Updated</TableHead>
-                    <TableHead className="text-gray-200">Action</TableHead>
                     <TableHead className="text-gray-200">Edit</TableHead>
                 </TableRow>
             </TableHeader>
@@ -51,9 +42,13 @@ function TableMyCorses() {
                         </p>
                     </TableCell>
                     <TableCell>
-                        {status === "inactive" && <Badge variant="destructive" className="p-2">Inative</Badge> }
+                        {status === "inactive" &&
+                            <Badge variant="destructive" className="p-2 cursor-pointer w-[4rem]">Inative</Badge>
+                        }
 
-                        {status === "active" && <Badge variant="destructive" className="bg-green-700 p-2">Active</Badge> }
+                        {status === "active" && 
+                            <Badge variant="destructive" className="bg-green-700 p-2 w-[4rem]">Active</Badge>
+                        }
                     </TableCell>
                     <TableCell className="p-2">R$75,90</TableCell>
                     <TableCell className="p-2 text-center">R$29,90</TableCell>
@@ -67,32 +62,13 @@ function TableMyCorses() {
                     <TableCell className="p-2">10.553</TableCell>
                     <TableCell className="p-2">11/05/2025</TableCell>
                     <TableCell className="p-2">11/11/2025</TableCell>
-                    <TableCell>
-                        <Select>
-                            <SelectTrigger className="w-[6rem] border-zinc-600">
-                                <SelectValue placeholder="Action" />
-                            </SelectTrigger>
-                            <SelectContent className="bg-gray-200">
-                                <SelectGroup>
-                                    {isPromotion ? 
-                                        <SelectItem value="disable_promotion">Desativar promoção</SelectItem>
-                                    :
-                                        <SelectItem value="activate_promotion">Ativar promoção</SelectItem>
-                                    }
-
-                                    {status === "active" && <SelectItem value="inactive">Trocar status</SelectItem>}
-
-                                    {status === "inactive" && <SelectItem value="active">Trocar status</SelectItem>}
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-                    </TableCell>
+                    
                     <TableCell className="p-2">
                         <Button 
-                        type="button" 
-                        onClick={() => setEditionCorse(true)}>
-                        <img src={iconEdit} alt="Icone de edição" className="cursor-pointer"/>
-                    </Button>
+                            type="button" 
+                            onClick={() => setEditionCorse(true)}>
+                            <img src={iconEdit} alt="Icone de edição" className="cursor-pointer"/>
+                        </Button>
                     </TableCell>
                 </TableRow>
             </TableBody>
