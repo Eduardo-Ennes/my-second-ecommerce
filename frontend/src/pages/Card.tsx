@@ -3,7 +3,6 @@ import Footer from "@/components/Footer"
 import imageTeste from '../media/imagem-python.jpg'
 import iconLixeira from '../assets/trash.png'
 import iconBook from '../assets/book.png'
-import { Button } from '@headlessui/react'
 import { Link } from "react-router-dom"
 import { useState } from "react"
 
@@ -14,7 +13,7 @@ function Card() {
     <>
         <Header args={"No"}/>
 
-        <h2 className="w-[30rem] text-gray-200 text-4xl font-bold pl-[3rem] mt-3 mb-1 border-b border-zinc-700">Carrinho de compras</h2>
+        <h2 className="w-[30rem] text-gray-200 mt-5 text-4xl font-bold pl-[3rem] mb-1 ">Carrinho de compras</h2>
 
         <main className="grid grid-cols-5 p-[1rem] h-[22rem]">
             <section className="col-span-4">

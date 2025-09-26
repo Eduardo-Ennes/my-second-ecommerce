@@ -11,7 +11,7 @@ import VideoCorses from './pages/VideoCorses'
 import DashboardTeachInPlatarform from './pages/DashboardTeachInPlatarform.tsx'
 import DashboardProfile from './pages/DashboardProfile.tsx'
 import FinishBuy from './pages/FinishBuy.tsx'
-import MyShops from './components/MyShops.tsx'
+import MyShops from './pages/MyShops.tsx'
 
 function App() {
 

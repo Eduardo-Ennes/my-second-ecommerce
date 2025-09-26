@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useState } from "react"
-import Header from './Header'
+import Header from '../components/Header'
 import iconAngleUp from '../assets/angle-small-up.png'
 import iconAngleDown from '../assets/angle-small-down.png'
 
