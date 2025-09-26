@@ -40,7 +40,7 @@ function DropdownMenuAvatar() {
             <Link to='/card' className='w-full'>Meu carrinho</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link to='/card' className='w-full'>Minhas compras</Link>
+            <Link to='/my/shops' className='w-full'>Minhas compras</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             {role === 'user' && 

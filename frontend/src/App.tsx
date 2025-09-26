@@ -11,6 +11,7 @@ import VideoCorses from './pages/VideoCorses'
 import DashboardTeachInPlatarform from './pages/DashboardTeachInPlatarform.tsx'
 import DashboardProfile from './pages/DashboardProfile.tsx'
 import FinishBuy from './pages/FinishBuy.tsx'
+import MyShops from './components/MyShops.tsx'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Route path='/login' element={<LoginUser />}/>
         <Route path='/card' element={<Card />}/>
         <Route path='/favorites' element={<Favorites />}/>
+        <Route path='/my/shops' element={<MyShops />}/>
         <Route path='/my/corses' element={<MyCorses />}/>
         <Route path='/user/new' element={<FormUser />}/>
         <Route path='/dashboard' element={<DashboardTeachInPlatarform />}/>

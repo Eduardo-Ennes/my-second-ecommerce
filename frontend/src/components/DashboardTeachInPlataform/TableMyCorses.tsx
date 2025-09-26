@@ -36,7 +36,7 @@ function TableMyCorses() {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                <TableRow className="hover:bg-zinc-800 ">
+                <TableRow className="hover:bg-zinc-800">
                     <TableCell className="p-2">
                         <p className="max-w-[25rem] truncate" title="Nome do curso inteiro aqui">
                             Formação na linguagem de programação python

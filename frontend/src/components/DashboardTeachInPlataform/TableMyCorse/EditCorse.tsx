@@ -8,7 +8,6 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Textarea } from "@/components/ui/textarea"
 
 // Icone, imagens ou video
 import maltaVideo from '../../../media/malta.mp4'
