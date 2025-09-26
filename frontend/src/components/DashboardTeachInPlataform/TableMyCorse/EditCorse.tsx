@@ -70,7 +70,7 @@ function EditCorse() {
             </aside>
         </main>
 
-        <section className="pl-[2rem] pt-[1rem]">
+        <section className="pl-[2rem] pt-[1rem] mb-20">
             <h2 className="text-gray-200 mt-5 text-2xl font-bold">Materiais e recursos auxiliares da aula 01</h2>
             <ul className='p-[1rem] flex flex-col gap-y-3'>
                 <li className="flex flex-wrap items-center gap-x-10">
@@ -100,83 +100,6 @@ function EditCorse() {
                         Send
                     </Button>
                 </div>
-            </form>
-        </section>
-
-        <section className="flex flex-wrap justify-around mt-20 pl-[2rem] pt-[1rem]">
-            <div className="flex flex-col gap-y-5 w-[48%]">
-                <h2 className="text-gray-200 mt-5 text-2xl font-bold">O que você irá aprender</h2>
-                <ScrollArea className="h-[10rem] p-2 border-1 border-gray-700 rounded-md">
-                    <ul className="grid grid-cols-2 gap-x-8 gap-y-4 list-disc list-inside text-gray-200 mt-3">
-                        <Link to="#" className="cursor-pointer px-4 py-2 text-base text-gray-200 hover:text-gray-200 border-none hover:bg-red-500 rounded-md transition-[2s]">
-                                <li className="">
-                                    Lorem, ipsum dolor sit amet 
-                                </li>
-                        </Link>
-                    </ul>
-                </ScrollArea>
-                <div className="flex flex-wrap items-center gap-x-3">
-                    <input
-                    id="name"
-                    type="text"
-                    name="name"
-                    autoComplete="organization"
-                    placeholder="Quais são os requisitos mínimos?"
-                    className="block rounded-md w-[30rem] bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"
-                    />
-
-                    <Button 
-                    type="button"
-                    className="rounded cursor-pointer bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base text-gray-200">
-                    Adicionar
-                    </Button>
-                </div>
-            </div>
-            
-            <div className="flex flex-col gap-y-5 w-[48%]">
-                <h2 className="text-gray-200 mt-5 text-2xl font-bold">O que você irá aprender</h2>
-                <ScrollArea className="h-[10rem] p-2 border-1 border-gray-700 rounded-md">
-                    <ul className="grid grid-cols-2 gap-x-8 gap-y-4 list-disc list-inside text-gray-200 mt-3">
-                        <Link to="#" className="cursor-pointer px-4 py-2 text-base text-gray-200 hover:text-gray-200 border-none hover:bg-red-500 rounded-md transition-[2s]">
-                                <li className="">
-                                    Lorem, ipsum dolor sit amet 
-                                </li>
-                        </Link>
-                    </ul>
-                </ScrollArea>
-                <div className="flex flex-wrap items-center gap-x-3">
-                    <input
-                    id="name"
-                    type="text"
-                    name="name"
-                    autoComplete="organization"
-                    placeholder="O que o aluno irá aprender no curso?"
-                    className="block rounded-md w-[30rem] bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"
-                    />
-
-                    <Button 
-                    type="button"
-                    className="rounded cursor-pointer bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base text-gray-200">
-                    Adicionar
-                    </Button>
-                </div>
-            </div>
-        </section>
-
-        <section className="w-[90%] ml-auto mr-auto mt-25 mb-20 flex flex-col gap-y-10 pl-[2rem]">
-            <h2 className="text-gray-200 text-2xl font-bold">Descrição do curso: Programação em python</h2>
-            <form onSubmit={handleUpdateDescriptionCorse} className="flex flex-col gap-y-10">
-                <Textarea 
-                className="h-[10rem] block ml-auto mr-auto rounded-md bg-white/5 px-3.5 py-2 text-base text-gray-200 placeholder:text-gray-500 !border-gray-700" 
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Atualize a descrição do curso..." />  
-
-                <Button 
-                type="submit"
-                className="w-[10%] ml-auto rounded cursor-pointer bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base text-gray-200">
-                    Enviar
-                </Button>
             </form>
         </section>
     </>

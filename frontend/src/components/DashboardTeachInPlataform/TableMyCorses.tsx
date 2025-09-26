@@ -11,6 +11,7 @@ import { useState } from "react"
 import { Button } from '@headlessui/react'
 import iconEdit from '../../assets/edit.png'
 import EditCorse from "./TableMyCorse/EditCorse"
+import UpdateCorse from "./UpdateCorse"
 
 function TableMyCorses() {
     const [status, setStatus] = useState("active")
@@ -74,6 +75,7 @@ function TableMyCorses() {
             </TableBody>
         </Table>
 
+        {editionCorse && <UpdateCorse /> }
         {editionCorse && <EditCorse /> }
     </>
   )
