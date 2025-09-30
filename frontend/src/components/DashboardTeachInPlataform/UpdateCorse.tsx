@@ -41,7 +41,7 @@ function UpdateCorse() {
     setListTags(newTags)
   }
 
-  const handleWillLearnAndRequists = (event: React.ChangeEvent<HTMLSelectElement>, option: string, element: string) => {
+  const handleWillLearnAndRequists = (event: React.MouseEvent<HTMLButtonElement>, option: string, element: string) => {
     event.preventDefault()
 
     if(option === "willLearn"){

@@ -24,10 +24,10 @@ import { useState } from "react"
 function EditCorse() {
     const [description, setDescription] = useState("Eu quero e peço muito para arrumar um trabalho e começar minha vida profissional, e encontrar um amor verdadeiro.")
 
-    const handleUpdateDescriptionCorse = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        console.log("DESCRIÇÃO DO CURSO: ", description)
-    }
+    // const handleUpdateDescriptionCorse = (event: React.FormEvent<HTMLFormElement>) => {
+    //     event.preventDefault()
+    //     console.log("DESCRIÇÃO DO CURSO: ", description)
+    // }
 
   return (
     <>

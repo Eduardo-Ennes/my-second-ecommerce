@@ -1,0 +1,60 @@
+name: "My-Second-Ecommerce"
+
+services:
+  express:
+    container_name: express
+    build:
+    # Gera uma imagem a partir de um dockerfile
+      context: ./backend/
+      # dockerfile que está nesta pasta
+      dockerfile: Dockerfile
+      # arquivo dockerfile dentro da pasta
+    environment:
+      - PORT=8080
+    ports:
+      - "3000:8080"
+    networks:
+      - my-second-ecommerce
+
+  # react:
+  #   container_name: react
+  #   build:
+  #     context: ./frontend/
+  #     dockerfile: Dockerfile
+  #   ports: 
+  #     - 3001:5173
+  #   networks:
+  #     - my-second-ecommerce
+
+  postgres:
+    container_name: postgres_MySecond_Ecommerce
+    image: postgres:17.6-alpine3.22
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes: 
+      - db_postgres_mySecond_Ecommerce:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - my-second-ecommerce
+
+  redis:
+    container_name: redis_MySecond_Ecommerce
+    image: redis:8.0-alpine3.21
+    command: redis-server --bind 0.0.0.0
+    ports:
+      - "6379:6379"
+    networks:
+      - my-second-ecommerce
+    volumes:
+      - db_redis_mySecond_Ecommerce:/data
+
+networks:
+  my-second-ecommerce:
+    name: my-second-ecommerce
+    driver: bridge
+
+volumes:
+  db_postgres_mySecond_Ecommerce:
+  db_redis_mySecond_Ecommerce:

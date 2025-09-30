@@ -4,6 +4,7 @@
   "description": "Projeto e-commecer voltado para a venda de cursos online, este projeto representa o meu segundo e-commerce, atualmente em desenvolvimento",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --watch src --ext ts --exec npx ts-node src/app.ts"
   },
@@ -24,6 +25,7 @@
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "pg": "^8.16.3",
+    "redis": "^5.8.2",
     "reflect-metadata": "^0.2.2",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
