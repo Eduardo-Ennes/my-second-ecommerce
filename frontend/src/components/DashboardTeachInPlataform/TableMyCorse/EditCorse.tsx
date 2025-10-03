@@ -18,12 +18,9 @@ import ArrowRight from '../../../assets/arrow-small-right.png'
 import { Link } from 'react-router-dom'
 import ModalEditCorse from "../ModalEditCorse";
 import ReactPlayer from "react-player";
-import { useState } from "react"
 
 
 function EditCorse() {
-    const [description, setDescription] = useState("Eu quero e peço muito para arrumar um trabalho e começar minha vida profissional, e encontrar um amor verdadeiro.")
-
     // const handleUpdateDescriptionCorse = (event: React.FormEvent<HTMLFormElement>) => {
     //     event.preventDefault()
     //     console.log("DESCRIÇÃO DO CURSO: ", description)
@@ -40,14 +37,14 @@ function EditCorse() {
                 height="100%" />
             </div>
             <aside className="col-span-1 row-span-4 text-amber-50 pl-4">
-                <ModalEditCorse args={"edit_order_modules"} id={10}/>
+                <ModalEditCorse args={"edit_order_modules"}/>
                 <ScrollArea className="h-[31rem] pr-4">
                     <Accordion
                     type="single" collapsible className="rounded w-[99%]">
                         <AccordionItem value="item-1">
                             <AccordionTrigger className="flex flex-wrap items-center text-base cursor-pointer">
                                 <p className="w-[13rem] truncate text-sm" title="Introdução">Introdução a programação orientada</p>
-                                <ModalEditCorse args={"edit_module"} id={10}/>
+                                <ModalEditCorse args={"edit_module"}/>
                             </AccordionTrigger>
                             <AccordionContent className="flex flex-col gap-x-4 text-balance">
                                 <div className="text-gray-200 border-b ">
@@ -60,7 +57,7 @@ function EditCorse() {
                                 </div>
                                 
                                 <div>
-                                    <ModalEditCorse args={"add_leasson"} id={10}/>
+                                    <ModalEditCorse args={"add_leasson"}/>
                                 </div>
                             </AccordionContent>
                         </AccordionItem>

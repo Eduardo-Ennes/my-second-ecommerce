@@ -25,15 +25,13 @@ import {
   Alert,
   AlertTitle,
 } from "@/components/ui/alert"
-import { useState } from "react"
 
 type ArgsArgument = {
     args: string
 }
 
 function ChangeEmailAndPassword({args}: ArgsArgument) {
-    const [error, setError] = useState("")
-    const [option, setoption] = useState("")
+    const error = ""
   return (
     <>
         <div className="flex w-full max-w-sm flex-col gap-6 ml-auto mr-auto mt-10">

@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useParams } from "react-router-dom"
+// import { useParams } from "react-router-dom"
 import { Button } from '@headlessui/react'
 import imageTeste from '../media/imagem-python.jpg'
 import Header from '../components/Header'
@@ -16,8 +16,7 @@ import { useState } from "react"
 import Avaliation from "@/components/Avaliation"
 
 function DetailProduct() {
-    const params = useParams<{ id: string }>()
-    const [valueApren, setValueApren] = useState<string | undefined>(undefined)
+    // const params = useParams<{ id: string }>()
     const [valueDesc, setValueDesc] = useState<string | undefined>(undefined)
   return (
     <>

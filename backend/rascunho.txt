@@ -1,0 +1,107 @@
+# user
+id: int auto_increment PRIMARY KEY 
+first_name: varchar(75) not null 
+last_name: varchar(75) not null 
+email: varchar(100) not null unique
+phone: varchar(15) not null unique
+cpf: char(11) not null unique
+cnpj: char(14) unique
+password: varchar(255) not null unique
+status: boolean() default=true
+created_at: timestamp not null default current_timestamp  
+updated_at: timestamp not null default current_timestamp on update current_timestamp
+
+
+# corse
+id: int auto_increment PRIMARY KEY 
+name: varchar(75) not null 
+price: decimal(10,2) NOT NULL
+price_promotion: decimal(10,2) NOT NULL
+promotion: boolean not null default=false
+description: varchar(3000) not null 
+created_at: timestamp not null default current_timestamp  
+updated_at: timestamp not null default current_timestamp on update current_timestamp
+owner: foreign key(id table user) not null
+
+
+# Tags
+id: int auto_increment PRIMARY KEY 
+name: varchar(75) not null unique
+created_at: timestamp not null default current_timestamp  
+updated_at: timestamp not null default current_timestamp on update current_timestamp
+
+
+# Corse_tag
+id: int auto_increment PRIMARY KEY 
+corse_id: foreign key(id table corse) not null
+tag_id: foreign key(id table tags) not null
+created_at: timestamp not null default current_timestamp  
+updated_at: timestamp not null default current_timestamp on update current_timestamp
+
+
+# Avaliations
+id: int auto_increment PRIMARY KEY
+user_id: foreign key(id table user) not null
+corse_id: foreign key(id table corse) not null
+star: varchar(3) not null
+description: varchar(255)
+created_at: timestamp not null default current_timestamp  
+updated_at: timestamp not null default current_timestamp on update current_timestamp
+
+
+# MethodPayment
+id: int auto_increment PRIMARY KEY
+user_id: foreign key(id table user) not null                
+name: VARCHAR(75)                          -- nome que o usuário dá, ex: "meu visa"
+last_digits: CHAR(4)                       -- só os 4 últimos do cartão
+flag: VARCHAR(20)                          -- Visa, Mastercard, etc.
+method: VARCHAR(50) NOT NULL 
+token_gateway: VARCHAR(255)                -- token do provedor de pagamento (Stripe, etc.)
+created_at: TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+updated_at: TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+
+
+# historyPayments
+id: int auto_increment PRIMARY KEY
+user_id: foreign key(id table user) not null 
+corse_id: foreign key(id table corse) not null
+status: varchar(20) NOT NULL
+created_at: TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+updated_at: TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+
+
+# corseSold
+id: int auto_increment PRIMARY KEY
+user_id: foreign key(id table user) not null  
+corse_id: foreign key(id table corse) not null
+created_at: TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+
+
+Tabelas para a estrutura dos cursos
+# module
+id: int auto_increment PRIMARY KEY
+name: varchar(75) not null 
+order: int not null
+corse_id: foreign key(id table corse) not null
+created_at: TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+updated_at: TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+
+
+# leasson
+id: int auto_increment PRIMARY KEY
+name: varchar(75) not null 
+order: int not null
+leasson: varchar(500) not null
+duration: float
+module_id: foreign key(id table module) not null
+created_at: TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+updated_at: TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+
+
+# files
+id: int auto_increment PRIMARY KEY
+name: varchar(75) not null 
+file: varchar(500) not null
+leasson_id: foreign key(id table leasson) not null
+created_at: TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+updated_at: TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

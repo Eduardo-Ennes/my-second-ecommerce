@@ -4,10 +4,9 @@ import {
   Alert,
   AlertTitle,
 } from "@/components/ui/alert"
-import { useState } from "react"
 
 function LoginUser() {
-  const [error, seterror] = useState('')
+  const error = ""
   return (
     <>
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">

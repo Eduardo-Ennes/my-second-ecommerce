@@ -10,7 +10,6 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import { useState } from 'react';
 import IconSearch from '../assets/search.png'
 import IconHeart from '../assets/heart.png'
 import DropdownMenuAvatar from './DropdownMenuAvatar';
@@ -21,7 +20,7 @@ type argsArgument = {
 }
 
 function Header({args}: argsArgument) {
-  const [logado, setLogado] = useState(true)
+  const logado = true
 
   return (
     <>

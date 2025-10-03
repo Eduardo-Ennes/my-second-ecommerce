@@ -23,10 +23,11 @@ import { useState } from "react"
 
 type ModalEditionLeassons = {
     args: string
-    id: number
+    // id: number
 }
 
-function ModalEditCorse({args, id}: ModalEditionLeassons) {
+function ModalEditCorse({args /* adicionar id como parametro depois */ }: ModalEditionLeassons) {
+
     const [listMaterials, setListMaterials] = useState<Array<{id: number, name: string}>>([
         {id: 1, name: "Arquivo.mundo"},
     ])

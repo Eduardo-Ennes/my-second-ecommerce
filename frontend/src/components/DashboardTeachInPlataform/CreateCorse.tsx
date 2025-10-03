@@ -16,7 +16,7 @@ function CreateCorse() {
 
   const [listTags, setListTags] = useState<Array<{name: string}>>([])
 
-  const [error, seterror] = useState("")
+  const error = ""
 
   const [listWillLearn, setListWillLearn] = useState<Array<{name: string}>>([])
   const [varWillLearn, setVarWillLearn] = useState("")

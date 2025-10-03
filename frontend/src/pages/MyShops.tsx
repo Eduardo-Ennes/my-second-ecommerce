@@ -13,7 +13,7 @@ import iconAngleDown from '../assets/angle-small-down.png'
 
 
 function MyShops() {
-    const [cursos, setCursos] = useState<{
+    const [cursos] = useState<{
     corses: string[];
     data: string;
     price: number;

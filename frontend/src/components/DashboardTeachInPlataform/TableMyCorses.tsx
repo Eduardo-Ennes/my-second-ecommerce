@@ -14,8 +14,8 @@ import EditCorse from "./TableMyCorse/EditCorse"
 import UpdateCorse from "./UpdateCorse"
 
 function TableMyCorses() {
-    const [status, setStatus] = useState("active")
-    const [isPromotion, setIsPromotion] = useState(false)
+    const status = "active"
+    const isPromotion = false
     const [editionCorse,setEditionCorse] = useState<false | true>(false)
 
   return (
@@ -43,9 +43,9 @@ function TableMyCorses() {
                         </p>
                     </TableCell>
                     <TableCell>
-                        {status === "inactive" &&
+                        {/* {status === "inactive" &&
                             <Badge variant="destructive" className="p-2 cursor-pointer w-[4rem]">Inative</Badge>
-                        }
+                        } */}
 
                         {status === "active" && 
                             <Badge variant="destructive" className="bg-green-700 p-2 w-[4rem]">Active</Badge>

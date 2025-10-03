@@ -16,14 +16,22 @@ const redisClient = createClient({
     url: "redis://redis_MySecond_Ecommerce:6379" 
 })
 
+app.get("/", (req, res) => {
+    res.status(200).json({name: "Olá, mundo!"})
+})
+
+// Inicialização do Redis
 redisClient.connect()
-    .then(() => console.log("Redis inicializado com sucesso!."))
+    .then(() => {
+        console.log("Redis inicializado com sucesso!.")
+
+        // Inicialização da aplicação
+        app.listen(process.env.PORT, () => {
+            console.log("Servidor iniciado com sucesso!")
+            console.log(`Rodando na porta ${process.env.PORT}`)
+        })
+    })
     .catch((error) => {
         console.log("Erro ao se conectar ao redis.")
         console.error("Error: ", error)
  })
-
-app.listen(process.env.PORT, () => {
-    console.log("Servidor iniciado com sucesso!")
-    console.log(`Rodando na porta ${process.env.PORT}`)
-})

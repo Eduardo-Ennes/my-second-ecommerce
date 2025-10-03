@@ -1,10 +1,11 @@
 import Header from "@/components/Header"
 import Pagineted from "@/components/Pagineted"
-import { Link, useParams } from "react-router-dom"
+import { Link } from "react-router-dom"
 import imageTeste from '../media/imagem-python.jpg'
 
 function MyCorses() {
-  const params = useParams<{id: string}>()
+  // Usar parametro
+  // const params = useParams<{id: string}>()
   
   return (
     <>

@@ -11,9 +11,9 @@ import {
 import FieldsFormCard from './FieldsFormCard'
 
 function MethodPayment() {
-    const [error, seterror] = useState("")
+    const error = ""
     const [state, setState] = useState("")
-    const [methodsPayments, setMethodsPayments] = useState([1])
+    const methodsPayments = [1]
   return (
     <>
         {methodsPayments.length > 0 && state !== "Add" ?
@@ -88,14 +88,9 @@ function MethodPayment() {
                     </div>
                 }  
 
-                <FieldsFormCard />   
-
-                           
+                <FieldsFormCard />        
             </>
-            
         }
-
-        
     </>
   )
 }

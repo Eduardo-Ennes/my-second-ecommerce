@@ -4,10 +4,9 @@ import {
   Alert,
   AlertTitle,
 } from "@/components/ui/alert"
-import { useState } from "react"
 
 function FormUser() {
-    const [error, setError] = useState('')
+    const error = ""
 
   return (
     <div className="isolate bg-black px-3 py-12 sm:py-16 lg:px-4">

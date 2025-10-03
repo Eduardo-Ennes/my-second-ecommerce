@@ -7,10 +7,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Link } from "react-router-dom"
-import { useState } from "react"
 
 function DropdownMenuAvatar() {
-  const [role, setRole] = useState('instructor')
+  const role = "instructor"
+  
   return (
     <>
       <DropdownMenu>
@@ -43,9 +43,9 @@ function DropdownMenuAvatar() {
             <Link to='/my/shops' className='w-full'>Minhas compras</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            {role === 'user' && 
+            {/* {role === 'user' && 
               <Link to='/dashboard' className='w-full'>Ensine na plataforma</Link>
-            }
+            } */}
 
             {role === 'instructor' && 
               <Link to='/dashboard' className='w-full'>Dashboard</Link>

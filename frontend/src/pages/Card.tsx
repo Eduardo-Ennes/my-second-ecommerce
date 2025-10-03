@@ -4,10 +4,9 @@ import imageTeste from '../media/imagem-python.jpg'
 import iconLixeira from '../assets/trash.png'
 import iconBook from '../assets/book.png'
 import { Link } from "react-router-dom"
-import { useState } from "react"
 
 function Card() {
-    const [products, setProducts] = useState([1])
+    const products = [1]
 
   return (
     <>

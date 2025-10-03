@@ -10,8 +10,14 @@ import { Button } from '@headlessui/react'
 import { useState } from "react"
 
 function FinishBuy() {
-    const [state, setState] = useState("")
-    const [cpfOrCnpj, setCpfOrCnpj] = useState("")
+  const [state, setState] = useState("")
+  const [cpfOrCnpj, setCpfOrCnpj] = useState("")
+
+  const handleFinishBuy = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    console.log(state)
+  } 
+
   return (
     <>
         <Header args={"No"}/>
@@ -211,6 +217,7 @@ function FinishBuy() {
                     </div>
                     <Button 
                     type="button"
+                    onClick={(e) => handleFinishBuy(e)}
                     className="w-full rounded cursor-pointer bg-fuchsia-900 px-4 py-2 text-sm text-white data-hover:bg-fuchsia-950">
                         Prosseguir
                     </Button>

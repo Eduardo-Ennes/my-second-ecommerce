@@ -13,11 +13,10 @@ import { Textarea } from "@/components/ui/textarea"
 import { Separator } from "@/components/ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { useState } from 'react'
 import iconComment from '../assets/comment-alt.png'
 
 function LeassonsQuestionsResponse() {
-    const [response, setResponse] = useState(false)
+    const response = false
 
   return (
     <>

@@ -12,19 +12,19 @@ services:
     environment:
       - PORT=8080
     ports:
-      - "3000:8080"
+      - 3000:8080
     networks:
       - my-second-ecommerce
 
-  # react:
-  #   container_name: react
-  #   build:
-  #     context: ./frontend/
-  #     dockerfile: Dockerfile
-  #   ports: 
-  #     - 3001:5173
-  #   networks:
-  #     - my-second-ecommerce
+  react:
+    container_name: react
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+    ports: 
+      - 5173:80
+    networks:
+      - my-second-ecommerce
 
   postgres:
     container_name: postgres_MySecond_Ecommerce
@@ -35,7 +35,7 @@ services:
     volumes: 
       - db_postgres_mySecond_Ecommerce:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - 5432:5432
     networks:
       - my-second-ecommerce
 
@@ -44,7 +44,7 @@ services:
     image: redis:8.0-alpine3.21
     command: redis-server --bind 0.0.0.0
     ports:
-      - "6379:6379"
+      - 6379:6379
     networks:
       - my-second-ecommerce
     volumes:
