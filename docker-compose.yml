@@ -2,7 +2,7 @@ name: "My-Second-Ecommerce"
 
 services:
   express:
-    container_name: express
+    container_name: express_MySecond_Ecommerce
     build:
     # Gera uma imagem a partir de um dockerfile
       context: ./backend/
@@ -10,14 +10,21 @@ services:
       dockerfile: Dockerfile
       # arquivo dockerfile dentro da pasta
     environment:
-      - PORT=8080
+      - PORT=${PORT}
+      - DB_HOST=${DB_HOST}  # Deve ser o service do bd, no caso postgres 
+      - DB_DATABASE=${DB_DATABASE} # My_Second_Ecommerce
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASS=${POSTGRES_PASSWORD}
     ports:
       - 3000:8080
     networks:
       - my-second-ecommerce
+    depends_on:
+      postgres:
+        condition: service_healthy  # O Express só vai ser iniciado quando o serviço postgres passar no healthcheck. 
 
   react:
-    container_name: react
+    container_name: react_MySecond_Ecommerce
     build:
       context: ./frontend/
       dockerfile: Dockerfile
@@ -25,6 +32,8 @@ services:
       - 5173:80
     networks:
       - my-second-ecommerce
+    depends_on:
+      - express
 
   postgres:
     container_name: postgres_MySecond_Ecommerce
@@ -32,12 +41,18 @@ services:
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}    # My_Second_Ecommerce
     volumes: 
       - db_postgres_mySecond_Ecommerce:/var/lib/postgresql/data
     ports:
       - 5432:5432
     networks:
       - my-second-ecommerce
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s  # Define o intervalo entre cada checagem de saúde.
+      timeout: 5s   # É o tempo máximo de espera para que o comando do healthcheck responda.
+      retries: 5    # É o número de tentativas consecutivas que precisam falhar antes do container ser considerado unhealthy.
 
   redis:
     container_name: redis_MySecond_Ecommerce
@@ -49,6 +64,19 @@ services:
       - my-second-ecommerce
     volumes:
       - db_redis_mySecond_Ecommerce:/data
+
+  pgadmin:
+    container_name: pgadmin_MySecond_Ecommerce
+    image: dpage/pgadmin4
+    environment:
+       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_USER}
+       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    ports:
+       - 5050:80
+    networks:
+      - my-second-ecommerce
+    depends_on:
+      - postgres
 
 networks:
   my-second-ecommerce:

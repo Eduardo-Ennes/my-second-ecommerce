@@ -3,7 +3,7 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-COPY .env package.json package-lock.json tsconfig.json ./
+COPY package.json package-lock.json tsconfig.json ./
 
 RUN npm install
 
@@ -21,10 +21,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --omit=dev
 
-COPY .env ./
-
 COPY --from=builder /app/dist ./dist
 
 EXPOSE 8080
 
+# Roda as migrações e inicia a aplicação 
 CMD ["node", "dist/app.js"]

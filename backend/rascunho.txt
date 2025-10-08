@@ -6,6 +6,7 @@ email: varchar(100) not null unique
 phone: varchar(15) not null unique
 cpf: char(11) not null unique
 cnpj: char(14) unique
+image: varchar(255)
 password: varchar(255) not null unique
 status: boolean() default=true
 created_at: timestamp not null default current_timestamp  
@@ -19,6 +20,7 @@ price: decimal(10,2) NOT NULL
 price_promotion: decimal(10,2) NOT NULL
 promotion: boolean not null default=false
 description: varchar(3000) not null 
+image: varchar(255)
 created_at: timestamp not null default current_timestamp  
 updated_at: timestamp not null default current_timestamp on update current_timestamp
 owner: foreign key(id table user) not null
@@ -35,6 +37,22 @@ updated_at: timestamp not null default current_timestamp on update current_times
 id: int auto_increment PRIMARY KEY 
 corse_id: foreign key(id table corse) not null
 tag_id: foreign key(id table tags) not null
+created_at: timestamp not null default current_timestamp  
+updated_at: timestamp not null default current_timestamp on update current_timestamp
+
+
+# Corse_requisits
+id: int auto_increment PRIMARY KEY 
+corse_id: foreign key(id table corse) not null
+requisite: varchar(75)
+created_at: timestamp not null default current_timestamp  
+updated_at: timestamp not null default current_timestamp on update current_timestamp
+
+
+# Corse_requirements
+id: int auto_increment PRIMARY KEY 
+corse_id: foreign key(id table corse) not null
+requirement: varchar(75)
 created_at: timestamp not null default current_timestamp  
 updated_at: timestamp not null default current_timestamp on update current_timestamp
 

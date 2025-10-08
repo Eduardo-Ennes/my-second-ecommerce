@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import knex from './infrastructure/config/connection'
 // import swaggerUi from 'swagger-ui-express'
 // import swaggerJsdoc from "swagger-jsdoc";
 import { createClient } from "redis";
@@ -20,18 +21,26 @@ app.get("/", (req, res) => {
     res.status(200).json({name: "Olá, mundo!"})
 })
 
-// Inicialização do Redis
+// Inicialização do redis, conexão com o postgres e inicialização da aplicação
 redisClient.connect()
     .then(() => {
-        console.log("Redis inicializado com sucesso!.")
+        console.log("Redis inciailizado com sucesso!")
 
-        // Inicialização da aplicação
-        app.listen(process.env.PORT, () => {
-            console.log("Servidor iniciado com sucesso!")
-            console.log(`Rodando na porta ${process.env.PORT}`)
+        knex.raw('SELECT 1')
+        .then(() => {
+            console.log("Conexão com o banco postgres realizada com sucesso!")
+
+            app.listen(process.env.PORT, () => {
+                console.log("Servidor iniciado com sucesso!")
+                console.log(`Rodando na porta ${process.env.PORT}`)
+            })
+        })
+        .catch((error) => {
+            console.log('Error ao se conectar com o postgres!')
+            console.log(`Error: ${error}`)
         })
     })
     .catch((error) => {
-        console.log("Erro ao se conectar ao redis.")
-        console.error("Error: ", error)
- })
+        console.log("Erro ao inicializar o redis.")
+        console.log(`ERROR: ${error}`)
+    })
