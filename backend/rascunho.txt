@@ -6,7 +6,7 @@ email: varchar(100) not null unique
 phone: varchar(15) not null unique
 cpf: char(11) not null unique
 cnpj: char(14) unique
-image: varchar(255)
+image: varchar(500)
 password: varchar(255) not null unique
 status: boolean() default=true
 created_at: timestamp not null default current_timestamp  
@@ -109,7 +109,6 @@ updated_at: TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMES
 id: int auto_increment PRIMARY KEY
 name: varchar(75) not null 
 order: int not null
-leasson: varchar(500) not null
 duration: float
 module_id: foreign key(id table module) not null
 created_at: TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
