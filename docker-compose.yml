@@ -17,6 +17,10 @@ services:
       - DB_PASS=${POSTGRES_PASSWORD}
     ports:
       - 3000:8080
+    volumes:
+      - ./backend:/app              # monta o código local
+      - /app/node_modules           # evita conflito com node_modules local
+    command: npm run dev  
     networks:
       - my-second-ecommerce
     depends_on:
@@ -29,7 +33,11 @@ services:
       context: ./frontend/
       dockerfile: Dockerfile
     ports: 
-      - 5173:80
+      - 5173:5173
+    volumes:
+      - ./frontend:/app             # monta o código local
+      - /app/node_modules           # ignora node_modules local
+    command: npm run dev  
     networks:
       - my-second-ecommerce
     depends_on:
@@ -77,6 +85,8 @@ services:
       - my-second-ecommerce
     depends_on:
       - postgres
+    volumes:
+      - ./pgadmin_data:/var/lib/pgadmin
 
 networks:
   my-second-ecommerce:

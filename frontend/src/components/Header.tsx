@@ -20,7 +20,7 @@ type argsArgument = {
 }
 
 function Header({args}: argsArgument) {
-  const logado = true
+  const logado = false
 
   return (
     <>

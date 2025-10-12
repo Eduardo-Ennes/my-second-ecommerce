@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import knex from './infrastructure/config/connection'
+import routerUser from './modules/users/routes/routesUser'
 // import swaggerUi from 'swagger-ui-express'
 // import swaggerJsdoc from "swagger-jsdoc";
 import { createClient } from "redis";
@@ -12,14 +13,14 @@ dotenv.config()
 const app = express()
 app.use(cors())
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 
 const redisClient = createClient({
     url: "redis://redis_MySecond_Ecommerce:6379" 
 })
 
-app.get("/", (req, res) => {
-    res.status(200).json({name: "Olá, mundo!"})
-})
+// Routes
+app.use(routerUser)
 
 // Inicialização do redis, conexão com o postgres e inicialização da aplicação
 redisClient.connect()

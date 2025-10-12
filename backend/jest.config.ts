@@ -31,6 +31,6 @@ export default {
   testEnvironment: 'node',
 
   // Configurações adicionais (opcional)
-  verbose: true, // Mostra cada teste individual no console
-  bail: true,    // Para no primeiro erro de teste
+  // verbose: true, // Mostra cada teste individual no console
+  // bail: true,    // Para no primeiro erro de teste
 }
