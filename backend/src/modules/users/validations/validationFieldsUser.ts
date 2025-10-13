@@ -12,7 +12,7 @@ type User = {
 }
 
 class ValidationFieldsUser {
-    async Fields(form: User): Promise<{ status: boolean; error?: string }> {
+    async Fields(form: User, cond: boolean): Promise<{ status: boolean; error?: string }> {
         if('first_name' in form){
             if(form.first_name.length > 75){
                 return {status: false, error: 'O campo nome deve ter no máximo 75 caracteres.'}
@@ -80,23 +80,25 @@ class ValidationFieldsUser {
 
         
         if('password' in form){
-            if(form.password != form.confirm_password){
-                return {status: false, error: "A senhas são diferentes."}
+            if(cond) {
+                if(form.password != form.confirm_password){
+                    return {status: false, error: "A senhas são diferentes."}
+                }
             }
-            else if(form.password.length > 255){
+            if(form.password.length > 255){
                 return {status: false, error: "O campo senha deve conter no máximo 255 caracteres."}
             }
-            else if(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/.test(form.password)){
-                return {status: false, error: 'A senha deve conter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais!'};
-            }
+            // else if(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/.test(form.password)){
+            //     return {status: false, error: 'A senha deve conter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais!'};
+            // }
         }
+
 
         if('privacy' in form){
             if(!form.privacy){
                 return {status: false, error: 'Você deve concordar com nossas políticas de privacidades.'}
             }
         }
-
 
         return {status: true}
     }

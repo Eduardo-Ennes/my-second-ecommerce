@@ -9,6 +9,11 @@ type user = {
     privacy: boolean
 }
 
+type LoginUser = {
+    email: string
+    password: string 
+}
+
 
 class ApisUser {
     async CreateUser(form: user) {
@@ -22,6 +27,20 @@ class ApisUser {
         })
         const data = await response.json()
         return data 
+    }
+
+    async LoginUser(form: LoginUser){
+        const response = await fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(form)
+        })
+
+        const data = await response.json()
+        return data
     }
 }
 

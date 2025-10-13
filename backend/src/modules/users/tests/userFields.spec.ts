@@ -142,11 +142,11 @@ describe('Senhas -> Teste da função ValidationFieldsUser', () => {
         expect(validation.error).toBe('O campo senha deve conter no máximo 255 caracteres.')
     })
 
-    it('Deve retornar: erro de campo senha com formato incorreto.', async () => {
-        const validation = await ValidationFieldsUser.Fields({...validUser, password: '', confirm_password: ''})
-        expect(validation.status).toBe(false)
-        expect(validation.error).toBe('A senha deve conter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais!')
-    })
+    // it('Deve retornar: erro de campo senha com formato incorreto.', async () => {
+    //     const validation = await ValidationFieldsUser.Fields({...validUser, password: '', confirm_password: ''})
+    //     expect(validation.status).toBe(false)
+    //     expect(validation.error).toBe('A senha deve conter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais!')
+    // })
 })
 
 

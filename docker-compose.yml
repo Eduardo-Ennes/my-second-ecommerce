@@ -86,7 +86,8 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./pgadmin_data:/var/lib/pgadmin
+      - db_pgadmin_mySecond_Ecommerce:/pgadmin_data:/var/lib/pgadmin
+    user: "5050:5050"
 
 networks:
   my-second-ecommerce:
@@ -96,3 +97,5 @@ networks:
 volumes:
   db_postgres_mySecond_Ecommerce:
   db_redis_mySecond_Ecommerce:
+  db_pgadmin_mySecond_Ecommerce:
+

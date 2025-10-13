@@ -4,9 +4,35 @@ import {
   Alert,
   AlertTitle,
 } from "@/components/ui/alert"
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import ApisUser from '../api/UserApi'
 
 function LoginUser() {
-  const error = ""
+  const navigate = useNavigate()
+  const [error, setError] = useState('')
+  const [form, setForm] = useState({
+    email: '',
+    password: ''
+  })
+
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    try{
+      const response = await ApisUser.LoginUser(form)
+      if(!response.status){
+        setError(response.error)
+        return;
+      }
+
+      navigate('/')
+    }catch(error){
+      console.log(error)
+      setError('Houve um error no servidor. Tente novamente.')
+    }
+  }
+
+
   return (
     <>
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -26,7 +52,7 @@ function LoginUser() {
         )}
 
         <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+          <form onSubmit={handleLogin} method="POST" className="space-y-6">
             <div>
               <label 
                 htmlFor="email" 
@@ -40,6 +66,7 @@ function LoginUser() {
                   type="email" 
                   name="email" 
                   required 
+                  onChange={(e) => setForm({...form, email: e.target.value})}
                   autoComplete="email" 
                   className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" 
                 />
@@ -66,6 +93,7 @@ function LoginUser() {
                   type="password" 
                   name="password" 
                   required 
+                  onChange={(e) => setForm({...form, password: e.target.value})}
                   autoComplete="current-password" 
                   className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" 
                 />
@@ -77,7 +105,7 @@ function LoginUser() {
                 type="submit" 
                 className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
               >
-                Sign in
+                Entrar
               </button>
             </div>
           </form>

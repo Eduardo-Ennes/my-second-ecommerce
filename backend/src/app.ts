@@ -1,11 +1,12 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import knex from './infrastructure/config/connection'
+import knex from './infrastructure/config/postgres'
 import routerUser from './modules/users/routes/routesUser'
+import redisClient from './infrastructure/config/redisClient'
 // import swaggerUi from 'swagger-ui-express'
 // import swaggerJsdoc from "swagger-jsdoc";
-import { createClient } from "redis";
+
 
 
 dotenv.config()
@@ -15,14 +16,11 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
-const redisClient = createClient({
-    url: "redis://redis_MySecond_Ecommerce:6379" 
-})
-
 // Routes
 app.use(routerUser)
 
-// Inicialização do redis, conexão com o postgres e inicialização da aplicação
+// Conexão com o postgres e inicialização da aplicação
+
 redisClient.connect()
     .then(() => {
         console.log("Redis inciailizado com sucesso!")
@@ -40,6 +38,7 @@ redisClient.connect()
             console.log('Error ao se conectar com o postgres!')
             console.log(`Error: ${error}`)
         })
+        
     })
     .catch((error) => {
         console.log("Erro ao inicializar o redis.")
