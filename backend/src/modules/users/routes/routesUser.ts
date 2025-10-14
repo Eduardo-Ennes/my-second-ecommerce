@@ -1,8 +1,10 @@
 import express from 'express'
 const router = express.Router()
-import { createUser, loginUser } from '../services/user'
+import { createUser, loginUser, getCacheUser, reset } from '../services/user'
 
 
+router.post('/reset', reset)
+router.get('/cache/users', getCacheUser)
 router.post('/create/user', createUser)
 router.post('/login', loginUser)
 

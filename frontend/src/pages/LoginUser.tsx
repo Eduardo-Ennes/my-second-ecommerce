@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/alert"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import ApisUser from '../api/UserApi'
+import ApisUser from '../api/user/UserApi'
 
 function LoginUser() {
   const navigate = useNavigate()

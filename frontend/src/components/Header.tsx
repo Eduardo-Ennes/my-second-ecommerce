@@ -13,6 +13,8 @@ import {
 import IconSearch from '../assets/search.png'
 import IconHeart from '../assets/heart.png'
 import DropdownMenuAvatar from './DropdownMenuAvatar';
+import { useEffect, useState } from 'react';
+import Cache from '../api/user/UserApi'
 
 
 type argsArgument = {
@@ -20,7 +22,27 @@ type argsArgument = {
 }
 
 function Header({args}: argsArgument) {
-  const logado = false
+  const [logado, setLogado] = useState(false)
+
+  useEffect(() => {
+    const fetchCache = async () => {
+      const response = await Cache.CacheUser();
+      setLogado(response.user.login)
+      console.log(response.user.login)
+    };
+
+  fetchCache();
+}, []);
+
+
+const Reset = async () => {
+        const response = await fetch('http://localhost:3000/reset', {
+          method: 'POST'
+        })
+
+        const data = await response.json()
+        console.log(data)
+    }
 
   return (
     <>
@@ -29,6 +51,15 @@ function Header({args}: argsArgument) {
             <h1 className="text-2xl font-bold">
               <Link to="/">My Second E-commerce</Link>
             </h1>
+
+            <div>
+              <button 
+              className='bg-red-700'
+              onClick={Reset}
+              >
+                ResetCache
+              </button>
+            </div>
 
             {args === "Yes" && 
               <div className="flex w-full max-w-sm items-center gap-2 border-1 border-gray-500 p-1 rounded-2xl hover:ring-1 hover:transition-[2s]">

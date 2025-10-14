@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import redisClient from '../../../infrastructure/config/redisClient'
 import ValidationFieldsUser from '../validations/validationFieldsUser'
 import MethodsUser from '../repositories/MethodsUser'
 
@@ -53,7 +54,40 @@ export async function loginUser(req: Request, res: Response) {
     res.status(response.code).json(response)
     
   }catch(error){
-    console.log(error)
     res.status(500).json({status: false, message: 'Houve um error inesperado. Tente novamente.'})
+  }
+}
+
+
+export async function getCacheUser(req: Request, res: Response) {
+    try{
+      const user = await redisClient.get('user')
+      
+      if(user != null){
+        const cacheUser = JSON.parse(user.toString())
+        res.status(200).json({status: true, user: cacheUser})
+      }
+      else{
+        await redisClient.set('user', JSON.stringify({login: false}))
+        
+        const getCacheUser = await redisClient.get('user')
+        const cacheUser = await JSON.parse(getCacheUser?.toString() || '{}')
+        res.status(200).json({status: true, user: cacheUser})
+      }
+    }catch(error){
+      console.log(error)
+      res.status(500).json({status: false, message: 'Houve um error inesperado. Tente novamente.'})
+    }
+  }
+
+
+// Por enquanto url de teste: Depois reutilizar para a funcionalidade LOGOUTH
+export async function reset(req: Request, res: Response){
+  try{
+    await redisClient.del('user')
+    res.json({message: 'Tudo certo!'})
+  }catch(error){
+    console.log(error)
+    res.json({error: 'Não deletou!'})
   }
 }

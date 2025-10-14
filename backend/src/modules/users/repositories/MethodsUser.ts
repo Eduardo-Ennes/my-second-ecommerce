@@ -96,6 +96,8 @@ class MethodsUser {
 
     async CreateChacheUser(object: FormUser): Promise<Response> {
         try{
+            await redisClient.del('user')
+
             await redisClient.set('user', JSON.stringify({
                 id: object.confirm_password,
                 first_name: object.first_name,
