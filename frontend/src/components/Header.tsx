@@ -22,7 +22,7 @@ type argsArgument = {
 }
 
 function Header({args}: argsArgument) {
-  const [logado, setLogado] = useState(false)
+  const [logado, setLogado] = useState(true)
 
   useEffect(() => {
     const fetchCache = async () => {

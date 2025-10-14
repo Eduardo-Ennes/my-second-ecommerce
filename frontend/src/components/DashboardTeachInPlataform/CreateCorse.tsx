@@ -1,75 +1,80 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
+// import { ScrollArea } from "@/components/ui/scroll-area"
 import { Textarea } from "@/components/ui/textarea"
-import ArrowRight from '../../assets/arrow-small-right.png'
+// import ArrowRight from '../../assets/arrow-small-right.png'
 
 import {
   Alert,
   AlertTitle,
 } from "@/components/ui/alert"
+import { Link } from "react-router-dom"
 
 
 
 function CreateCorse() {
-  const [tag, setTag] = useState("")
+  const [tec, setTec] = useState("")
+  const [listTec, setListTec] = useState<Array<{name: string}>>([])
 
-  const [listTags, setListTags] = useState<Array<{name: string}>>([])
+  const [requisit, setRequisit] = useState("")
+  const [listReq, setListReq] = useState<Array<{name: string}>>([])
+
+  const [formCorse, setFormCorse] = useState({
+    name: '',
+    price: 0,
+    price_promotion: 0,
+    promotion: false,
+    description: ''
+  })
 
   const error = ""
 
-  const [listWillLearn, setListWillLearn] = useState<Array<{name: string}>>([])
-  const [varWillLearn, setVarWillLearn] = useState("")
-
-  const [listRequists, setListRequisits] = useState<Array<{name: string}>>([])
-  const [varRequisits, setVarRequisits] = useState("")
- 
+  const handleFromCreateCorse = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+  }
 
   const handleAddTags = (event: React.MouseEvent<HTMLButtonElement>, element: string) => {
     event.preventDefault()
-    if(!listTags.some(tag => tag.name === element)){
-      setListTags([
-        ...listTags,
+    if(!listTec.some(tag => tag.name === element)){
+      setListTec([
+        ...listTec,
         {name: element} 
       ])
     }
 
-    setTag("")
+    setTec("")
   }
 
   const handleDeleteTags = (event: React.MouseEvent<HTMLButtonElement>, element: string) => {
     event.preventDefault()
-    const newTags = listTags.filter((tag) => tag.name != element)
-    setListTags(newTags)
+    const newTags = listTec.filter((tag) => tag.name != element)
+    setListTec(newTags)
   }
 
-  const handleWillLearnAndRequists = (event: React.MouseEvent<HTMLButtonElement>, option: string, element: string) => {
+
+  const handleAddRequisit = (event: React.MouseEvent<HTMLButtonElement>, element: string) => {
     event.preventDefault()
-
-    if(option === "willLearn"){
-      setListWillLearn((prev) => [
-        ...prev,
-        { name: element }
+    if(!listReq.some(tag => tag.name === element)){
+      setListReq([
+        ...listReq,
+        {name: element} 
       ])
-
-       setVarWillLearn("")
     }
 
-    if(option === "requisits"){
-      setListRequisits([
-        ...listRequists,
-        {name: element}
-      ])
-
-      setVarRequisits("")
-    }
+    setRequisit("")
   }
+
+  const handleDeleteRequisit = (element: string) => {
+    const newTags = listReq.filter((tag) => tag.name != element)
+    setListReq(newTags)
+  }
+
 
   return (
     <>
         <h2 className="text-gray-200 text-2xl font-bold mt-5 ml-auto mr-auto mb-5 text-center border-b border-zinc-700 w-[90%]">Create Corse</h2>
 
-        <form action="#" className="m-auto flex flex-col gap-y-8 mb-30"> 
+        <form onSubmit={(e) => handleFromCreateCorse(e)} className="m-auto flex flex-col gap-y-8 mb-30"> 
           <div className="w-[80%] ml-auto mr-auto flex flex-wrap items-center justify-between">
             {/* Input nome do curso */}
             <div>
@@ -82,6 +87,7 @@ function CreateCorse() {
                 type="text"
                 name="name"
                 placeholder="Nome do curso"
+                onChange={(e) => setFormCorse({...formCorse, name: e.target.value})}
                 autoComplete="given-name"
                 className="block rounded-md w-[30rem] bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"
                 />
@@ -100,6 +106,7 @@ function CreateCorse() {
                   id="price"
                   type="number"
                   name="price"
+                  onChange={(e) => setFormCorse({...formCorse, price: Number(e.target.value)})}
                   placeholder="R$49,99"
                   autoComplete="organization"
                   className="block rounded-md w-[8rem] bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"
@@ -119,6 +126,7 @@ function CreateCorse() {
                   id="price_promotion"
                   type="number"
                   name="price_promotion"
+                  onChange={(e) => setFormCorse({...formCorse, price_promotion: Number(e.target.value)})}
                   autoComplete="given-name"
                   placeholder="R$29,99"
                   className="block rounded-md w-[8rem] bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"
@@ -134,13 +142,14 @@ function CreateCorse() {
                   <select
                   id="isPromotion"
                   name="isPromotion"
+                  onChange={(e) => setFormCorse({...formCorse, promotion: Boolean(e.target.value)})}
                   autoComplete="isSale"
                   aria-label="isSale"
                   className="col-start-1 row-start-1 w-[10rem] rounded-md bg-white/5 py-2 pr-7 pl-3.5 text-base text-gray-400 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                   >
                       <option className="text-black">Opção</option>
-                      <option className="text-black">Sim</option>
-                      <option className="text-black">Não</option>
+                      <option value="true" className="text-black">Sim</option>
+                      <option value="false" className="text-black">Não</option>
                   </select>
                 </div>
               </div>
@@ -148,160 +157,120 @@ function CreateCorse() {
 
 
           {/* Inputs de tags */}
-          <div className="flex flex-wrap items-center gap-x-5 w-[80%] ml-auto mr-auto">
-            <div>
-              <label htmlFor="name" className="block text-sm/6 font-semibold text-white">
-              Tecnologias ensinadas
-              </label>
-              <div className="mt-2.5">
-                <input
-                id="name"
-                type="text"
-                name="name"
-                autoComplete="given-name"
-                placeholder="Tecnologias do curso"
-                value={tag}
-                onChange={(e) => setTag(e.target.value)}
-                className="block rounded-md w-[15rem] bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"
-                />
-              </div>
-            </div>
+          <div className="flex flex-wrap gap-6 mt-6 mb-6 justify-center">
 
-            <Button 
-              type="button"
-              
-              onClick={(e) => handleAddTags(e, tag)}
-              className="rounded cursor-pointer mt-9 bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base text-gray-200" 
-              >
-                Adicionar
-            </Button>
-          </div>
+            <div className="flex flex-col items-start w-[30rem]">
+              <div className="flex flex-wrap items-center gap-x-5">
+                <div>
+                  <label htmlFor="name" className="block text-sm/6 font-semibold text-white">
+                  Tecnologias ensinadas no curso
+                  </label>
+                  <div className="mt-2.5">
+                    <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    autoComplete="given-name"
+                    placeholder="Exemplo: Python, JavaScript, Docker..."
+                    value={tec}
+                    onChange={(e) => setTec(e.target.value)}
+                    className="block rounded-md w-[22rem] bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"
+                    />
+                  </div>
+                </div>
 
-          {listTags.length > 0 ?
-            <ul className="w-[80%] flex flex-wrap gap-x-3 ml-auto mr-auto p-1">
-              {listTags.map((element) => (
-                <li key={element.name}>
-                  <Button 
+                <Button 
                   type="button"
-                  onClick={(e) => handleDeleteTags(e, element.name)}
-                  className="bg-gray-200 hover:bg-gray-400 text-black text-start truncate cursor-pointer" 
+                  
+                  onClick={(e) => handleAddTags(e, tec)}
+                  className="rounded cursor-pointer mt-9 bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base text-gray-200" 
                   >
-                   {element.name}
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          :   
-            <ul className="w-[80%] rounded ml-auto mr-auto border-1 border-gray-800 p-1">
-              <li>
-                <h2 className="text-gray-200  text-base p-[1rem] font-bold">Digite as tecnologias ensinadas no curso</h2>
-              </li>
-            </ul>
-          }
-          
-
-
-          {/* formulário do que irá aprender */}
-          <div className="flex flex-wrap items-center justify-center gap-x-5">
-            <div className="w-[45%]">
-              <ScrollArea className="h-[15rem] mt-5 border-1 border-gray-700 rounded-md p-1">
-                  <ul className='flex flex-wrap gap-x-3 gap-y-3 justify-start'>
-                    {listWillLearn.length > 0 ?
-                      listWillLearn.map((item) => (
-                        <li>
-                          {/* DEPOIS DEVE SE TROCAR ESTE MAP PARA OBJETO LITERAL */}
-                          <div className="flex flex-wrap items-center gap-3">
-                              <img src={ArrowRight} alt="Icone flecha de demostração" />
-                              <Button 
-                              type="button"
-                              className="bg-zinc-900 block hover:bg-zinc-700 text-blue-700 w-[17rem] text-start truncate cursor-pointer" 
-                              >
-                                {item.name}
-                              </Button>
-                          </div>
-                        </li>
-                      ))
-                    :
-                      <li className="text-sm text-gray-500">
-                        Adicione no campo abaixo tecnologias, funcionalidades ou outros assuntos que o usuário aprenderá neste curso.
-                      </li>
-                    }
-                    
-                  </ul>
-              </ScrollArea>
-
-              <div className="flex flex-wrap gap-x-3 items-center justify-center mt-2.5">
-                <input
-                  id="name"
-                  type="text"
-                  name="name"
-                  value={varWillLearn}
-                  autoComplete="organization"
-                  placeholder="Digite o que o aluno aprenderá..."
-                  onChange={(e) => setVarWillLearn(e.target.value)}
-                  className="block rounded-md w-[25rem] bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"
-                  />
-
-                <Button 
-                type="button"
-                className="rounded cursor-pointer bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base text-gray-200" 
-                onClick={(e) => handleWillLearnAndRequists(e, "willLearn", varWillLearn)}>
-                  Adicionar
+                    Adicionar
                 </Button>
               </div>
+
+              {listTec.length > 0 ?
+                <ul className="w-[100%] flex flex-wrap gap-x-1 p-1 mt-2">
+                  {listTec.map((element) => (
+                    <li key={element.name}>
+                      <Button 
+                      type="button"
+                      onClick={(e) => handleDeleteTags(e, element.name)}
+                      className="bg-gray-200 hover:bg-gray-400 text-black text-start truncate cursor-pointer mt-2" 
+                      >
+                      {element.name}
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              :   
+                <ul className="p-1">
+                  <li className="text-start">
+                    <h2 className="text-gray-200 text-base p-[1rem] font-bold">Adicione as tecnologias aboradads no curso.</h2>
+                  </li>
+                </ul>
+              }
             </div>
 
-            <div className="w-[45%]">
-              <ScrollArea className="h-[15rem] mt-5 border-1 border-gray-700 rounded-md p-1">
-                  <ul className='flex flex-wrap gap-x-3 gap-y-3 justify-start'>
-                    {listRequists.length > 0 ?
-                      listRequists.map((item) => (
-                        <li>
-                            <div className="flex flex-wrap items-center gap-3">
-                                <img src={ArrowRight} alt="Icone flecha de demostração" />
-                                <Button 
-                                type="button"
-                                className="bg-zinc-900 block hover:bg-zinc-700 text-blue-700 w-[17rem] text-start truncate cursor-pointer" 
-                                >
-                                  {item.name}
-                                </Button>
-                            </div>
-                        </li>
-                      ))
-                    :
-                      <li className="text-sm text-gray-500">
-                        Adicione no campo abaixo os requisitos mínimos para o usuário realizar este curso.
-                      </li>
-                    }
-                    
-                  </ul>
-              </ScrollArea>
-
-              <div className="flex flex-wrap gap-x-3 items-center justify-center mt-2.5">
-                <input
-                  id="name"
-                  type="text"
-                  name="name"
-                  autoComplete="organization"
-                  placeholder="Requisitos mínimos..."
-                  value={varRequisits}
-                  onChange={(e) => setVarRequisits(e.target.value)}
-                  className="block rounded-md w-[25rem] bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"
-                  />
+            <div className="flex flex-col items-start w-[30rem]">
+              <div className="flex flex-wrap items-center gap-x-5">
+                <div>
+                  <label htmlFor="name" className="block text-sm/6 font-semibold text-white">
+                  Requisitos para cursar?
+                  </label>
+                  <div className="mt-2.5">
+                    <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    autoComplete="given-name"
+                    placeholder="Tecnologias do curso"
+                    value={requisit}
+                    onChange={(e) => setRequisit(e.target.value)}
+                    className="block rounded-md w-[22rem] bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"
+                    />
+                  </div>
+                </div>
 
                 <Button 
-                type="button"
-                className="rounded cursor-pointer bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base text-gray-200" 
-                onClick={(e) => handleWillLearnAndRequists(e, "requisits", varRequisits)}>
-                  Adicionar
+                  type="button"
+                  
+                  onClick={(e) => handleAddRequisit(e, requisit)}
+                  className="rounded cursor-pointer mt-9 bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base text-gray-200" 
+                  >
+                    Adicionar
                 </Button>
               </div>
+
+              {listReq.length > 0 ?
+                <ul className="w-[100%] flex flex-col gap-y-1 p-1 mt-2">
+                  {listReq.map((element) => (
+                    <li key={element.name} className="list-decimal w-[97%] ml-auto">
+                      <Link
+                      to="#"
+                      onClick={() => handleDeleteRequisit(element.name)}
+                      className="text-white p-1 rounded transition-[2s] hover:bg-zinc-700 cursor-pointer w-[100%] block" 
+                      >
+                      {element.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              :   
+                <ul className="p-1">
+                  <li className="text-start">
+                    <h2 className="text-gray-200 text-base p-[1rem] font-bold">Adicione as tecnologias aboradads no curso.</h2>
+                  </li>
+                </ul>
+              }
             </div>
+
           </div>
-
-
+          
+          
           <div className="mt-5">
               <Textarea 
+              onChange={(e) => setFormCorse({...formCorse, description: e.target.value})}
               className="h-[10rem] block w-[70%] ml-auto mr-auto rounded-md bg-white/5 px-3.5 py-2 text-base text-white placeholder:text-gray-500 !border-gray-700" 
               placeholder="Faça uma descrição detalhada sobre todo o curso, temas que serão abordados, matérias, tecnologias, o que esperar e etc." />      
           </div>
@@ -318,7 +287,7 @@ function CreateCorse() {
 
           <div className="flex justify-end w-[70%] ml-auto mr-auto">
             <Button 
-            type="button"
+            type="submit"
             className="w-[20%] rounded cursor-pointer bg-fuchsia-900 hover:bg-fuchsia-950 px-4 py-2 text-base text-gray-200" onClick={(e) => e.stopPropagation()}>
               Criar curso
             </Button>
