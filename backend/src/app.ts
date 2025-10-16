@@ -2,12 +2,16 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import knex from './infrastructure/config/postgres'
-import routerUser from './modules/users/routes/routesUser'
 import redisClient from './infrastructure/config/redisClient'
 // import swaggerUi from 'swagger-ui-express'
 // import swaggerJsdoc from "swagger-jsdoc";
 
+// Função usada para criar tags de tecnologia no banco de dados
+// import createTchs from './modules/createTechs'
 
+// Routes
+import routerUser from './modules/users/routes/routesUser'
+import routerCourse from './modules/users/routes/routesCourse'
 
 dotenv.config()
 
@@ -18,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use(routerUser)
+app.use(routerCourse)
 
 // Conexão com o postgres e inicialização da aplicação
 

@@ -13,6 +13,9 @@ import { Link } from 'react-router-dom'
 
 function DashboardTeachInPlatarform() {
   const [template, setTemplate] = useState("")
+  const redirectAfterCreateCourse = () => {
+    setTemplate("EditMyCorse")
+  }
 
   return (
     <>
@@ -53,7 +56,7 @@ function DashboardTeachInPlatarform() {
         <section className='text-gray-200 p-2 ml-10'>
           {template === "EditMyCorse" && <TableMyCorses />}
 
-          {template === "CreateCorse" && <CreateCorse />}
+          {template === "CreateCorse" && <CreateCorse redirectTo={redirectAfterCreateCourse}/>}
 
           {template === "ResponseMessages" && <ResponseMessage />}
         </section>

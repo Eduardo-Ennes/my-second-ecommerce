@@ -1,6 +1,7 @@
 import '../css/header.css'
 import { Input } from "@/components/ui/input"
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import IconCard from '../assets/shopping-cart.png'
 import {
   NavigationMenu,
@@ -22,11 +23,13 @@ type argsArgument = {
 }
 
 function Header({args}: argsArgument) {
-  const [logado, setLogado] = useState(true)
+  const navigate = useNavigate();
+  const [logado, setLogado] = useState()
 
   useEffect(() => {
     const fetchCache = async () => {
       const response = await Cache.CacheUser();
+      console.log(response)
       setLogado(response.user.login)
       console.log(response.user.login)
     };
@@ -41,7 +44,8 @@ const Reset = async () => {
         })
 
         const data = await response.json()
-        console.log(data)
+        setLogado(data.user.login)
+        navigate('/')
     }
 
   return (

@@ -8,9 +8,14 @@ type Course = {
   description: string
 }
 
+type ResponseValidation = {
+    status: boolean
+    error?: string
+}
+
 
 class ValidationFieldsCorse {
-    async Fields (form: Course){
+    async Fields (form: Course): Promise<ResponseValidation> {
         if('name' in form){
             if(form.name.length > 75) {
                 return {status: false, error: 'O nome do curso pode conter apenas 75 caracteres.'}

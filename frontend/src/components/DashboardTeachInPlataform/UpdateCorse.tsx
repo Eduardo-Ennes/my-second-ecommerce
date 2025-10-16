@@ -2,65 +2,96 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Textarea } from "@/components/ui/textarea"
-import ArrowRight from '../../assets/arrow-small-right.png'
+import ArrowRigthWhite from '../../assets/arrow-right-white.png'
+import { useEffect } from "react"
+
 
 import {
   Alert,
   AlertTitle,
 } from "@/components/ui/alert"
+import { Link } from "react-router-dom"
 
 function UpdateCorse() {
-    const [tag, setTag] = useState("")
-
-  const [listTags, setListTags] = useState<Array<{name: string}>>([])
-
   const error = ""
+  const [technologies, setTechnologies] = useState<Array<{id: number, tech: string}>>()
+  const [filterTech, setFilterTech] = useState<Array<{id: number, tech: string}>>([])
 
-  const [listWillLearn, setListWillLearn] = useState<Array<{name: string}>>([])
-  const [varWillLearn, setVarWillLearn] = useState("")
+  const [tec, setTec] = useState("")
+  const [listTec, setListTec] = useState<Array<{id: number, tech: string}>>([])
 
-  const [listRequists, setListRequisits] = useState<Array<{name: string}>>([])
-  const [varRequisits, setVarRequisits] = useState("")
- 
+  const [requisit, setRequisit] = useState("")
+  const [listReq, setListReq] = useState<Array<{name: string}>>([])
 
-  const handleAddTags = (event: React.MouseEvent<HTMLButtonElement>, element: string) => {
+  // Função API que busca as tags de tecnologias
+  useEffect(() => {
+      const fetchTechnologies = async () => {
+        try{
+          const response = await fetch('http://localhost:3000/search/technologies', {
+            method: 'GET',
+          })
+          const res = await response.json()
+          console.log(res.data)
+          setTechnologies(res.data) // Aqui é atribuida uma lista com valores 
+        }catch(error){
+          console.log(error)
+        }
+    }
+    fetchTechnologies()
+  }, [])
+
+  // Função que filtra as tags na lista technologies
+  const handleFiltertech = (element: string) => {
+    if(technologies == undefined) return []
+    console.log(technologies)
+    const filter = technologies.filter(tag => tag.tech.startsWith(element.toLowerCase()))
+    setFilterTech(filter)
+  }
+
+  // Função que adiciona tags a lista listTec
+  const handleAddTech = (id: number, element: string) => { 
+    if (!listTec.some(tag => tag.tech === element)) {
+      setListTec([
+        ...listTec,
+        {id: id, tech: element}
+      ])
+
+      setTec("")
+      return
+    }
+
+    window.alert(`A tecnologia ${element} já foi adicionada.`)
+    return
+  }
+
+  // Função para remover tag de tecnologia
+  const handleDeleteTech = (id: number) => {
+    const newListTech = listTec.filter(tech => tech.id !== id)
+    setListTec(newListTech)
+  }
+
+
+  // Função para adicionar tag de requisito
+  const handleAddRequisit = (event: React.MouseEvent<HTMLButtonElement>, element: string) => {
     event.preventDefault()
-    if(!listTags.some(tag => tag.name === element)){
-      setListTags([
-        ...listTags,
+    if(!listReq.some(tag => tag.name === element)){
+      setListReq([
+        ...listReq,
         {name: element} 
       ])
+      setRequisit("")
+      return;
     }
 
-    setTag("")
+    window.alert(`O requisito ${element} já foi adicionado.`)
+    setRequisit("")
   }
 
-  const handleDeleteTags = (event: React.MouseEvent<HTMLButtonElement>, element: string) => {
-    event.preventDefault()
-    const newTags = listTags.filter((tag) => tag.name != element)
-    setListTags(newTags)
-  }
 
-  const handleWillLearnAndRequists = (event: React.MouseEvent<HTMLButtonElement>, option: string, element: string) => {
-    event.preventDefault()
-
-    if(option === "willLearn"){
-      setListWillLearn((prev) => [
-        ...prev,
-        { name: element }
-      ])
-
-       setVarWillLearn("")
-    }
-
-    if(option === "requisits"){
-      setListRequisits([
-        ...listRequists,
-        {name: element}
-      ])
-
-      setVarRequisits("")
-    }
+  // Função para remover tag de requisito
+  const handleDeleteRequisit = (element: string) => {
+    const newTags = listReq.filter((tag) => tag.name != element)
+    setListReq(newTags)
   }
 
   return (
@@ -68,12 +99,12 @@ function UpdateCorse() {
         <h2 className="text-gray-200 text-2xl font-bold mt-40 ml-auto mr-auto mb-20 text-center border-b border-zinc-700 w-[90%]">Formação na linguagem de programação python </h2>
 
         <form action="#" className="m-auto flex flex-col gap-y-8 mb-30"> 
-            <div className="w-[90%] ml-auto mr-auto flex flex-wrap items-center justify-between">
-                {/* Input nome do curso */}
-                <div>
-                    <label htmlFor="name" className="block text-sm/6 font-semibold text-white">
-                Nome do curso
-                </label>
+          <div className="w-[90%] ml-auto mr-auto flex flex-wrap items-center justify-between">
+              {/* Input nome do curso */}
+              <div>
+                  <label htmlFor="name" className="block text-sm/6 font-semibold text-white">
+              Nome do curso
+              </label>
                 <div className="mt-2.5">
                     <input
                     id="name"
@@ -84,11 +115,11 @@ function UpdateCorse() {
                     className="block rounded-md w-[30rem] bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"
                     />
                 </div>
-                </div>
-                
+              </div>
+              
 
-                {/* Input Preço */}
-                <div>
+              {/* Input Preço */}
+              <div>
                 <div>
                     <label htmlFor="price" className="block text-sm/6 font-semibold text-white">
                     Preço R$
@@ -104,10 +135,10 @@ function UpdateCorse() {
                     />
                     </div>
                 </div>
-                </div>
+              </div>
 
-                {/* Input preço promocional */}
-                <div>
+              {/* Input preço promocional */}
+              <div>
                 <div>
                     <label htmlFor="price_promotion" className="block text-sm/6 font-semibold text-white">
                     Preço promocional R$
@@ -123,196 +154,178 @@ function UpdateCorse() {
                     />
                     </div>
                 </div>
-                </div>
-
-                {/* Input opção promoção */}
-                <div>
-                    <label htmlFor="isPromotion" className="block text-sm/6 font-semibold text-white">Preço promocional?</label>
-                    <div className="mt-3">
-                        <select
-                        id="isPromotion"
-                        name="isPromotion"
-                        autoComplete="isSale"
-                        aria-label="isSale"
-                        className="col-start-1 row-start-1 w-[8rem] rounded-md bg-white/5 py-2 pr-7 pl-3.5 text-base text-gray-400 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                        >
-                            <option className="text-black">Opção</option>
-                            <option className="text-black">Sim</option>
-                            <option className="text-black">Não</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div>
-                    <label htmlFor="isPromotion" className="block text-sm/6 font-semibold text-white">Status</label>
-                    <div className="mt-3">
-                        <select
-                        id="isPromotion"
-                        name="isPromotion"
-                        autoComplete="isSale"
-                        aria-label="isSale"
-                        className="col-start-1 row-start-1 w-[8rem] rounded-md bg-white/5 py-2 pr-7 pl-3.5 text-base text-gray-400 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                        >
-                            <option className="text-black">Opção</option>
-                            <option className="text-black">Sim</option>
-                            <option className="text-black">Não</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-
-          {/* Inputs de tags */}
-          <div className="flex flex-wrap items-center gap-x-5 w-[90%] ml-auto mr-auto">
-            <div>
-              <label htmlFor="name" className="block text-sm/6 font-semibold text-white">
-              Tecnologias ensinadas
-              </label>
-              <div className="mt-2.5">
-                <input
-                id="name"
-                type="text"
-                name="name"
-                autoComplete="given-name"
-                placeholder="Tecnologias do curso"
-                value={tag}
-                onChange={(e) => setTag(e.target.value)}
-                className="block rounded-md w-[15rem] bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"
-                />
               </div>
-            </div>
 
-            <Button 
-              type="button"
-              
-              onClick={(e) => handleAddTags(e, tag)}
-              className="rounded cursor-pointer mt-9 bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base text-gray-200" 
-              >
-                Adicionar
-            </Button>
+              {/* Input opção promoção */}
+              <div>
+                  <label htmlFor="isPromotion" className="block text-sm/6 font-semibold text-white">Preço promocional?</label>
+                  <div className="mt-3">
+                      <select
+                      id="isPromotion"
+                      name="isPromotion"
+                      autoComplete="isSale"
+                      aria-label="isSale"
+                      className="col-start-1 row-start-1 w-[8rem] rounded-md bg-white/5 py-2 pr-7 pl-3.5 text-base text-gray-400 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+                      >
+                          <option className="text-black">Opção</option>
+                          <option className="text-black">Sim</option>
+                          <option className="text-black">Não</option>
+                      </select>
+                  </div>
+              </div>
+
+              <div>
+                  <label htmlFor="isPromotion" className="block text-sm/6 font-semibold text-white">Status</label>
+                  <div className="mt-3">
+                      <select
+                      id="isPromotion"
+                      name="isPromotion"
+                      autoComplete="isSale"
+                      aria-label="isSale"
+                      className="col-start-1 row-start-1 w-[8rem] rounded-md bg-white/5 py-2 pr-7 pl-3.5 text-base text-gray-400 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+                      >
+                          <option className="text-black">Opção</option>
+                          <option className="text-black">Sim</option>
+                          <option className="text-black">Não</option>
+                      </select>
+                  </div>
+              </div>
           </div>
 
-          {listTags.length > 0 ?
-            <ul className="w-[80%] flex flex-wrap gap-x-3 ml-auto mr-auto p-1">
-              {listTags.map((element) => (
-                <li key={element.name}>
-                  <Button 
+
+        {/* Inputs de tags */}
+        <div className="flex flex-wrap gap-6 mt-6 mb-6 justify-center">
+            <div className="flex flex-col items-start">
+              <div className="flex flex-wrap items-center gap-x-5">
+                <div>
+                  <label htmlFor="name" className="block text-sm/6 font-semibold text-white">
+                  Tecnologias ensinadas no curso
+                  </label>
+                  <div className="mt-2.5 w-[30rem]">
+                    <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    autoComplete="given-name"
+                    placeholder="Exemplo: Python, JavaScript, Docker..."
+                    value={tec}
+                    onChange={(e) => {
+                      setTec(e.target.value)
+                      handleFiltertech(tec)}}
+                    className="block rounded-md w-[30rem] bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"
+                    />
+                  </div>
+                </div>
+              </div>
+
+
+              {tec.length > 0 ? (
+                <ScrollArea className="w-[30rem] h-[10rem] flex flex-wrap gap-x-1 p-1 mt-2">
+                  {filterTech.length > 0 ? (
+                    <>
+                      {filterTech.map((element) => (
+                        <Link // cada item precisa de key única
+                          to="#"
+                          key={element.id}
+                          onClick={() => handleAddTech(element.id, element.tech)}
+                          className="text-white p-1 rounded transition-colors duration-200 hover:bg-zinc-700 cursor-pointer w-[100%] block"
+                        >
+                          - {element.tech[0].toUpperCase() + element.tech.slice(1)}
+                        </Link>
+                      ))}
+                    </>
+                  ): (
+                    <div>
+                      <p>
+                        A tecnologia <strong>{tec}</strong> está digitada incorretamente ou não está registrada em nosso banco de dados.
+                      </p>
+                    </div>
+                  )}
+                </ScrollArea>
+              ):(
+                <>
+                  {listTec.length > 0 ? (
+                    <ScrollArea className="w-[30rem] h-[10rem] flex flex-wrap gap-x-3 p-1 mt-2"> 
+                      {listTec.map((element) => (
+                        <Button
+                            type="button"
+                            key={element.id}
+                            onClick={() => handleDeleteTech(element.id)}
+                            className="bg-gray-200 hover:bg-gray-400 text-black text-start truncate cursor-pointer mt-2 ml-1"
+                          >
+                            {element.tech}
+                          </Button>
+                      ))}
+                    </ScrollArea>
+                  ):(
+                    <ul className="p-1 h-[10rem]">
+                      <li className="text-start">
+                        <h2 className="text-gray-200 text-base p-[1rem] font-bold">
+                          Adicione as tecnologias abordadas no curso.
+                        </h2>
+                      </li>
+                    </ul>
+                  )}
+                </>
+              )}
+            </div>
+
+            <div className="flex flex-col items-start w-[30rem]">
+              <div className="flex flex-wrap items-center gap-x-5">
+                <div>
+                  <label htmlFor="name" className="block text-sm/6 font-semibold text-white">
+                  Requisitos para cursar?
+                  </label>
+                  <div className="mt-2.5">
+                    <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    autoComplete="given-name"
+                    placeholder="Ter conhecimento em..."
+                    value={requisit}
+                    onChange={(e) => setRequisit(e.target.value)}
+                    className="block rounded-md w-[22rem] bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"
+                    />
+                  </div>
+                </div>
+
+                <Button 
                   type="button"
-                  onClick={(e) => handleDeleteTags(e, element.name)}
-                  className="bg-gray-200 hover:bg-gray-400 text-black text-start truncate cursor-pointer" 
+                  onClick={(e) => handleAddRequisit(e, requisit)}
+                  className="rounded cursor-pointer mt-9 bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base text-gray-200" 
                   >
-                   {element.name}
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          :   
-            <ul className="w-[80%] rounded ml-auto mr-auto border-1 border-gray-800 p-1">
-              <li>
-                <h2 className="text-gray-200  text-base p-[1rem] font-bold">Digite as tecnologias ensinadas no curso</h2>
-              </li>
-            </ul>
-          }
-          
-
-
-          {/* formulário do que irá aprender */}
-          <div className="flex flex-wrap items-center justify-center gap-x-5">
-            <div className="w-[45%]">
-              <ScrollArea className="h-[15rem] mt-5 border-1 border-gray-700 rounded-md p-1">
-                  <ul className='flex flex-wrap gap-x-3 gap-y-3 justify-start'>
-                    {listWillLearn.length > 0 ?
-                      listWillLearn.map((item) => (
-                        <li>
-                          {/* DEPOIS DEVE SE TROCAR ESTE MAP PARA OBJETO LITERAL */}
-                          <div className="flex flex-wrap items-center gap-3">
-                              <img src={ArrowRight} alt="Icone flecha de demostração" />
-                              <Button 
-                              type="button"
-                              className="bg-zinc-900 block hover:bg-zinc-700 text-gray-200 w-[17rem] text-start truncate cursor-pointer" 
-                              >
-                                {item.name}
-                              </Button>
-                          </div>
-                        </li>
-                      ))
-                    :
-                      <li className="text-sm text-gray-500">
-                        Adicione no campo abaixo tecnologias, funcionalidades ou outros assuntos que o usuário aprenderá neste curso.
-                      </li>
-                    }
-                    
-                  </ul>
-              </ScrollArea>
-
-              <div className="flex flex-wrap gap-x-3 items-center justify-center mt-2.5">
-                <input
-                  id="name"
-                  type="text"
-                  name="name"
-                  value={varWillLearn}
-                  autoComplete="organization"
-                  placeholder="Digite o que o aluno aprenderá..."
-                  onChange={(e) => setVarWillLearn(e.target.value)}
-                  className="block rounded-md w-[25rem] bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"
-                  />
-
-                <Button 
-                type="button"
-                className="rounded cursor-pointer bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base text-gray-200" 
-                onClick={(e) => handleWillLearnAndRequists(e, "willLearn", varWillLearn)}>
-                  Adicionar
+                    Adicionar
                 </Button>
               </div>
-            </div>
 
-            <div className="w-[45%]">
-              <ScrollArea className="h-[15rem] mt-5 border-1 border-gray-700 rounded-md p-1">
-                  <ul className='flex flex-wrap gap-x-3 gap-y-3 justify-start'>
-                    {listRequists.length > 0 ?
-                      listRequists.map((item) => (
-                        <li>
-                            <div className="flex flex-wrap items-center gap-3">
-                                <img src={ArrowRight} alt="Icone flecha de demostração" />
-                                <Button 
-                                type="button"
-                                className="bg-zinc-900 block hover:bg-zinc-700 text-gray-200 w-[17rem] text-start truncate cursor-pointer" 
-                                >
-                                  {item.name}
-                                </Button>
-                            </div>
-                        </li>
-                      ))
-                    :
-                      <li className="text-sm text-gray-500">
-                        Adicione no campo abaixo os requisitos mínimos para o usuário realizar este curso.
-                      </li>
-                    }
-                    
-                  </ul>
-              </ScrollArea>
-
-              <div className="flex flex-wrap gap-x-3 items-center justify-center mt-2.5">
-                <input
-                  id="name"
-                  type="text"
-                  name="name"
-                  autoComplete="organization"
-                  placeholder="Requisitos mínimos..."
-                  value={varRequisits}
-                  onChange={(e) => setVarRequisits(e.target.value)}
-                  className="block rounded-md w-[25rem] bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"
-                  />
-
-                <Button 
-                type="button"
-                className="rounded cursor-pointer bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base text-gray-200" 
-                onClick={(e) => handleWillLearnAndRequists(e, "requisits", varRequisits)}>
-                  Adicionar
-                </Button>
-              </div>
+              {listReq.length > 0 ?
+                <ScrollArea className="w-[30rem] h-[10rem] flex flex-col gap-x-1 mt-2">
+                  {listReq.map((element) => (
+                      <Link
+                        to="#"
+                        key={element.name}
+                        onClick={() => handleDeleteRequisit(element.name)}
+                        className="text-white flex flex-wrap gap-3 items-center break-words p-2 rounded transition-[2s] hover:bg-zinc-700 cursor-pointer w-[30rem]" 
+                        >
+                          <img src={ArrowRigthWhite} alt="Icone de flecha idicadora." />
+                          <p className="w-[27rem]">
+                            {element.name}
+                          </p>
+                      </Link>
+                  ))}
+                </ScrollArea>
+              :   
+                <ul className="p-1 h-[10rem]">
+                  <li className="text-start">
+                    <h2 className="text-gray-200 text-base p-[1rem] font-bold">Adicione os conhecimentos mínimos para cursa.</h2>
+                  </li>
+                </ul>
+              }
             </div>
           </div>
+
+
 
 
           <div className="mt-5">

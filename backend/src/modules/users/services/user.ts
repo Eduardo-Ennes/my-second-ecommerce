@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import redisClient from '../../../infrastructure/config/redisClient'
-import ValidationFieldsUser from '../validations/validationFieldsUser'
-import MethodsUser from '../repositories/MethodsUser'
+import validationFieldsUser from '../validations/validationFieldsUser'
+import repositorieUser from '../repositories/repositorieUser'
 
 
 type FormUser = {
@@ -24,11 +24,11 @@ export async function createUser(req: Request, res: Response) {
   });
 
   try{
-    const result = await ValidationFieldsUser.Fields(elements, true)
+    const result = await validationFieldsUser.Fields(elements, true)
     if(!result.status){
       res.status(400).json(result)
     }
-    const save = await MethodsUser.CreateUser(elements)
+    const save = await repositorieUser.CreateUser(elements)
     if(!save){
       res.status(save.code).json(save)
     }
@@ -45,12 +45,12 @@ export async function loginUser(req: Request, res: Response) {
   const elements: FormUser = req.body
 
   try{
-    const result = await ValidationFieldsUser.Fields(elements, false)
+    const result = await validationFieldsUser.Fields(elements, false)
     if(!result.status){
       res.status(400).json(result)
     }
 
-    const response = await MethodsUser.LoginUser(elements)
+    const response = await repositorieUser.LoginUser(elements)
     res.status(response.code).json(response)
     
   }catch(error){
@@ -62,14 +62,13 @@ export async function loginUser(req: Request, res: Response) {
 export async function getCacheUser(req: Request, res: Response) {
     try{
       const user = await redisClient.get('user')
-      
+      console.log(user)
       if(user != null){
         const cacheUser = JSON.parse(user.toString())
         res.status(200).json({status: true, user: cacheUser})
       }
       else{
         await redisClient.set('user', JSON.stringify({login: false}))
-        
         const getCacheUser = await redisClient.get('user')
         const cacheUser = await JSON.parse(getCacheUser?.toString() || '{}')
         res.status(200).json({status: true, user: cacheUser})
@@ -84,8 +83,13 @@ export async function getCacheUser(req: Request, res: Response) {
 // Por enquanto url de teste: Depois reutilizar para a funcionalidade LOGOUTH
 export async function reset(req: Request, res: Response){
   try{
+    const user = await redisClient.get('user')
+    console.log(user)
     await redisClient.del('user')
-    res.json({message: 'Tudo certo!'})
+    await redisClient.set('user', JSON.stringify({login: false}))
+    const getCacheUser = await redisClient.get('user')
+    const cacheUser = await JSON.parse(getCacheUser?.toString() || '{}')
+    res.status(200).json({status: true, user: cacheUser})
   }catch(error){
     console.log(error)
     res.json({error: 'Não deletou!'})

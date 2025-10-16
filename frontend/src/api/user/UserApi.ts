@@ -46,7 +46,7 @@ class ApisUser {
     async CacheUser(){
         try{
             const response = await fetch('http://localhost:3000/cache/users', {
-                method: 'GET'
+                method: 'GET',
             })
 
             const data = await response.json()

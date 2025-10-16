@@ -98,4 +98,3 @@ volumes:
   db_postgres_mySecond_Ecommerce:
   db_redis_mySecond_Ecommerce:
   db_pgadmin_mySecond_Ecommerce:
-

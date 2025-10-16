@@ -3,6 +3,7 @@ import redisClient from '../../../infrastructure/config/redisClient'
 import bcrypt from 'bcrypt'
 
 type FormUser = {
+    id?: number 
     first_name?: string
     last_name?: string
     email?: string
@@ -86,8 +87,6 @@ class MethodsUser {
                 return {status: cache.status, error: cache.error, code: cache.code}
             }
 
-            const teste = await redisClient.get('user')
-
             return {status: true, message: 'Login realizado com sucesso!', code: 200}
         }catch(error){
             return {status: false, error: 'Houve um erro no servidor. Tente novamente.', code: 500}
@@ -99,7 +98,7 @@ class MethodsUser {
             await redisClient.del('user')
 
             await redisClient.set('user', JSON.stringify({
-                id: object.confirm_password,
+                id: object.id,
                 first_name: object.first_name,
                 last_name: object.last_name,
                 email: object.email,
@@ -107,6 +106,8 @@ class MethodsUser {
                 login: true
             }))
 
+            const userRedis = await redisClient.get('user')
+            console.log('USER REDIS: ', userRedis)
             return {status: true}
         }catch(error){
             console.log('ERROR NA CRIAÇÃO DO CACHE DO USUÁRIO: ', error)

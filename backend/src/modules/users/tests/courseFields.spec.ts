@@ -1,4 +1,4 @@
-import ValidationCorse from '../validations/validationFieldsCorse'
+import ValidationCorse from '../validations/validationFieldsCourse'
 
 const Course = {
     name: 'Curso de python do básico ao avançado',
