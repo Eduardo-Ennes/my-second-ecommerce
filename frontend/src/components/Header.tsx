@@ -14,8 +14,8 @@ import {
 import IconSearch from '../assets/search.png'
 import IconHeart from '../assets/heart.png'
 import DropdownMenuAvatar from './DropdownMenuAvatar';
-import { useEffect, useState } from 'react';
-import Cache from '../api/user/UserApi'
+import { useState } from 'react';
+// import Cache from '../api/user/UserApi'
 
 
 type argsArgument = {
@@ -24,18 +24,18 @@ type argsArgument = {
 
 function Header({args}: argsArgument) {
   const navigate = useNavigate();
-  const [logado, setLogado] = useState()
+  const [logado, setLogado] = useState(true)
 
-  useEffect(() => {
-    const fetchCache = async () => {
-      const response = await Cache.CacheUser();
-      console.log(response)
-      setLogado(response.user.login)
-      console.log(response.user.login)
-    };
+//   useEffect(() => {
+//     const fetchCache = async () => {
+//       const response = await Cache.CacheUser();
+//       console.log(response)
+//       setLogado(response.user.login)
+//       console.log(response.user.login)
+//     };
 
-  fetchCache();
-}, []);
+//   fetchCache();
+// }, []);
 
 
 const Reset = async () => {
