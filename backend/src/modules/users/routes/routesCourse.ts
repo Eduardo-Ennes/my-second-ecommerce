@@ -1,6 +1,11 @@
 import express from 'express'
 const router = express.Router()
-import { createCourse, searchTagstechnologies, searchUserAllCouses, searchUserCourseById, updateCourse } from '../services/course'
+import { 
+    createCourse, 
+    searchTagstechnologies, 
+    searchUserAllCouses, 
+    searchUserCourseById, 
+    updateCourse } from '../services/course'
 
 
 router.post('/create/course', createCourse)

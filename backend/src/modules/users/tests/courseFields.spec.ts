@@ -66,38 +66,6 @@ describe('Promotion -> teste do campo promoção do curso', () => {
 })
 
 
-describe('Technologies -> teste do campo tecnologias do curso', () => {
-    it('Deve retornar: error de campo com mais de 75 caracteres', async () => {
-        const longTech = 'A'.repeat(76) 
-        const validation = await ValidationCorse.Fields({...Course, technologies: [{name: longTech}]})
-        expect(validation.status).toBe(false)
-        expect(validation.error).toBe(`O campo de tecnologias do curso deve possuir no máximo 75 caracteres. ${longTech}.`)
-    })
-
-    it('Deve retornar: error de campo vazio', async () => {
-        const validation = await ValidationCorse.Fields({...Course, technologies: [{name: ''}]})
-        expect(validation.status).toBe(false)
-        expect(validation.error).toBe('O campo de tecnologias do curso não pode conter valores vazios.')
-    })
-})
-
-
-describe('Requisits -> teste do campo requisitos do curso', () => { 
-    it('Deve retornar: error de campo com mais de 75 caracteres', async () => {
-        const longRequisit = 'A'.repeat(76) 
-        const validation = await ValidationCorse.Fields({...Course, requisits: [{name: longRequisit}]})
-        expect(validation.status).toBe(false)
-        expect(validation.error).toBe(`O campo de requisitos do curso deve possuir no máximo 75 caracteres. ${longRequisit}.`)
-    })
-
-    it('Deve retornar: error de campo vazio', async () => {
-        const validation = await ValidationCorse.Fields({...Course, requisits: [{name: ''}]})
-        expect(validation.status).toBe(false)
-        expect(validation.error).toBe('O campo de requisitos do curso não pode conter valores vazios.')
-    })
-})
-
-
 describe('Description -> teste do campo description do curso', () => {
     it('Deve retornar: error de campo com mais de 3000 caracteres', async () => {
         const longDescription = 'A'.repeat(3001) 

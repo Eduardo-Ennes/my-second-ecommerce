@@ -113,7 +113,7 @@ function TableMyCorses() {
         </Table>
 
         {editionCorse && <UpdateCorse id={id} reloadInfos={changeReload}/> }
-        {editionCorse && <UpdateTags /> }
+        {editionCorse && <UpdateTags id={id} /> }
         {editionCorse && <EditCorse /> }
     </>
   )

@@ -145,17 +145,17 @@ function CreateCorse({redirectTo}: {redirectTo: () => void}) {
 
           {error.length > 0 && 
             <div className="sm:col-span-2">
-              <div className="w-[70%] ml-auto mr-auto mt-2 mb-2">
-                  <Alert variant="destructive" className="bg-red-500">
-                      <AlertTitle className="text-gray-200 text-base flex flex-wrap gap-x-3">
-                        <img src={arrowRightWhite} alt="#" />
-                        <p>
-                          {error}
-                        </p>
-                      </AlertTitle>
-                  </Alert>
-              </div>
-          </div>
+                <div className="w-[70%] ml-auto mr-auto mt-2 mb-2">
+                    <Alert variant="destructive" className="bg-red-500">
+                        <AlertTitle className="text-gray-200 text-base flex flex-wrap gap-x-3">
+                          <img src={arrowRightWhite} alt="#" />
+                          <p>
+                            {error}
+                          </p>
+                        </AlertTitle>
+                    </Alert>
+                </div>
+            </div>
           }
 
           <div className="flex justify-end w-[70%] ml-auto mr-auto">

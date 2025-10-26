@@ -12,6 +12,7 @@ import redisClient from './infrastructure/config/redisClient'
 // Routes
 import routerUser from './modules/users/routes/routesUser'
 import routerCourse from './modules/users/routes/routesCourse'
+import routerTags from './modules/users/routes/routesTags'
 
 dotenv.config()
 
@@ -23,6 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use(routerUser)
 app.use(routerCourse)
+app.use(routerTags)
 
 // Conexão com o postgres e inicialização da aplicação
 

@@ -49,40 +49,6 @@ class ValidationFieldsCorse {
             }
         }
 
-        if('technologies' in form){
-            for (const tag of form.technologies) {
-                if (tag.name.length > 75) {
-                    return {
-                        status: false,
-                        error: `O campo de tecnologias do curso deve possuir no máximo 75 caracteres. ${tag.name}.`
-                    }
-                }
-                    if (tag.name.length < 1) {
-                    return {
-                        status: false,
-                        error: `O campo de tecnologias do curso não pode conter valores vazios.`
-                    }
-                }
-            }
-        }
-
-        if('requisits' in form){
-            for (const requisit of form.requisits) {
-                if (requisit.name.length > 75) {
-                    return {
-                        status: false,
-                        error: `O campo de requisitos do curso deve possuir no máximo 75 caracteres. ${requisit.name}.`
-                    }
-                }
-                if (requisit.name.length < 1) {
-                    return {
-                        status: false,
-                        error: `O campo de requisitos do curso não pode conter valores vazios.`
-                    }
-                }
-            }
-        }
-
         if('description' in form){
             if(form.description.length > 3000){
                 return {status: false, error: `A descrição deve conter no máximo 3000 caracteres.`}
