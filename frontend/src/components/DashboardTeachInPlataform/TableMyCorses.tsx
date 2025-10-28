@@ -10,7 +10,6 @@ import { Badge } from "@/components/ui/badge"
 import { useEffect, useState } from "react"
 import { Button } from '@headlessui/react'
 import iconEdit from '../../assets/edit.png'
-import EditCorse from "./TableMyCorse/EditCorse"
 import UpdateCorse from "./TableMyCorse/UpdateCorse"
 import UpdateTags from './TableMyCorse/UpdateTags'
 
@@ -114,7 +113,6 @@ function TableMyCorses() {
 
         {editionCorse && <UpdateCorse id={id} reloadInfos={changeReload}/> }
         {editionCorse && <UpdateTags id={id} /> }
-        {editionCorse && <EditCorse /> }
     </>
   )
 }

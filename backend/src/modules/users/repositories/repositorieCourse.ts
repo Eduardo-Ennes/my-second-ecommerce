@@ -11,6 +11,7 @@ type Course = {
 
 type CourseUpdate = {
   name: string
+  image: string
   price: number
   price_promotion?: number
   promotion: string
@@ -88,6 +89,5 @@ class RepositorieCourse {
         }
     }
 }
-
 
 export default new RepositorieCourse()

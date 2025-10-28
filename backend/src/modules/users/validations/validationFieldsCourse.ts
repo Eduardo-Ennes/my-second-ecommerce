@@ -1,10 +1,9 @@
 type Course = {
   name: string
+  image: string
   price: number
   price_promotion?: number
   promotion: boolean
-  technologies: { name: string }[]
-  requisits: { name: string }[]
   description: string
 }
 
@@ -46,6 +45,12 @@ class ValidationFieldsCorse {
         if('promotion' in form){
             if(typeof form.promotion !== 'boolean'){
                 return {status: false, error: 'Houve um error ao declarar opção promocional!'}
+            }
+        }
+
+        if('image' in form){
+            if(form.image.length > 500){
+                return {status: false, error: 'Imagem possui uma url muito longa ou inválida.'}
             }
         }
 

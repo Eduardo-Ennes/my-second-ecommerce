@@ -1,4 +1,3 @@
-// import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import {
@@ -16,10 +15,11 @@ type Course = {
   price_promotion?: string
   promotion: string
   status: string
+  image: string | File
   description: string
 }
 
-function UpdateCorse({ id, reloadInfos }: { id: number | null; reloadInfos: () => void }) {
+function UpdateCorse({ id }: { id: number | null; }) {
   const navigate = useNavigate()
   const [err, setErr] = useState('')
   const [course, setCourse] = useState<Course | null>(null)
@@ -68,7 +68,7 @@ function UpdateCorse({ id, reloadInfos }: { id: number | null; reloadInfos: () =
       }
 
       window.alert(response.message)
-      reloadInfos()
+      navigate('/dashboard')
     }catch(error){
       console.log(error)
     }
@@ -81,7 +81,7 @@ function UpdateCorse({ id, reloadInfos }: { id: number | null; reloadInfos: () =
           <h2 className="text-gray-200 text-2xl font-bold mt-40 ml-auto mr-auto mb-20 text-center border-b border-zinc-700 w-[90%]">{course.name}</h2>
 
           <form onSubmit={(e) => {handleUpdateCourse(e)}} className="m-auto flex flex-col gap-y-8 mb-30"> 
-            <div className="w-[90%] ml-auto mr-auto flex flex-wrap items-center justify-between">
+            <div className="w-[90%] ml-auto mr-auto flex flex-wrap items-center justify-between gap-y-8">
                 {/* Input nome do curso */}
                 <div>
                     <label htmlFor="name" className="block text-sm/6 font-semibold text-white">
@@ -177,7 +177,28 @@ function UpdateCorse({ id, reloadInfos }: { id: number | null; reloadInfos: () =
                         </select>
                     </div>
                 </div>
+
+
+                <div>
+                  <label htmlFor="file" className="block text-sm/6 font-semibold text-white">
+                  Carregar imagem do curso
+                  </label>
+                  <div className="mt-2.5">
+                      <input
+                      id="file"
+                      type="file"
+                      name="file"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          setCourse({ ...course, image: e.target.files[0] });
+                        }
+                      }}
+                      className="block rounded-md w-[30rem] bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"
+                      />
+                  </div>
+                </div>
             </div>
+            
 
             <div className="mt-5">
                 <Textarea 
@@ -189,7 +210,7 @@ function UpdateCorse({ id, reloadInfos }: { id: number | null; reloadInfos: () =
 
             {err.length > 0 && 
               <div className="sm:col-span-2">
-                <div className="w-full ml-auto mr-auto mt-2 mb-2">
+                <div className="w-[80%] ml-auto mr-auto mt-2 mb-2">
                     <Alert variant="destructive" className="bg-red-500">
                         <AlertTitle className="text-gray-200">{err}</AlertTitle>
                     </Alert>

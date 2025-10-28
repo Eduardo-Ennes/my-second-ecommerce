@@ -2,6 +2,7 @@ import ValidationCorse from '../validations/validationFieldsCourse'
 
 const Course = {
     name: 'Curso de python do básico ao avançado',
+    image: 'kugfugfiygiyg/wrtghwrth/whtwrh',
     price: 139.99,
     price_promotion: 29.99,
     promotion: true,
@@ -78,6 +79,16 @@ describe('Description -> teste do campo description do curso', () => {
         const validation = await ValidationCorse.Fields({...Course, description: ''})
         expect(validation.status).toBe(false)
         expect(validation.error).toBe('A descrição não pode ser vazio.')
+    })
+})
+
+
+describe('Image -> teste da imagem do curso', () => {
+    it('Deve retorna: error de imagem inválida', async () => {
+        const longUrl = 'A'.repeat(501)
+        const validation = await ValidationCorse.Fields({...Course, image: longUrl})
+        expect(validation.status).toBe(false)
+        expect(validation.error).toBe('Imagem possui uma url muito longa ou inválida.')
     })
 })
 

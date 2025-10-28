@@ -3,6 +3,8 @@ import Knex from '../../../infrastructure/config/postgres'
 import validationCourse from '../validations/validationFieldsCourse'
 import repositorieCourse from '../repositories/repositorieCourse'
 import redisClient from '../../../infrastructure/config/redisClient'
+import fs from 'fs';
+import path from 'path'
 
 
 // cria um novo curso
@@ -49,9 +51,9 @@ export async function searchUserAllCouses(req: Request, res: Response){
 
 // busca um curso específico pelo id para edição
 export async function searchUserCourseById(req: Request, res: Response){
-    const id = req.params.id
+    const id = Number(req.params.id)
     try{
-        const course = await Knex.select('name', 'price', 'price_promotion', 'promotion', 'description', 'status').from('course').where('id', id).first()
+        const course = await Knex.select('name', 'price', 'price_promotion', 'promotion', 'description', 'status', 'image').from('course').where('id', id).first()
 
         const cover = await {...course, promotion: String(course.promotion), status: String(course.status)}
 
@@ -62,23 +64,29 @@ export async function searchUserCourseById(req: Request, res: Response){
 }
 
 
-// Atualiza as informações de um curso
 export async function updateCourse(req: Request, res: Response){
     try{
         const id = Number(req.params.id)
-        const form = {...req.body, 
+
+        const imageCache = await redisClient.get('imageCache')
+
+        var form = {...req.body, 
         price: parseFloat(req.body.price), 
         price_promotion: parseFloat(req.body.price_promotion),
+        image: imageCache,
         promotion: req.body.promotion === 'true' ? true : false, 
         status: req.body.status === 'true' ? true : false}
 
         const validations = await validationCourse.Fields(form)
         if(!validations.status){
+            const imagePath = path.resolve(__dirname, `../media/${imageCache}`)
+            fs.unlinkSync(imagePath) // Caso haja algum erro de validação, a imagem salva pelo multer será excluida.
             res.status(400).json({status: validations.status, error: validations.error})
             return
         }
 
         const result = await repositorieCourse.UpdateCourse(id, form)
+        console.log(result)
         res.status(result.code).json(result)
         
     }catch(error){

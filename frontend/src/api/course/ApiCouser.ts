@@ -8,6 +8,7 @@ type Course = {
 
 type CourseUpdate = {
   name: string
+  image: string | File
   price: string
   price_promotion?: string
   promotion: string
@@ -40,17 +41,27 @@ class ApiCourse{
     // API para atualizar um curso
     async UpdateCourse(id: number, form: CourseUpdate){
       try{
+        if (!form || !id) return;
+        
+        const formData = new FormData()
+        formData.append('name', form.name)
+        formData.append('price', form.price)
+        if(form.price_promotion) formData.append('price_promotion', form.price_promotion)
+        formData.append('promotion', form.promotion)
+        formData.append('status', form.status)
+        formData.append('description', form.description)
+
+        // Adiciona o arquivo se existir
+        if(form.image instanceof File) {
+          formData.append('file', form.image)
+        }
+
         const response = await fetch(`http://localhost:3000/update/course/${id}`, {
           method: 'PUT',
-          headers: {
-            'content-type': 'application/json',
-            'accept': 'application/json'
-          },
-          body: JSON.stringify(form)
+          body: formData
         })
 
         const data = await response.json()
-        console.log(data)
         return data
       }catch(error){
         console.log(error)
