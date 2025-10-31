@@ -12,6 +12,7 @@ import { Button } from '@headlessui/react'
 import iconEdit from '../../assets/edit.png'
 import UpdateCorse from "./TableMyCorse/UpdateCorse"
 import UpdateTags from './TableMyCorse/UpdateTags'
+import EditionLeassons from './TableMyCorse/EditionLeassons'
 
 function TableMyCorses() {
     const [reload, setReload] = useState(false)
@@ -19,8 +20,8 @@ function TableMyCorses() {
         setReload(true)
     }
 
-    const [editionCorse,setEditionCorse] = useState<false | true>(false)
-    const [id, setId] = useState<number| null>(null)
+    const [editionCorse,setEditionCorse] = useState<false | true>(true)
+    const [id, setId] = useState<number| null>(1)
     const [userCourses, setUserCourses] = useState<Array<{
         id: number;
         name: string;
@@ -113,6 +114,7 @@ function TableMyCorses() {
 
         {editionCorse && <UpdateCorse id={id} reloadInfos={changeReload}/> }
         {editionCorse && <UpdateTags id={id} /> }
+        {editionCorse && <EditionLeassons /> }
     </>
   )
 }

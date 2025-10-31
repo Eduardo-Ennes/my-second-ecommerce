@@ -44,24 +44,24 @@ function ResponseMessage() {
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[425px] bg-zinc-900 border-gray-500 text-gray-200">
 
-                        <Textarea 
-                        className="h-[10rem] block rounded-md bg-white/5 px-3.5 py-2 text-base text-white placeholder:text-gray-500 !border-gray-500" 
-                        placeholder="Responsa a pergunta do aluno aqui..." /> 
-                        
-                        <DialogFooter>
-                            <DialogClose asChild>
-                                <Button 
-                                type="button"
-                                className="rounded cursor-pointer bg-red-500 hover:bg-red-600 px-4 py-2 text-base text-zinc-900" onClick={(e) => e.stopPropagation()}>
-                                Cancel
-                                </Button>
-                            </DialogClose>
-                                <Button 
-                                type="button"
-                                className="rounded cursor-pointer bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base text-gray-200" onClick={(e) => e.stopPropagation()}>
-                                Enviar
-                                </Button>
-                        </DialogFooter>
+                            <Textarea 
+                            className="h-[10rem] block rounded-md bg-white/5 px-3.5 py-2 text-base text-white placeholder:text-gray-500 !border-gray-500" 
+                            placeholder="Responsa a pergunta do aluno aqui..." /> 
+                            
+                            <DialogFooter>
+                                <DialogClose asChild>
+                                    <Button 
+                                    type="button"
+                                    className="rounded cursor-pointer bg-red-500 hover:bg-red-600 px-4 py-2 text-base text-zinc-900" onClick={(e) => e.stopPropagation()}>
+                                    Cancel
+                                    </Button>
+                                </DialogClose>
+                                    <Button 
+                                    type="button"
+                                    className="rounded cursor-pointer bg-zinc-700 hover:bg-zinc-800 px-4 py-2 text-base text-gray-200" onClick={(e) => e.stopPropagation()}>
+                                    Enviar
+                                    </Button>
+                            </DialogFooter>
                         </DialogContent>
                     </form>
                 </Dialog>
