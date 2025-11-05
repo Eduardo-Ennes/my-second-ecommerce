@@ -25,7 +25,7 @@ function UpdateCorse({ id }: { id: number | null; }) {
   const [course, setCourse] = useState<Course | null>(null)
 
 
-   // Função de fetch memorável
+  // Função de fetch memorável
   // Executa o fetch inicialmente
   useEffect(() => {
     const ApiSearchDeatilCourse = async () => {

@@ -17,10 +17,10 @@ class ValidationFieldsCorse {
     async Fields (form: Course): Promise<ResponseValidation> {
         if('name' in form){
             if(form.name.length > 75) {
-                return {status: false, error: 'O nome do curso pode conter apenas 75 caracteres.'}
+                return {status: false, error: 'Nome pode conter apenas até 75 caracteres.'}
             }
             else if(form.name.length < 1) {
-                return {status: false, error: 'Nome do curso não pode ser vazio.'}
+                return {status: false, error: 'Nome não pode ser vazio.'}
             }
         }
 
@@ -45,12 +45,6 @@ class ValidationFieldsCorse {
         if('promotion' in form){
             if(typeof form.promotion !== 'boolean'){
                 return {status: false, error: 'Houve um error ao declarar opção promocional!'}
-            }
-        }
-
-        if('image' in form){
-            if(form.image.length > 500){
-                return {status: false, error: 'Imagem possui uma url muito longa ou inválida.'}
             }
         }
 

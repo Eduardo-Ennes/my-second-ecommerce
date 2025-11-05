@@ -5,7 +5,7 @@ import { createTechCourse,
     deleteTechCourse,
     createTagRequisist,
     searchRequisitsCourse,
-    deleteRequisitCourse } from '../services/tags'
+    deleteRequisitCourse } from '../controllers/tags'
 
     
 // Technologie

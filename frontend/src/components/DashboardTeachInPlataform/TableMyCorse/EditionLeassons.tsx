@@ -1,53 +1,89 @@
-import ReactPlayer from 'react-player';
-import Add from '../../../assets/add.png'
-import worlwide from '../../../assets/worlwide.png'
+
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { Button } from '@headlessui/react';
 import ModalEditionModule from './modalsEditionLeassons/ModalEditionModule'
 import ModalEditionLeasson from './modalsEditionLeassons/ModalEditionLeasson'
 import ModalCreateLeasson from './modalsEditionLeassons/ModalCreateLeasson';
 import FileLeassons from './modalsEditionLeassons/FileLeassons';
+import ReactPlayer from 'react-player';
+import ApiCourseModule from '../../../api/editionCourse/ApiCourseModule';
 
+// Este video é o inicial quando o template é aberto
+import MaltaVideo from '../../../media/malta.mp4'
 
 type dataCourse = {
-  idModule: number
-  nameModule: string
-  position: number
+  id?: number
+  name?: string
+  position?: number
   leassons: {
-    idLeasson: number
-    nameLeasson: string
-    url: string
-    position: number
-  }[]
+    id?: number | undefined 
+    name?: string | undefined 
+    url?: string | undefined 
+    position?: number | undefined 
+  }[] | undefined
 }
 
+function EditionLeassons({id}: {id: number | null}) {
+  const navigate = useNavigate()
 
-function EditionLeassons() {
-
+  // Os ids abaixo são utilizados para que apenas um objeto seja buscado na api, será usado como estado para controlar, se não todos serão buscados por que os templates dos modais estão dentro do for.
+  const [idModule, setIdModule] = useState<number | null>(null)
+  const [idLeasson, setIdLeasson] = useState<number | null>(null)
+  
+  // variavel que armazena o video
   const [video, setVideo] = useState<string>('')
-  const [id, setId] = useState<number | null>(null)
-  const [course, setCourse] = useState<Array<dataCourse>>([
-    {idModule: 1, 
-    nameModule: 'Estrutura de repetição',
-    position: 1,
-    leassons: [
-      {idLeasson: 1, nameLeasson: 'Estrutura de repetição for', url: 'https://youtu.be/JzUxNqDnFLA?si=pX2Lb-bm7m876dMh', position: 1},
-      {idLeasson: 2, nameLeasson: 'Estrutura de repetição while', url: 'https://youtu.be/0WEA3zHJl28?si=fSqkamXPg4bK6vkp', position: 2}]}, 
+  // Apenas armazena uma string para a criação de um módulo
+  const [createModule, setCreateModule] = useState('')
+  // variavel que armazena todo o objeto, modulos e aulas 
+  const [course, setCourse] = useState<Array<dataCourse>>([])
 
-    {idModule: 2, 
-    nameModule: 'Funções',
-    position: 2,
-    leassons: [
-      {idLeasson: 1, nameLeasson: 'Introdução a função', url: 'https://youtu.be/8kooIgKESYE?si=DMBqJ2uXk6iKycXN', position: 1},
-      {idLeasson: 2, nameLeasson: 'Trabalhando com paramêtros nas funções', url: 'https://youtu.be/28W_sotzXUw?si=-njdfc1UVjXxGLeN', position: 2}]},  
-  ])
+  const reload = () => {
+    SearchLeassons()
+  } // Função para buscar todo o course atualizado, usado em templates filhos
+
+  // Busca todo o objeto para as exibições dos módulos e aulas
+  const SearchLeassons = useCallback(async () => {
+    try{
+      // Essa função busca todos os dados das aulas, módulo e aulas, está função está na classe da api dos módulos.
+      const response = await ApiCourseModule.searchAll(id)
+      if(!response.status){
+        window.alert(response.error)
+        navigate('/dashboard')
+      }
+ 
+      setCourse(response.data)
+    }catch(error){
+      console.log(error)
+      window.alert('Houve um error ao se conectar a função da api que busca as aulas. Tente novamente.')
+      navigate('/dashboard')
+    }
+  }, [id, navigate])
+
+  useEffect(() => {
+    SearchLeassons()
+  }, [SearchLeassons])
 
 
-  const selectVideo = (url: string) => {
-    if(url.length < 1 ) return 
+  // Cria um módulo
+  const handleCreateModule = async () => {
+    try{
+      const position = course.length + 1
+      const response = await ApiCourseModule.createModule(id, createModule, position)
+      if(!response.status){
+        window.alert(response.error)
+        return;
+      }
 
-    setVideo(url)
+      SearchLeassons()
+      setCreateModule('')
+    }catch(error){
+      console.log(error)
+      window.alert('Houve um error ao chamar a função da api de criação do módulo. Tente novamente. ')
+      navigate('/dashboard')
+    }
   }
 
   return (
@@ -57,53 +93,89 @@ function EditionLeassons() {
 
       <main className='flex flex-wrap p-2 justify-center'>
           <div className='p-1'>
-            <ReactPlayer 
-            src={video}
-            controls
-            playing
-            width='48rem'
-            height='27rem'
-            />
+            {video.length > 0 ? (
+              <ReactPlayer 
+              src={`http://localhost:3000/search/course/leasson/${video}`}
+              controls
+              playing
+              width='48rem'
+              height='27rem'
+              />
+            ):(
+              <ReactPlayer 
+              src={MaltaVideo}
+              controls
+              playing
+              width='48rem'
+              height='27rem'
+              />
+            )}
+            
           </div>
 
           <ScrollArea className='h-[27rem] w-[30rem]'>
-            {course.length > 0 ? (
+            {course.length > 0 && 
               <section className='flex flex-col gap-y-5 p-1'>
                 {course.map(element => (
-                  <div>
-                    <div key={element.idModule} className='flex flex-wrap p-1 border-t-1 border-zinc-700 itens-center justify-between hover:bg-zinc-800 rounded'>
-                      <Link to='#' className='pl-1 transition-[2s] w-[28rem] truncate font-bold'> {element.position}.0 {element.nameModule}</Link>
+                  <div key={element.id}>
+                    <div 
+                    onClick={() => setIdModule(element.id ?? 0)}
+                    className='flex flex-wrap p-1 border-t-1 border-zinc-700 itens-center justify-between hover:bg-zinc-800 rounded'>
+                      <Link to='#' 
+                      className='pl-1 transition-[2s] w-[28rem] truncate font-bold'> {element.position}.0 {element.name}</Link>
 
-                      <ModalEditionModule id={id}/>
+                      {/* Modal para edição dos módulos, aonde é passado o id do módulo para deleção e atualização. O id é passado por uma variável para controlar a api de busca dos objetos, pq o modal esta dentro de um for, então ele carrega e é chamado a cada loop. */}
+                      <ModalEditionModule id={Number(idModule)} reload={reload}/>
                       
                     </div>
 
-                    {element.leassons.map(leasson => (
-                      <div 
-                      key={leasson.idLeasson} 
-                      className='flex flex-wrap itens-center p-1 justify-between mt-2 hover:bg-zinc-800 rounded'
-                      onClick={() => {selectVideo(leasson.url)}}>
-                        <Link to='#' className='pl-6 transition-[2s] w-[27rem] truncate'>{element.position}.{leasson.position} {leasson.nameLeasson}</Link>
-                        
-                        <ModalEditionLeasson id={leasson.idLeasson} />
-
-                      </div>
-                    ))}
-
-                    <ModalCreateLeasson />
+                    {(element.leassons ?? []).length > 0 && 
+                      <>
+                        {(element.leassons ?? []).map(leasson => (
+                          <div 
+                            key={leasson.id} 
+                            onClick={() => setIdLeasson(leasson.id ?? 0)}
+                            className='flex flex-wrap itens-center p-1 justify-between mt-2 hover:bg-zinc-800 rounded'>
+                            <Link 
+                              to='#' 
+                              onClick={() => setVideo(leasson.url ?? '')}
+                              className='pl-6 transition-[2s] w-[27rem] truncate'>
+                              {element.position}.{leasson.position} {leasson.name}
+                            </Link>
+                            {/* Modal para edição de aulas, aonde é passado o id da aula para deleção e atualização. O id é passado por uma variável para controlar a api de busca dos objetos, por que o modal esta dentro de um for, então ele carrega e é chamado a cada loop. */}
+                            <ModalEditionLeasson id={idLeasson} reload={reload}/>
+                          </div>
+                        ))}
+                      </>
+                    }
+                    
+                    {/* Modal para criação de uma aula, é passado o id do módulo para fazer referência do banco de dados */}
+                    <ModalCreateLeasson idModule={element.id} reload={reload}/>
                     
                   </div>
                 ))}
               </section>
-            ):(
-              <Link to='#' className='flex flex-col gap-y-2 items-center p-1 mt-1 hover:bg-zinc-900 rounded'>
-                <img src={worlwide} alt="Icone do mundo" className='h-[32px] w-[32px]'/>
-                <div className='flex flex-wrap justify-center gap-2 mt-1'>
-                  <img src={Add} alt="Video aula" className='mt-auto mb-auto'/>
-                  <p>Adicionar aula</p>
+            }
+
+              <div className='flex flex-col gap-y-2 items-center p-1 mt-20 border-t-1 border-zinc-700'>
+                <label htmlFor="module">Campo para a criação do módulo</label>
+                <input 
+                type="text" 
+                name='module'
+                value={createModule}
+                onChange={(e) => setCreateModule(e.target.value)}
+                placeholder='Digite o nome do módulo: ' 
+                className="w-[25rem] rounded-md bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500"/>
+                <div>
+                  
                 </div>
-              </Link>
-            )}
+                <Button 
+                  type="button"
+                  onClick={() => handleCreateModule()}
+                  className="w-[10rem] rounded cursor-pointer bg-fuchsia-900 hover:bg-fuchsia-950 px-4 py-2 text-base text-gray-200 mt-10">
+                      Criar módulo
+                </Button>
+              </div>
           </ScrollArea>
       </main>
 

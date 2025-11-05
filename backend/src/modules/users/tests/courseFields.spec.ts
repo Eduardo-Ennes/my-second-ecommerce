@@ -17,13 +17,13 @@ describe('Name -> teste do nome do curso', () => {
         const longName = 'A'.repeat(76)
         const validation = await ValidationCorse.Fields({...Course, name: longName})
         expect(validation.status).toBe(false)
-        expect(validation.error).toBe('O nome do curso pode conter apenas 75 caracteres.')
+        expect(validation.error).toBe('Nome pode conter apenas até 75 caracteres.')
     })
 
     it('Deve retornar: error de campo vazio', async () => {
         const validation = await ValidationCorse.Fields({...Course, name: ''})
         expect(validation.status).toBe(false)
-        expect(validation.error).toBe('Nome do curso não pode ser vazio.')
+        expect(validation.error).toBe('Nome não pode ser vazio.')
     })
 })
 
@@ -79,16 +79,6 @@ describe('Description -> teste do campo description do curso', () => {
         const validation = await ValidationCorse.Fields({...Course, description: ''})
         expect(validation.status).toBe(false)
         expect(validation.error).toBe('A descrição não pode ser vazio.')
-    })
-})
-
-
-describe('Image -> teste da imagem do curso', () => {
-    it('Deve retorna: error de imagem inválida', async () => {
-        const longUrl = 'A'.repeat(501)
-        const validation = await ValidationCorse.Fields({...Course, image: longUrl})
-        expect(validation.status).toBe(false)
-        expect(validation.error).toBe('Imagem possui uma url muito longa ou inválida.')
     })
 })
 

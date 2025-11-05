@@ -20,8 +20,8 @@ function TableMyCorses() {
         setReload(true)
     }
 
-    const [editionCorse,setEditionCorse] = useState<false | true>(true)
-    const [id, setId] = useState<number| null>(1)
+    const [editionCorse, setEditionCorse] = useState<false | true>(false)
+    const [id, setId] = useState<number| null>(null)
     const [userCourses, setUserCourses] = useState<Array<{
         id: number;
         name: string;
@@ -112,9 +112,9 @@ function TableMyCorses() {
             </TableBody>
         </Table>
 
-        {editionCorse && <UpdateCorse id={id} reloadInfos={changeReload}/> }
+        {editionCorse && <UpdateCorse id={id} /> }
         {editionCorse && <UpdateTags id={id} /> }
-        {editionCorse && <EditionLeassons /> }
+        {editionCorse && <EditionLeassons id={id}/> }
     </>
   )
 }

@@ -1,6 +1,6 @@
 import express from 'express'
 const router = express.Router()
-import { createUser, loginUser, getCacheUser, reset } from '../services/user'
+import { createUser, loginUser, getCacheUser, reset } from '../controllers/user'
 
 
 router.post('/reset', reset)

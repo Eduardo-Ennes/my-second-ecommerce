@@ -6,7 +6,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 
 function FileLeassons() {
-    const [files, setFiles] = useState<Array<{id: Number, file: string}>>([
+    const [files, setFiles] = useState<Array<{id: number, file: string}>>([
         {id: 1, file: 'teste.png'},
         {id: 2, file: 'teste.mais.ainda'}
     ])
