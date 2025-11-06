@@ -38,8 +38,6 @@ class repositorieModule {
                 return{status: false, error: 'Módulo não encontrado.', code: 404}
             }
 
-            console.log(data)
-
             return{status: true, data: data[0], code: 200}
         }catch(error){
             console.log(error)
@@ -97,7 +95,7 @@ class repositorieModule {
 
                 module.leassons = leassons
             }
-
+            
             return{status: true, data: modules, code: 200}
         }catch(error){
             return {status: false, error: 'Houve um error ao buscar as aulas do curso no banco de dados.', code: 500}

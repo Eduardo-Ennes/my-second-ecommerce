@@ -33,8 +33,12 @@ function EditionLeassons({id}: {id: number | null}) {
   const [idModule, setIdModule] = useState<number | null>(null)
   const [idLeasson, setIdLeasson] = useState<number | null>(null)
   
-  // variavel que armazena o video
-  const [video, setVideo] = useState<string>('')
+  // Está variavel irá armazenar o id e o video de uma aula. O id será utilizado e passado para o template do file para ser usado como referência nas operações e controle de estado do template. O video será usado para armazenar o valor da url da aula, e ser usado diretamente na api para renderização do video.
+  const [infoLeasson, setInfoLeasson] = useState<{id: number | null, video: string}>({
+    id: null, 
+    video: ''
+  })
+
   // Apenas armazena uma string para a criação de um módulo
   const [createModule, setCreateModule] = useState('')
   // variavel que armazena todo o objeto, modulos e aulas 
@@ -93,9 +97,9 @@ function EditionLeassons({id}: {id: number | null}) {
 
       <main className='flex flex-wrap p-2 justify-center'>
           <div className='p-1'>
-            {video.length > 0 ? (
+            {infoLeasson.video.length > 0 ? (
               <ReactPlayer 
-              src={`http://localhost:3000/search/course/leasson/${video}`}
+              src={`http://localhost:3000/search/course/leasson/${infoLeasson.video}`}
               controls
               playing
               width='48rem'
@@ -138,7 +142,7 @@ function EditionLeassons({id}: {id: number | null}) {
                             className='flex flex-wrap itens-center p-1 justify-between mt-2 hover:bg-zinc-800 rounded'>
                             <Link 
                               to='#' 
-                              onClick={() => setVideo(leasson.url ?? '')}
+                              onClick={() => setInfoLeasson({id: leasson.id ?? 0, video: leasson.url ?? ''})}
                               className='pl-6 transition-[2s] w-[27rem] truncate'>
                               {element.position}.{leasson.position} {leasson.name}
                             </Link>
@@ -179,7 +183,9 @@ function EditionLeassons({id}: {id: number | null}) {
           </ScrollArea>
       </main>
 
-      <FileLeassons />
+      {infoLeasson.id !== null &&
+        <FileLeassons id={infoLeasson.id}/>
+      }
     </>
   )
 }
