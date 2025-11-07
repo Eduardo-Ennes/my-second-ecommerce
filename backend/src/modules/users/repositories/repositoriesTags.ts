@@ -7,6 +7,8 @@ type Response = {
     code?: number
 }
 
+// Nesta classe de administra requisitos e tags 
+
 class RepositorieTagsCourse {
     // Função que cria um requisito
     async createRequisit(idCourse: number, requisit: string): Promise<Response>{

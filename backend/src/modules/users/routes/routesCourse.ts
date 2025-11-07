@@ -17,12 +17,25 @@ import { createModule, searchDetailModule, updateModule, deleteModule, searchAll
 // files 
 import { createFile, searchFiles, deleteFile, fileUpload } from '../controllers/courseFile'
 
+
+// getCourse
+import getCourse from '../controllers/getCourse'
+
+
 // Cria a instância do multer usando sua config
 const upload = multer(multerConfig)
 const uploadLeasson = multer(multerConfigLeasson)
 const uploadFile = multer(multerConfigFile)
 
-// ! Aqui neste routes está todas as rotas envolvidas com o curso em si, criação, atualização, deleção e busca, tudo que é envolvido a ele. Apenas os controllers e repositories são em documentos separados devido ao tamanho do código, para uma melhor organização e visualização.
+// Aqui neste routes está todas as rotas envolvidas com o curso em si, criação, atualização, deleção e busca, tudo que é envolvido a ele. Apenas os controllers e repositories são em documentos separados devido ao tamanho do código, para uma melhor organização e visualização.
+
+
+// getCourse
+router.get('/search/all/courses', getCourse.searchAllCourses)
+router.get('/search/course/image/:name', getCourse.getImageCourse)
+
+
+
 
 // Course
 router.post('/create/course', createCourse)

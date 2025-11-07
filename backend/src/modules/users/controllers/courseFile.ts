@@ -40,7 +40,6 @@ export async function searchFiles(req: Request, res: Response){
             (element as any).url = `http://localhost:3000/upload/file/${element.file}`;
         }
 
-        console.log(files)
         res.status(200).json({status: true, data: files})
     }catch(error){
         res.status(500).json({status: false, error: 'Houve um error ao buscar os arquivo.'})
@@ -72,7 +71,6 @@ export async function deleteFile(req: Request, res: Response){
 export async function fileUpload(req: Request, res: Response){
     try{
         const name = req.params.name
-        console.log(name)
         const basePath = path.resolve(__dirname, "../files/");
         const filePath = path.join(basePath, name);
 
