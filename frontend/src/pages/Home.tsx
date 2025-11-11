@@ -6,16 +6,21 @@ import { useState } from 'react'
 
 function Home() {
   const [idTag, setIdTag] = useState<number | null>(null)
+  const [nameSearch, setNameSearch] = useState('')
 
-  const handleIdTag = (id: number) => {
+  const handleIdTag = (id: number | null) => {
     setIdTag(id)
+  }
+
+  const setSearchName = (name: string) => {
+    setNameSearch(name)
   }
 
   return (
     <>
-      <Header args={"Yes"}/>
+      <Header args={"Yes"} nameSearchCourses={setSearchName}/>
       <NavCategories id_tag={handleIdTag}/>
-      <ListProducts id={idTag}/>
+      <ListProducts id={idTag} nameSearchCourses={nameSearch}/>
       <Footer />
     </>
   )

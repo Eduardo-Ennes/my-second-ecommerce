@@ -44,7 +44,7 @@ class RepositorieCourse {
 
             try{
                 await Knex.insert({
-                    name: form.name,
+                    name: form.name.toLowerCase(),
                     price: form.price,
                     price_promotion: form.price_promotion,
                     promotion: form.promotion,

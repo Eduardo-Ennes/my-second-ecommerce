@@ -6,12 +6,13 @@ import redisClient from './infrastructure/config/redisClient'
 // import swaggerUi from 'swagger-ui-express'
 // import swaggerJsdoc from "swagger-jsdoc";
 
-// Função usada para criar tags de tecnologia no banco de dados
-// import createTchs from './modules/createTechs'
 
 // Routes
 import routerUser from './modules/users/routes/routesUser'
 import routerCourse from './modules/users/routes/routesCourse'
+import routesCourseModules from './modules/users/routes/routesCourseModule'
+import routesCourseLeassons from './modules/users/routes/routesCourseLeasson'
+import routesCourseFile from './modules/users/routes/routesCourseFile'
 import routerTags from './modules/users/routes/routesTags'
 
 dotenv.config()
@@ -25,9 +26,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(routerUser)
 app.use(routerCourse)
 app.use(routerTags)
+app.use(routesCourseModules)
+app.use(routesCourseLeassons)
+app.use(routesCourseFile)
+
 
 // Conexão com o postgres e inicialização da aplicação
-
 redisClient.connect()
     .then(() => {
         console.log("Redis inciailizado com sucesso!")

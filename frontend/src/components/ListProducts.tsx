@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
+import ApiSearchCoursesAndTechnologies from '../api/course/ApiSearchCourses'
 
 type Courses = {
     id_user: number
@@ -13,17 +14,26 @@ type Courses = {
     last_name: string
 }
 
-function ListProducts({id}: {id: number | null}) {
+
+type Props = {
+    id: number | null 
+    nameSearchCourses: string 
+}
+
+function ListProducts({id, nameSearchCourses}: Props) {
+    console.log(id)
     const [courses, setCourses] = useState<Array<Courses>>([])
 
-    const handleSearchCourses = useCallback(async () => {
+    const handleSearchAllCourses = useCallback(async () => {
         try{
-            const response = await fetch('http://localhost:3000/search/all/courses', {
-                method: 'GET'
-            })
+            const response =  await ApiSearchCoursesAndTechnologies.SearchAllCourses()
 
-            const data = await response.json()
-            setCourses(data.data)
+            if(!response.status){
+                window.alert(response.error)
+                return;
+            }
+
+            setCourses(response.data)
         }catch(error){
             console.log(error)
             window.alert('Houve um erro de conexão com a função da api TAL.')
@@ -32,25 +42,59 @@ function ListProducts({id}: {id: number | null}) {
 
 
     useEffect(() => {
-        handleSearchCourses()
-    }, [handleSearchCourses])
-
-
-    const handleSearchCourseByTag = useCallback(async () => {
-        // Apenas será implementada quando houver mais cursos cadastrados
-        try{
-            if(!id) return;
-        }catch(error){
-            console.log(error)
-            window.alert('Houve um erro ao buscar os cursos pelo filtro. Tente novamente.')
-            handleSearchCourses()
-        }
-    }, [id, handleSearchCourses])
+        handleSearchAllCourses()
+    }, [handleSearchAllCourses])
 
 
     useEffect(() => {
+        const handleSearchCourseByTag = async () => {
+            try{
+                if(id == null) return;
+                if(id === 0){
+                    handleSearchAllCourses()
+                    return;
+                } 
+
+                const response = await ApiSearchCoursesAndTechnologies.SearchCourseByTag(id)
+
+                if(!response.status){
+                    window.alert(response.error)
+                    return;
+                }
+
+                setCourses(response.data)
+            }catch(error){
+                console.log(error)
+                window.alert('Houve um erro ao buscar os cursos pelo filtro. Tente novamente.')
+                handleSearchAllCourses()
+            }
+        }
+
         handleSearchCourseByTag()
-    }, [id, handleSearchCourseByTag])
+    }, [id, handleSearchAllCourses])
+    
+
+    useEffect(() => {
+        const handleSearchCoursesByName = async () => {
+            try{
+                if(!nameSearchCourses) return;
+
+                const response = await ApiSearchCoursesAndTechnologies.SearchCoursesByName(nameSearchCourses)
+
+                if(!response.status){
+                    window.alert(response.error)
+                    return;
+                }
+
+                setCourses(response.data)
+            }catch(error){
+                console.log(error)
+                window.alert('Erro de conexão com a api de busca dos cursos pelo nome.')
+            }
+        }
+
+        handleSearchCoursesByName()
+    }, [nameSearchCourses])
 
 
   return (

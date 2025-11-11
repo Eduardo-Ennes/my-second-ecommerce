@@ -20,22 +20,13 @@ import { useState } from 'react';
 
 type argsArgument = {
   args: string
+  nameSearchCourses: (name: string) => void
 }
 
-function Header({args}: argsArgument) {
+function Header({args, nameSearchCourses}: argsArgument) {
   const navigate = useNavigate();
+  const [name, setName] = useState<string>('')
   const [logado, setLogado] = useState(true)
-
-//   useEffect(() => {
-//     const fetchCache = async () => {
-//       const response = await Cache.CacheUser();
-//       console.log(response)
-//       setLogado(response.user.login)
-//       console.log(response.user.login)
-//     };
-
-//   fetchCache();
-// }, []);
 
 
 const Reset = async () => {
@@ -46,6 +37,11 @@ const Reset = async () => {
         const data = await response.json()
         setLogado(data.user.login)
         navigate('/')
+    }
+
+    const handleSearchCourseName = async () => {
+      nameSearchCourses(name)
+      setName('')
     }
 
   return (
@@ -67,8 +63,13 @@ const Reset = async () => {
 
             {args === "Yes" && 
               <div className="flex w-full max-w-sm items-center gap-2 border-1 border-gray-500 p-1 rounded-2xl hover:ring-1 hover:transition-[2s]">
-                <Input type="email" placeholder="Email" className='!border-none !outline-none !shadow-none !ring-0'/>
-                <Link to="/" className='bg-[oklch(14.5%_0_0)] cursor-pointer text-base pr-3'>
+                <Input 
+                type="text" 
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Buscar..." 
+                className='!border-none !outline-none !shadow-none !ring-0'/>
+                <Link to="#" onClick={() => handleSearchCourseName()} className='bg-[oklch(14.5%_0_0)] cursor-pointer text-base pr-3'>
                   <img src={IconSearch} alt="Icone do search" />
                 </Link>
               </div>
