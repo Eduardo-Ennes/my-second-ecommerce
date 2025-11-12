@@ -10,10 +10,12 @@ import redisClient from './infrastructure/config/redisClient'
 // Routes
 import routerUser from './modules/users/routes/routesUser'
 import routerCourse from './modules/users/routes/routesCourse'
+import routerGetCourse from './modules/users/routes/routesGetCourse'
 import routesCourseModules from './modules/users/routes/routesCourseModule'
 import routesCourseLeassons from './modules/users/routes/routesCourseLeasson'
 import routesCourseFile from './modules/users/routes/routesCourseFile'
 import routerTags from './modules/users/routes/routesTags'
+
 
 dotenv.config()
 
@@ -25,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use(routerUser)
 app.use(routerCourse)
+app.use(routerGetCourse)
 app.use(routerTags)
 app.use(routesCourseModules)
 app.use(routesCourseLeassons)

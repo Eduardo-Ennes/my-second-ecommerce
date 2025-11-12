@@ -20,7 +20,7 @@ import { useState } from 'react';
 
 type argsArgument = {
   args: string
-  nameSearchCourses: (name: string) => void
+  nameSearchCourses?: (name: string) => void
 }
 
 function Header({args, nameSearchCourses}: argsArgument) {

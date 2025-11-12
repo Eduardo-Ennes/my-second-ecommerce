@@ -1,7 +1,6 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-// import { useParams } from "react-router-dom"
+// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from '@headlessui/react'
-import imageTeste from '../media/imagem-python.jpg'
+import loading from '../media/carregando.jpg'
 import Header from '../components/Header'
 import Footer from "@/components/Footer"
 import {
@@ -11,48 +10,110 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { Badge } from "@/components/ui/badge"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { useState } from "react"
-import Avaliation from "@/components/Avaliation"
+// import { ScrollArea } from "@/components/ui/scroll-area"
+import { useEffect, useState } from "react"
+// import Avaliation from "@/components/Avaliation"
+import { useParams, useNavigate } from "react-router-dom"
+
+type Course = {
+    id_course: number
+    name: string
+    description: string
+    price: number 
+    price_promotion: number 
+    promotion: boolean
+    image: string
+    id_user: number 
+    first_name: string
+    last_name: string
+    technologies: {id: number, tech: string}[]
+    requisits: {id: number, requisit: string}[]
+}
 
 function DetailProduct() {
-    // const params = useParams<{ id: string }>()
+    const navigate = useNavigate()
+    const params = useParams<{ id: string }>()
+    const [course, setCourse] = useState<Course>()
+
+    useEffect(() => {
+        const handleSearchDetailCourse = async () => {
+            try{
+                const response = await fetch(`http://localhost:3000/search/course/detail/${params.id}`)
+
+                const data = await response.json()
+
+                if(!data.data){
+                    window.alert(data.error)
+                    navigate('/')
+                    return;
+                }
+
+                setCourse(data.data)
+                console.log(data.data)
+            }catch(error){
+                console.log(error)
+                window.alert('Houve um erro de conexão com o servidor e não foi possivel buscar os detalhes do produto.')
+                navigate('/')
+            }
+        }
+
+        handleSearchDetailCourse()
+    }, [params, navigate])
+
+
     const [valueDesc, setValueDesc] = useState<string | undefined>(undefined)
   return (
     <>
         <Header args={"No"}/>
 
         <div className="p-[1rem]">
-            <div className="group flex flex-wrap gap-3">
-                <div>
-                    <img
-                    src={imageTeste}
-                    alt="Tall slender porcelain bottle with natural clay textured body and cork stopper."
-                    className="aspect-square w-[28rem] h-[14rem] rounded-lg bg-gray-200 object-cover xl:aspect-7/8"
-                    />
-                </div>
-                <div>
-                    <h3 className="text-2xl font-medium text-gray-100">Formação na linguagem de programação python</h3>
-                    <p className="mt-3 text-sm text-gray-100">Nome do instrutor</p>
-                    <div className="flex flex-wrap items-center mt-3 gap-x-2">
-                        <p>
-                            <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-4 h-4 text-yellow-400"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            >
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z" />
-                            </svg>
-                        </p>
-                        <p className="text-gray-100">4.9</p>
-                        <p className="text-gray-100">14 (avaliações)</p>
+            <div className="group flex flex-wrap justify-between">
+                <div className="flex flex-wrap gap-3">
+                    <div>
+                        {course?.image ? (
+                            <img
+                            src={`http://localhost:3000/search/course/image/${course.image}`}
+                            alt="Tall slender porcelain bottle with natural clay textured body and cork stopper."
+                            className="aspect-square w-[28rem] h-[14rem] rounded-lg bg-gray-200 object-cover xl:aspect-7/8"
+                            />
+                        ):(
+                            <img
+                            src={loading}
+                            alt="Tall slender porcelain bottle with natural clay textured body and cork stopper."
+                            className="aspect-square w-[28rem] h-[14rem] rounded-lg bg-gray-200 object-cover xl:aspect-7/8"
+                            />
+                        )}
                     </div>
-                    <div className="flex flex-wrap gap-x-0.5 ">
-                        <p className="mt-3 text-lg font-medium text-gray-100">$19,90</p>
-                        <p className="mt-3 font-medium text-gray-100 text-base line-through">R$100,00</p>
+                    <div>
+                        <h3 className="text-2xl font-medium text-gray-100">{course?.name}</h3>
+                        <p className="mt-3 text-sm text-gray-100">{course?.first_name} {course?.last_name}</p>
+                        <div className="flex flex-wrap items-center mt-3 gap-x-2">
+                            <p>
+                                <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-4 h-4 text-yellow-400"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                >
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                </svg>
+                            </p>
+                            <p className="text-gray-100">4.9</p>
+                            <p className="text-gray-100">14 (avaliações)</p>
+                        </div>
+                        <div className="flex flex-wrap gap-x-0.5 ">
+                            {course?.promotion ? (
+                                <>
+                                    <p className="mt-3 text-lg font-medium text-gray-100">R${course.price_promotion}</p>
+                                    <p className="mt-3 font-medium text-gray-100 text-base line-through">R${course.price}</p>
+                                </>
+                            ):(
+                                <p className="mt-3 text-lg font-medium text-gray-100">R${course?.price}</p>
+                            )}
+                        </div>
                     </div>
                 </div>
+                
 
                 <div className="w-[18rem] flex flex-col justify-end items-center gap-3">
                     <Button 
@@ -69,31 +130,26 @@ function DetailProduct() {
                 </div>
             </div>
 
-            {/* Tags do curso */}
-            <div className="flex flex-col gap-y-2 pl-3 mt-[3rem]">
-                <h2 className="text-gray-200 font-bold text-xl mb-2">Temas relacionados</h2>
-                <div className="flex flex-wrap items-center gap-2">
-                    <Badge variant="secondary" className="text-base p-2 text-zinc-900 bg-gray-200">JavaScript</Badge>
-                </div>
-            </div>
 
-
-            {/* Requisitos para o curso */}
+            {/* TAGS */}
             <div className="flex flex-wrap justify-around">
                 <div className="w-[48%] mt-[3rem] pl-[1rem] p-2">
-                    <h2 className="text-gray-200 text-xl font-bold">O que você irá aprender</h2>
-                    <ul className="grid grid-cols-2 gap-x-8 gap-y-4 list-disc list-inside text-gray-200 mt-3">
-                        <li>JavaScript</li>
-                        <li>Programação orientada a objetos</li>
-                    </ul>
+                    <h2 className="text-gray-200 font-bold text-xl mb-2">Temas relacionados</h2>
+                    <div className="flex flex-wrap items-center gap-2">
+                        {course?.technologies.map(element => (
+                            <Badge key={element.id} variant="secondary" className="text-base p-2 text-zinc-900 bg-gray-200">{element.tech}</Badge>
+                        ))}
+                    </div>
                 </div>
                 
 
+                {/* REQUISITOS */}
                 <div className="w-[48%] mt-[3rem] pl-[1rem] p-2 border-l border-gray-700">
                     <h2 className="text-gray-200 text-xl font-bold">Requisitos para o curso</h2>
-                    <ul className="grid grid-cols-2 gap-x-8 gap-y-4 list-disc list-inside text-gray-200 mt-3">
-                        <li>JavaScript</li>
-                        <li>Programação orientada a objetos</li>
+                    <ul  className="grid grid-cols-2 gap-x-8 gap-y-4 list-disc list-inside text-gray-200 mt-3">
+                        {course?.requisits.map(element => (
+                            <li key={element.id}>{element.requisit}</li>
+                        ))}
                     </ul>
                 </div>
             </div>
@@ -107,7 +163,7 @@ function DetailProduct() {
                         <AccordionItem value="item-1">
                             <AccordionTrigger className="text-lg cursor-pointer text-gray-200 pl-3">Descrição</AccordionTrigger>
                             <AccordionContent className="flex flex-col gap-4 text-balance text-white p-5">
-                                <div className="text-justify leading-relaxed text-gray-200 text-base">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ut adipisci repellat ullam dignissimos atque illo reiciendis porro tenetur, pariatur similique, autem necessitatibus alias eum omnis dolorum consequuntur temporibus vitae inventore amet. Ipsam voluptate commodi, quisquam a laborum, laudantium distinctio odio vel sit. </div>
+                                <div className="text-justify leading-relaxed text-gray-200 text-base">{course?.description}</div>
                             </AccordionContent>
                         </AccordionItem>
                     </Accordion>
@@ -115,8 +171,8 @@ function DetailProduct() {
             </div>
 
 
-            {/* Área da biografia do professor */}
-            <div className="flex flex-wrap justify-between">
+            {/* FUNCIONALIDADES EM DESENVOLVIMENTO */}
+            {/* <div className="flex flex-wrap justify-between">
                 <div className="w-[50%] mt-[5rem] max-h-[40em]"> 
                     <div className="flex flex-wrap items-center gap-5 pl-[1rem]">
                         <div>
@@ -140,7 +196,6 @@ function DetailProduct() {
                 </div>
 
 
-                {/* Área de oferta do curso do professor */}
                 <div className="w-[50%] mt-[5rem]">
                     <h2 className="text-gray-200 ml-3 w-[90%] text-xl font-bold text-center bg-zinc-900 rounded-3xl p-1">Cursos Eduardo Ennes</h2>
                     <ScrollArea className="max-h-[40rem] p-4">
@@ -179,10 +234,10 @@ function DetailProduct() {
                         </div>
                     </ScrollArea>
                 </div>
-            </div>
+            </div> */}
 
             {/* Área de avaliação do produto */}
-            <Avaliation args={false}/>
+            {/* <Avaliation args={false}/> */}
 
         </div>
         <Footer />
