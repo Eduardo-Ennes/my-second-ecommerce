@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import Knex from '../../../infrastructure/config/postgres'
 import validationCourse from '../validations/validationFieldsCourse'
-import repositorieCourse from '../repositories/repositorieCourse'
+import repositorieCourse from '../repositories/course'
 import redisClient from '../../../infrastructure/config/redisClient'
 import fs from 'fs';
 import path from 'path'

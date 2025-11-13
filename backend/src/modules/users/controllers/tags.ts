@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import Knex from '../../../infrastructure/config/postgres'
 import ValidationFieldsRequisits from '../validations/validationFieldsRequisits'
-import repositorieTags from '../repositories/repositoriesTags'
+import repositorieTags from '../repositories/tags'
 
 
 

@@ -105,9 +105,7 @@ class MethodsUser {
                 phone: object.phone,
                 login: true
             }))
-
-            const userRedis = await redisClient.get('user')
-            console.log('USER REDIS: ', userRedis)
+            
             return {status: true}
         }catch(error){
             console.log('ERROR NA CRIAÇÃO DO CACHE DO USUÁRIO: ', error)

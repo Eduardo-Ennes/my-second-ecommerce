@@ -7,14 +7,16 @@ import redisClient from './infrastructure/config/redisClient'
 // import swaggerJsdoc from "swagger-jsdoc";
 
 
-// Routes
+// importações dos Routes
+import routerCourse from './modules/users/routes/course'
+import routerGetCourse from './modules/users/routes/getCourse'
+import routesCourseModules from './modules/users/routes/courseModule'
+import routesCourseLeassons from './modules/users/routes/courseLeasson'
+import routesCourseFile from './modules/users/routes/courseFile'
+import listFavorite from './modules/users/routes/listFavorite'
 import routerUser from './modules/users/routes/routesUser'
-import routerCourse from './modules/users/routes/routesCourse'
-import routerGetCourse from './modules/users/routes/routesGetCourse'
-import routesCourseModules from './modules/users/routes/routesCourseModule'
-import routesCourseLeassons from './modules/users/routes/routesCourseLeasson'
-import routesCourseFile from './modules/users/routes/routesCourseFile'
-import routerTags from './modules/users/routes/routesTags'
+import routerTags from './modules/users/routes/tags'
+
 
 
 dotenv.config()
@@ -30,6 +32,7 @@ app.use(routerCourse)
 app.use(routerGetCourse)
 app.use(routerTags)
 app.use(routesCourseModules)
+app.use(listFavorite)
 app.use(routesCourseLeassons)
 app.use(routesCourseFile)
 

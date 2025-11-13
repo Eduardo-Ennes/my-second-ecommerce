@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import redisClient from '../../../infrastructure/config/redisClient'
 import validationFieldsUser from '../validations/validationFieldsUser'
-import repositorieUser from '../repositories/repositorieUser'
+import repositorieUser from '../repositories/user'
 
 
 type FormUser = {

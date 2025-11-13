@@ -11,10 +11,12 @@ import {
 } from "@/components/ui/accordion"
 import { Badge } from "@/components/ui/badge"
 // import { ScrollArea } from "@/components/ui/scroll-area"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 // import Avaliation from "@/components/Avaliation"
 import { useParams, useNavigate } from "react-router-dom"
+import DetailCourse from '../api/detailCourse/searchCourse'
 
+// Esses são os dados que retornao do response.data
 type Course = {
     id_course: number
     name: string
@@ -22,6 +24,7 @@ type Course = {
     price: number 
     price_promotion: number 
     promotion: boolean
+    owner: number
     image: string
     id_user: number 
     first_name: string
@@ -33,32 +36,77 @@ type Course = {
 function DetailProduct() {
     const navigate = useNavigate()
     const params = useParams<{ id: string }>()
+    // id do usuário logado
+    const [idUser, setIdUser] = useState<number | null>()
+    // Serve para controlar o estado do botão de add e del da lista de favoritos, id é usado como paramêtro para remoção
+    const [favorite, setFavorite] = useState<{status: boolean, id: number}>()
     const [course, setCourse] = useState<Course>()
 
-    useEffect(() => {
-        const handleSearchDetailCourse = async () => {
-            try{
-                const response = await fetch(`http://localhost:3000/search/course/detail/${params.id}`)
 
-                const data = await response.json()
+    // Busca os dados no backend, como ele vem dados da tabelas do curso, usuário e lista de favoritos
+    const handleSearchDetailCourse = useCallback(async () => {
+        try{ 
+            console.log(params)
+            if(!params) return;
+            const response = await DetailCourse.searchCourse(Number(params.id))
 
-                if(!data.data){
-                    window.alert(data.error)
-                    navigate('/')
-                    return;
-                }
-
-                setCourse(data.data)
-                console.log(data.data)
-            }catch(error){
-                console.log(error)
-                window.alert('Houve um erro de conexão com o servidor e não foi possivel buscar os detalhes do produto.')
-                navigate('/')
+            if(!response.data){
+                window.alert(response.error)
+            navigate('/')
+            return;
             }
-        }
 
-        handleSearchDetailCourse()
+            setCourse(response.data)
+            setIdUser(response.user)
+            setFavorite(response.favorite)
+        }catch(error){
+            console.log(error)
+            window.alert('Houve um erro de conexão com o servidor e não foi possivel buscar os detalhes do produto.')
+            navigate('/')
+        }
     }, [params, navigate])
+
+
+    useEffect(() => {
+        handleSearchDetailCourse()
+    }, [params, navigate,handleSearchDetailCourse])
+
+
+    // Adicionar um novo curso a lista de favoritos, usado como parametro o id do curso
+    const handleAddInListFavorite = async (id: number) => {
+        try{
+            const response = await DetailCourse.addListFavorite(id)
+
+            if(!response.status){
+                window.alert(response.error)
+                return;
+            }
+
+            handleSearchDetailCourse()
+        }catch(error){
+            console.log(error)
+            window.alert('Houve um erro de conexão com a função que adiciona um curso na lista de favoritos.')
+            navigate('/')
+        }
+    }
+
+
+    // Remover da lista de favoritos, usado como paramêtro o proprio id da tabela 
+    const handleDeleteInListFavorite = async (id: number) => {
+        try{
+            const response = await DetailCourse.deleteListFavorite(id)
+            if(!response.status){
+                window.alert(response.error)
+                return;
+            }            
+
+            handleSearchDetailCourse()
+        }catch(error){
+            console.log(error)
+            window.alert('Houve um erro de conexão com a função que remove um curso da lista de favoritos.')
+            navigate('/')
+        }
+    }
 
 
     const [valueDesc, setValueDesc] = useState<string | undefined>(undefined)
@@ -88,6 +136,7 @@ function DetailProduct() {
                         <h3 className="text-2xl font-medium text-gray-100">{course?.name}</h3>
                         <p className="mt-3 text-sm text-gray-100">{course?.first_name} {course?.last_name}</p>
                         <div className="flex flex-wrap items-center mt-3 gap-x-2">
+                            {/* Funcionalidade em desenvolvimento. */}
                             <p>
                                 <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -115,19 +164,39 @@ function DetailProduct() {
                 </div>
                 
 
-                <div className="w-[18rem] flex flex-col justify-end items-center gap-3">
-                    <Button 
-                    type="button" 
-                    className="rounded cursor-pointer bg-zinc-900 px-4 py-2 text-sm text-white data-active:bg-sky-700 data-hover:bg-zinc-800 w-full">
-                    Adicionar ao carrinho
-                    </Button>
-                
-                    <Button 
-                    type="button"
-                    className="w-full rounded cursor-pointer bg-fuchsia-900 px-4 py-2 text-sm text-white data-hover:bg-fuchsia-950">
-                    Lista de favoritos
-                    </Button>
-                </div>
+                {/* if o dono(owner) do curso for diferente do id do usuário logado. Para que o usuário possa apenas ver os botões se o curso não for dele. */}
+                {course?.owner !== idUser &&
+                    <div className="w-[18rem] flex flex-col justify-end items-center gap-3">
+                        <Button 
+                        type="button" 
+                        className="rounded cursor-pointer bg-zinc-900 px-4 py-2 text-sm text-white data-active:bg-sky-700 data-hover:bg-zinc-800 w-full">
+                        Adicionar ao carrinho
+                        </Button>
+                    
+                        {/* if o usuário logado for null, não mostra os botões de add e remove da lista de favoritos. */}
+                        {idUser !== null && 
+                            <>
+                                {/*  esta condição verifica se o id do curso ésta no campo do course_id e id do usuário logado está no campo do id_user da tabela list_favorites retornado do backend, isso para verificar os estados do butão para adicionar ou remover um curso da lista de favoritos */}
+
+                                {favorite?.status ?(
+                                    <Button 
+                                    type="button"
+                                    onClick={() => handleDeleteInListFavorite(favorite.id)}
+                                    className="w-full rounded cursor-pointer bg-red-600 px-4 py-2 text-sm text-white data-hover:bg-red-700">
+                                    Remover dos favoritos
+                                    </Button>
+                                ):(
+                                    <Button 
+                                    type="button"
+                                    onClick={() => handleAddInListFavorite(course?.id_course || 0)}
+                                    className="w-full rounded cursor-pointer bg-fuchsia-900 px-4 py-2 text-sm text-white data-hover:bg-fuchsia-950">
+                                    Lista de favoritos
+                                    </Button>
+                                )}
+                            </>
+                        }
+                    </div>
+                }
             </div>
 
 

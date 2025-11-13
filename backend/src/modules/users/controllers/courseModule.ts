@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import validationFieldsCourse from '../validations/validationFieldsCourse'
-import repositorieModule from '../repositories/repositorieCourseModule'
+import repositorieModule from '../repositories/courseModule'
 
 
 // Cria um módulo

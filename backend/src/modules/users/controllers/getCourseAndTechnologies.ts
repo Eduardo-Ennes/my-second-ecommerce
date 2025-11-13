@@ -1,7 +1,8 @@
 import { Request, Response } from 'express'
 import Knex from '../../../infrastructure/config/postgres'
-import fs from 'fs';
 import path from 'path'
+import redisClient from '../../../infrastructure/config/redisClient';
+import repositorieDetailCourse from '../repositories/deatilCourse'
 
 
 class getCourseAndTagTechnologies {
@@ -19,6 +20,9 @@ class getCourseAndTagTechnologies {
     // Busca todos os cursos
     async searchAllCourses(req: Request, res: Response){
         try{
+            const user = await redisClient.get('user')
+            console.log(user)
+
             const data = await Knex('course as c')
             .join('users as u', 'u.id', '=', 'c.owner')
             .select('c.id as id_course', 'c.name', 'c.price', 'c.price_promotion', 'c.promotion', 'c.image', 'u.id as id_user', 'u.first_name', 'u.last_name')
@@ -36,31 +40,14 @@ class getCourseAndTagTechnologies {
     async searchDetailCourse(req: Request, res: Response){
         try{
             const id = Number(req.params.id)
+            const response = await repositorieDetailCourse.searchDetail(id)
 
-            const data = await Knex('course')
-            .join('users', 'course.owner', '=', 'users.id')
-            .select('course.id as id_course', 'course.name', 'course.description', 'course.price', 'course.price_promotion', 'course.promotion', 'course.image', 'users.id as id_user', 'users.first_name', 'users.last_name').where('course.id', id).first()
-
-            data.technologies = []
-            data.requisits = []
-
-            const technologies = await Knex('course_technologie as ct')
-            .join('technologies as tech', 'ct.tech_id', '=', 'tech.id')
-            .select('tech.id', 'tech.tech')
-            .where('ct.course_id', id)
-
-            const requisits = await Knex('course_requisits')
-            .select('id', 'requisit').where('course_id', id)
-
-            for (const r of requisits){
-                data.requisits.push({id: r.id, requisit: r.requisit})
+            if(!response.status){
+                res.status(500).json(response)
+                return;
             }
 
-            for (const techs of technologies){
-                data.technologies.push({id: techs.id, tech: techs.tech})
-            }
-
-            res.status(200).json({status: true, data: data})
+            res.status(200).json(response)
         }catch(error){
             res.status(500).json({status: false, error: 'Houve um error ao buscar os detalhes do curso. '})
         }
@@ -103,7 +90,6 @@ class getCourseAndTagTechnologies {
     async getImageCourse(req: Request, res: Response){
         try{
             const name = req.params.name
-            console.log(name)
 
             const basePath = path.resolve(__dirname, '../media/')
             const filePath = path.join(basePath, name);

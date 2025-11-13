@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import repositorieCourseLeasson from '../repositories/repositorieCourseLeasson'
+import repositorieCourseLeasson from '../repositories/courseLeasson'
 import redisClient from '../../../infrastructure/config/redisClient'
 import fs from 'fs';
 import path from 'path'
