@@ -20,8 +20,9 @@ class getCourseAndTagTechnologies {
     // Busca todos os cursos
     async searchAllCourses(req: Request, res: Response){
         try{
-            const user = await redisClient.get('user')
-            console.log(user)
+            const card = await redisClient.get('card')
+            // Se o carrinho de compras existir passa direto.
+            if(!card) await redisClient.set('card', JSON.stringify([[], {total: '0'}]))
 
             const data = await Knex('course as c')
             .join('users as u', 'u.id', '=', 'c.owner')

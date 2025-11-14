@@ -27,8 +27,6 @@ class repositorieDetailCourse {
                 data.technologies.push({id: techs.id, tech: techs.tech})
             }
 
-            console.log(data)
-
             const cacheUser = await redisClient.get('user')
             let user = null
             if(cacheUser){
@@ -38,14 +36,10 @@ class repositorieDetailCourse {
                 user = null
             }
 
-            console.log(user)
-
             const favorite = await Knex.select('*').where({
                 course_id: id,
                 id_user: user
             }).from('list_favorites')
-
-            console.log(user)
 
             if(favorite.length > 0){
                 return{status: true, data: data, user: user, favorite: {status: true, id: favorite[0].id}}

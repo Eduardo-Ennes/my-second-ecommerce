@@ -62,6 +62,7 @@ export async function loginUser(req: Request, res: Response) {
 export async function getCacheUser(req: Request, res: Response) {
     try{
       const user = await redisClient.get('user')
+      console.log('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-')
       console.log(user)
       if(user != null){
         const cacheUser = JSON.parse(user.toString())

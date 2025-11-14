@@ -36,7 +36,7 @@ type Course = {
 function DetailProduct() {
     const navigate = useNavigate()
     const params = useParams<{ id: string }>()
-    // id do usuário logado
+    // Aqui saberemos se tem um usuário logado, se sim retornará o id.
     const [idUser, setIdUser] = useState<number | null>()
     // Serve para controlar o estado do botão de add e del da lista de favoritos, id é usado como paramêtro para remoção
     const [favorite, setFavorite] = useState<{status: boolean, id: number}>()
@@ -46,14 +46,13 @@ function DetailProduct() {
     // Busca os dados no backend, como ele vem dados da tabelas do curso, usuário e lista de favoritos
     const handleSearchDetailCourse = useCallback(async () => {
         try{ 
-            console.log(params)
             if(!params) return;
             const response = await DetailCourse.searchCourse(Number(params.id))
 
             if(!response.data){
                 window.alert(response.error)
-            navigate('/')
-            return;
+                navigate('/')
+                return;
             }
 
             setCourse(response.data)
@@ -105,6 +104,27 @@ function DetailProduct() {
             console.log(error)
             window.alert('Houve um erro de conexão com a função que remove um curso da lista de favoritos.')
             navigate('/')
+        }
+    }
+
+    // Adiciona um curso ao carrinho de compras, id do curso usado como referência
+    const handleAddCourseCard = async (id: number) => {
+        try{    
+            const response = await fetch(`http://localhost:3000/add/course/card/${id}`, {
+                method: 'POST'
+            })
+
+            const data = await response.json()
+            if(!data.status){
+                window.alert(data.error)
+                return;
+            }
+
+            navigate('/card')
+        }catch(error){
+            console.log(error)
+            window.alert('Error ao adicionar o curso no carrinho. Falha na conexão com o servidor.')
+            navigate(`/detail/product/${params}`)
         }
     }
 
@@ -169,6 +189,7 @@ function DetailProduct() {
                     <div className="w-[18rem] flex flex-col justify-end items-center gap-3">
                         <Button 
                         type="button" 
+                        onClick={() => handleAddCourseCard(course?.id_course || 0)}
                         className="rounded cursor-pointer bg-zinc-900 px-4 py-2 text-sm text-white data-active:bg-sky-700 data-hover:bg-zinc-800 w-full">
                         Adicionar ao carrinho
                         </Button>

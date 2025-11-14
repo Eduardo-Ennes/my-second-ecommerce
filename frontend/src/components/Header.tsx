@@ -29,7 +29,7 @@ function Header({args, nameSearchCourses}: argsArgument) {
   const [logado, setLogado] = useState(true)
 
 
-const Reset = async () => {
+  const Reset = async () => {
         const response = await fetch('http://localhost:3000/reset', {
           method: 'POST'
         })

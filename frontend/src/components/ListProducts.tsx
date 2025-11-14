@@ -21,7 +21,6 @@ type Props = {
 }
 
 function ListProducts({id, nameSearchCourses}: Props) {
-    console.log(id)
     const [courses, setCourses] = useState<Array<Courses>>([])
 
     const handleSearchAllCourses = useCallback(async () => {

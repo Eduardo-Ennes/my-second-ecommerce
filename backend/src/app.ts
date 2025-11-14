@@ -13,7 +13,7 @@ import routerGetCourse from './modules/users/routes/getCourse'
 import routesCourseModules from './modules/users/routes/courseModule'
 import routesCourseLeassons from './modules/users/routes/courseLeasson'
 import routesCourseFile from './modules/users/routes/courseFile'
-import listFavorite from './modules/users/routes/listFavorite'
+import listFavorite from './modules/users/routes/favoriteAndCard'
 import routerUser from './modules/users/routes/routesUser'
 import routerTags from './modules/users/routes/tags'
 
