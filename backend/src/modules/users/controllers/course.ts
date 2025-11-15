@@ -51,8 +51,8 @@ export async function searchUserAllCouses(req: Request, res: Response){
 
 // busca um curso específico pelo id para edição
 export async function searchUserCourseById(req: Request, res: Response){
-    const id = Number(req.params.id)
     try{
+        const id = Number(req.params.id)
         const course = await Knex.select('name', 'price', 'price_promotion', 'promotion', 'description', 'status', 'image').from('course').where('id', id).first()
 
         const cover = await {...course, promotion: String(course.promotion), status: String(course.status)}

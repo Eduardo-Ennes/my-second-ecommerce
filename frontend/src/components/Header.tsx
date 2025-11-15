@@ -14,8 +14,8 @@ import {
 import IconSearch from '../assets/search.png'
 import IconHeart from '../assets/heart.png'
 import DropdownMenuAvatar from './DropdownMenuAvatar';
-import { useState } from 'react';
-// import Cache from '../api/user/UserApi'
+import { useCallback, useEffect, useState } from 'react';
+import userApi from '../api/user/UserApi'
 
 
 type argsArgument = {
@@ -26,8 +26,25 @@ type argsArgument = {
 function Header({args, nameSearchCourses}: argsArgument) {
   const navigate = useNavigate();
   const [name, setName] = useState<string>('')
-  const [logado, setLogado] = useState(true)
+  const [logado, setLogado] = useState<boolean>()
 
+
+  useEffect(() => {
+    const searchCacheUser = async () => {
+      try{
+        const response = await userApi.CacheUser()
+
+        setLogado(response.user)
+      }catch(error){
+        console.log(error)
+        window.alert('Houve um error ao buscar o cache do usuário. Falha na conexão com o servidor.')
+        navigate('/')
+      }
+    }
+
+    searchCacheUser()
+
+  }, [navigate])
 
   const Reset = async () => {
         const response = await fetch('http://localhost:3000/reset', {
@@ -51,15 +68,6 @@ function Header({args, nameSearchCourses}: argsArgument) {
             <h1 className="text-2xl font-bold">
               <Link to="/">My Second E-commerce</Link>
             </h1>
-
-            <div>
-              <button 
-              className='bg-red-700'
-              onClick={Reset}
-              >
-                ResetCache
-              </button>
-            </div>
 
             {args === "Yes" && 
               <div className="flex w-full max-w-sm items-center gap-2 border-1 border-gray-500 p-1 rounded-2xl hover:ring-1 hover:transition-[2s]">

@@ -17,12 +17,20 @@ function LoginUser() {
   })
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
     try{
+      event.preventDefault()
       const response = await ApisUser.LoginUser(form)
-      if(!response.status){
+      if(!response?.status){
+        // Essa condição só será acionada se houver problema de autenticação com o usuário.
+        // Este response.error não causa conflito com o de baixo, devido ao status retornado, aonde esta condição é acionada e o return encerra a função não permitindo que o código continue.
         setError(response.error)
         return;
+      }
+
+      if(response?.error){
+        // Na validação do carrinho de compras no login, o status sempre será true, porque não impossibilitará o login do usuário. 
+       // Se o campo status: true não existir, sempre irá cair na primeira condição. 
+        window.alert(response.error)
       }
 
       navigate('/')
@@ -42,7 +50,7 @@ function LoginUser() {
             </Link>
         </div>
 
-        {error.length > 0 && (
+        {typeof error === "string" && error.length > 0 && (
           <div className="grid w-100 items-start gap-4 ml-auto mr-auto">
           <Alert variant="destructive" className="bg-white">
             <AlertCircleIcon />

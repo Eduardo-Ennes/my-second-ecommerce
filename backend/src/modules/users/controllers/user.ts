@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import redisClient from '../../../infrastructure/config/redisClient'
 import validationFieldsUser from '../validations/validationFieldsUser'
 import repositorieUser from '../repositories/user'
+import { verifyCardLogin } from '../utils/loginVerifyCardUser'
 
 
 type FormUser = {
@@ -42,17 +43,23 @@ export async function createUser(req: Request, res: Response) {
 
 
 export async function loginUser(req: Request, res: Response) {
-  const elements: FormUser = req.body
-
   try{
+    const elements: FormUser = req.body
     const result = await validationFieldsUser.Fields(elements, false)
     if(!result.status){
       res.status(400).json(result)
     }
 
     const response = await repositorieUser.LoginUser(elements)
-    res.status(response.code).json(response)
-    
+    if(!response.status){
+      res.status(response.code).json(response)
+      return;
+    }
+   
+    const exist = await verifyCardLogin(response.id)
+    console.log(response)
+    console.log(exist)
+    res.status(200).json(exist)
   }catch(error){
     res.status(500).json({status: false, message: 'Houve um error inesperado. Tente novamente.'})
   }
@@ -61,18 +68,19 @@ export async function loginUser(req: Request, res: Response) {
 
 export async function getCacheUser(req: Request, res: Response) {
     try{
-      const user = await redisClient.get('user')
-      console.log('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-')
-      console.log(user)
-      if(user != null){
-        const cacheUser = JSON.parse(user.toString())
-        res.status(200).json({status: true, user: cacheUser})
+      const cacheUser = await redisClient.get('user')
+      // verificamos se há algum usuário logado.
+      if(cacheUser != null){
+        // se sim, retornamos o objeto que foi criado no login com as informações do usuário
+        const user = JSON.parse(cacheUser.toString())
+        res.status(200).json({status: true, user: user.login})
       }
       else{
+        // se não, criamos este objeto
         await redisClient.set('user', JSON.stringify({login: false}))
-        const getCacheUser = await redisClient.get('user')
-        const cacheUser = await JSON.parse(getCacheUser?.toString() || '{}')
-        res.status(200).json({status: true, user: cacheUser})
+        const noUser = await redisClient.get('user')
+        const user = JSON.parse(noUser.toString())
+        res.status(200).json({status: true, user: user.login})
       }
     }catch(error){
       console.log(error)
@@ -82,17 +90,13 @@ export async function getCacheUser(req: Request, res: Response) {
 
 
 // Por enquanto url de teste: Depois reutilizar para a funcionalidade LOGOUTH
-export async function reset(req: Request, res: Response){
+export async function logouth(req: Request, res: Response){
   try{
-    const user = await redisClient.get('user')
-    console.log(user)
     await redisClient.del('user')
-    await redisClient.set('user', JSON.stringify({login: false}))
-    const getCacheUser = await redisClient.get('user')
-    const cacheUser = await JSON.parse(getCacheUser?.toString() || '{}')
-    res.status(200).json({status: true, user: cacheUser})
+    await redisClient.del('card')
+    res.status(200).json({status: true})
   }catch(error){
     console.log(error)
-    res.json({error: 'Não deletou!'})
+    res.status(500).json({status: false, error: 'Houve um erro, não foi possivel realizar o logouth.'})
   }
 }

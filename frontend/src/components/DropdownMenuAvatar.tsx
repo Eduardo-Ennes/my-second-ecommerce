@@ -7,9 +7,27 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Link } from "react-router-dom"
+import userApi from '../api/user/UserApi'
+
 
 function DropdownMenuAvatar() {
-  const role = "instructor"
+
+  const logouth = async () => {
+    try{
+      const response = await userApi.logouthUser()
+
+      if(!response.status){
+        window.alert(response.error)
+        return;
+      }
+
+      window.location.reload()
+    }catch(error){
+      console.log(error)
+      window.alert('Houve um erro ao realizar o logouth. Falha na conexão com o servidor.')
+      return;
+    }
+  }
   
   return (
     <>
@@ -43,19 +61,15 @@ function DropdownMenuAvatar() {
             <Link to='/my/shops' className='w-full'>Minhas compras</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            {/* {role === 'user' && 
-              <Link to='/dashboard' className='w-full'>Ensine na plataforma</Link>
-            } */}
-
-            {role === 'instructor' && 
-              <Link to='/dashboard' className='w-full'>Dashboard</Link>
-            }
+            <Link to='/dashboard' className='w-full'>Dashboard</Link>
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />
             
-          <DropdownMenuItem>
-            <Link to='/login' className='w-full'>Sair</Link>
+          <DropdownMenuItem 
+          onClick={() => logouth()}
+          className="cursor-pointer">
+            Sair
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

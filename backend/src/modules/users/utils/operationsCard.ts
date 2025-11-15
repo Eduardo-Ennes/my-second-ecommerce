@@ -13,7 +13,7 @@ class operations {
             const card = await JSON.parse(cacheCard?.toString())
             const data = await Knex('course as c')
             .join('users as u', 'c.owner', '=', 'u.id')
-            .select('c.id', 'c.name', 'c.price', 'c.price_promotion', 'c.promotion', 'c.image', 'u.first_name', 'u.last_name')
+            .select('c.id', 'c.name', 'c.price', 'c.price_promotion', 'c.promotion', 'c.owner', 'c.image', 'u.first_name', 'u.last_name')
             .where('c.id', id).first()
 
             const exist = card[0].some((element: any) => element.id == data.id)

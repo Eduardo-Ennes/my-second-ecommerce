@@ -19,9 +19,11 @@ type Response = {
     error?: string
     message?: string
     code?: number
+    id?: number
 }
 
 class MethodsUser {
+    // Cria o usuário
     async CreateUser (form: FormUser): Promise<Response> {
         try{
             const existing = await Knex('users')
@@ -55,6 +57,7 @@ class MethodsUser {
                     cpf: form.cpf,
                     password: passHash
                 }).table('users')
+
                 return {status: true, message: 'Cadastro realizado com sucesso.', code: 200}
             }catch(error){
                 console.log('Error: ', error)
@@ -67,8 +70,10 @@ class MethodsUser {
     }
 
 
+    // Função para realizar o login 
     async LoginUser(form: FormUser): Promise<Response> { 
         try{
+            // Essas informações já são retornadas para as usar no cache do usuário, caso o login seja bem sucedido
             const user = await Knex('users')
             .select('id', 'first_name', 'last_name', 'phone', 'email', 'password')
             .where('email', form.email).first()
@@ -82,21 +87,23 @@ class MethodsUser {
                 return {status: false, error: 'Senha incorreta!', code: 401}
             }
 
+            // Função aonde se cria o chache do usuário
             const cache = await this.CreateChacheUser(user)
             if(!cache){
                 return {status: cache.status, error: cache.error, code: cache.code}
             }
 
-            return {status: true, message: 'Login realizado com sucesso!', code: 200}
+            // Se tudo for bem sucedido, retornrá o id do usuário, para que possa verificar em uma função posterior que é chamada no controller, para que se verifique se o usuário não possua cursos no carrinho de compras, aonde ele é o (dono, proprietário ou owner).
+            return {status: true, message: 'Autenticação realizada com sucesso!', id: user.id, code: 200}
         }catch(error){
             return {status: false, error: 'Houve um erro no servidor. Tente novamente.', code: 500}
         }
     }
 
+
+    // Função apenas da criação do cache do usuário
     async CreateChacheUser(object: FormUser): Promise<Response> {
         try{
-            await redisClient.del('user')
-
             await redisClient.set('user', JSON.stringify({
                 id: object.id,
                 first_name: object.first_name,

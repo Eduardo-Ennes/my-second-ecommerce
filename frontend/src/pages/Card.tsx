@@ -14,6 +14,7 @@ type Course = {
     price: number 
     price_promotion: number
     promotion: boolean
+    owner: number
     first_name: string
     last_name: string
 }[]
