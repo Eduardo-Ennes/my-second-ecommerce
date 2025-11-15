@@ -46,6 +46,7 @@ function ModalEditionLeasson({id, reload}: Props) {
         }
 
         setLeasson(response.data)
+        console.log(response.data)
       }catch(error){
         console.log(error)
         window.alert('Houve um error de conexão com a função da api searchLeasson.')

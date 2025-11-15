@@ -1,5 +1,7 @@
 import Knex from '../../../infrastructure/config/postgres'
 import redisClient from '../../../infrastructure/config/redisClient'
+import fs from 'fs'
+import path from 'path'
 
 type Course = {
   name: string
@@ -32,15 +34,7 @@ class RepositorieCourse {
             const cacheUser = await redisClient.get('user')
             if(!cacheUser) return {status: false, error: 'Usuário não autenticado.', code: 401}
 
-            // Faz o parse (conversão) do valor retornado pelo Redis para um objeto JavaScript
-            const user = JSON.parse(
-            // Verifica se o valor retornado (cacheUser) é uma string
-            typeof cacheUser === 'string' 
-                // Se for uma string, usa direto no JSON.parse()
-                ? cacheUser 
-                // Se for um Buffer (que é um tipo de dado binário), converte para string antes de fazer o parse
-                : cacheUser.toString()
-            )
+            const user = JSON.parse(cacheUser?.toString())
 
             try{
                 await Knex.insert({
@@ -64,25 +58,27 @@ class RepositorieCourse {
 
     async UpdateCourse(id: number, form: CourseUpdate): Promise<Response> {
         try{
+            console.log(form)
             const cacheUser = await redisClient.get('user')
+            // Verificamos se o ujsuário está autenticado
             if(!cacheUser) return {status: false, error: 'Usuário não autenticado.', code: 401}
+            const user = JSON.parse(cacheUser?.toString())
 
-            // Faz o parse (conversão) do valor retornado pelo Redis para um objeto JavaScript
-            const user = JSON.parse(
-            // Verifica se o valor retornado (cacheUser) é uma string
-            typeof cacheUser === 'string' 
-                // Se for uma string, usa direto no JSON.parse()
-                ? cacheUser 
-                // Se for um Buffer (que é um tipo de dado binário), converte para string antes de fazer o parse
-                : cacheUser.toString()
-            )
+            if('image' in form){
+                // Aqui buscamos a imagem para remove-la da pasta media
+                const data = await Knex.select('image').from('course').where({id: id, owner: user.id}).first()
 
+                const resolve = path.resolve(__dirname, `../media/${data.image}`)
+                if(fs.existsSync(resolve)){
+                    fs.unlinkSync(resolve)
+                }
+            }
+           
             await Knex('course')
             .update(form)
             .where({id: id, owner: user.id})
 
             return {status: true, message: 'Curso atualizado com sucesso.', code: 200}
-
         }catch(error){
             console.log(error)
             return {status: false, error: `Houve um error ao atualizar o curso ${form.name}. Tente novamente mais tarde.`}

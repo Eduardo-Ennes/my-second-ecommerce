@@ -25,8 +25,6 @@ function UpdateCorse({ id }: { id: number | null; }) {
   const [course, setCourse] = useState<Course | null>(null)
 
 
-  // Função de fetch memorável
-  // Executa o fetch inicialmente
   useEffect(() => {
     const ApiSearchDeatilCourse = async () => {
       if(id === null) return;
@@ -55,16 +53,16 @@ function UpdateCorse({ id }: { id: number | null; }) {
       event.preventDefault()
       if(!course) return 
 
-      if(!id) {
+      if(!id){
         window.alert('ID do curso não encontrado. Tente novamente.')
         navigate('/dashboard')
-        return
+        return;
       } 
 
       const response = await ApiCourse.UpdateCourse(id, course)
       if(!response.status){
         setErr(response.error)
-        return
+        return;
       }
 
       window.alert(response.message)

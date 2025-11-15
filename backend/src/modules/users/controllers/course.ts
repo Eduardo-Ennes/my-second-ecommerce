@@ -49,15 +49,18 @@ export async function searchUserAllCouses(req: Request, res: Response){
 }
 
 
-// busca um curso específico pelo id para edição
+// busca um curso específico pelo id para edição na dashboard
 export async function searchUserCourseById(req: Request, res: Response){
     try{
         const id = Number(req.params.id)
-        const course = await Knex.select('name', 'price', 'price_promotion', 'promotion', 'description', 'status', 'image').from('course').where('id', id).first()
+        const course = await Knex.select('name', 'price', 'price_promotion', 'promotion', 'description', 'status').from('course').where('id', id).first()
 
-        const cover = await {...course, promotion: String(course.promotion), status: String(course.status)}
+        // Aqui nos apagamos o cache da imagem para que o campo sempre esteja vazio quando for atualizado, não causará problemas com arquivos enviados anteriormente. Logo abaixo na próxima função há mais explicações
+        await redisClient.del('imageCache')
 
-        res.status(200).json({status: true, data: cover})
+        const data = await {...course, promotion: String(course.promotion), status: String(course.status)}
+
+        res.status(200).json({status: true, data: data})
     }catch(error){
         res.status(500).json({status: false, error: 'Houve um erro ao buscar o curso no banco de dados. Recarregue a página.'})
     }
@@ -68,21 +71,27 @@ export async function updateCourse(req: Request, res: Response){
     try{
         const id = Number(req.params.id)
 
-        const imageCache = await redisClient.get('imageCache')
-
         var form = {...req.body, 
         price: parseFloat(req.body.price), 
         price_promotion: parseFloat(req.body.price_promotion),
-        image: imageCache,
         promotion: req.body.promotion === 'true' ? true : false, 
         status: req.body.status === 'true' ? true : false}
 
+        // Aqui buscamos a imagem salva em cache pelo multer, é muito importante este cache ser deletado quando buscarmos para edição, se não sempre a imagem que foi salva anteriormente será removida da pasta, até por que a condição abaixo sempre será verdadeira e não será possível atualizar os dados sem enviar uma nova imagem
+        const imageCache = await redisClient.get('imageCache')
+        if(imageCache && imageCache.length > 0){
+            form = {...form, image: imageCache.toString()}
+        }
+
         const validations = await validationCourse.Fields(form)
         if(!validations.status){
+            // Caso haja algum erro de validação, a imagem salva pelo multer será excluida. Até por que ela não será salva no banco de dados
             const imagePath = path.resolve(__dirname, `../media/${imageCache}`)
-            fs.unlinkSync(imagePath) // Caso haja algum erro de validação, a imagem salva pelo multer será excluida.
+            if(fs.existsSync(imagePath)){
+                fs.unlinkSync(imagePath)
+            }
             res.status(400).json({status: validations.status, error: validations.error})
-            return
+            return;
         }
 
         const result = await repositorieCourse.UpdateCourse(id, form)
