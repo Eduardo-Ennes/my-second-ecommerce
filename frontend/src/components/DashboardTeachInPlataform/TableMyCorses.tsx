@@ -7,18 +7,20 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { Button } from '@headlessui/react'
 import iconEdit from '../../assets/edit.png'
 import UpdateCorse from "./TableMyCorse/UpdateCorse"
 import UpdateTags from './TableMyCorse/UpdateTags'
 import EditionLeassons from './TableMyCorse/EditionLeassons'
+import ApiCouser from '../../api/course/ApiCouser'
 
 function TableMyCorses() {
-    const [reload, setReload] = useState(false)
-    const changeReload = () => {
-        setReload(true)
-    }
+    const navigate = useNavigate()
+    // const reloadSearchUserCourses = () => {
+    //     searchUserCourses()
+    // }
 
     const [editionCorse, setEditionCorse] = useState<false | true>(false)
     const [id, setId] = useState<number| null>(null)
@@ -34,19 +36,27 @@ function TableMyCorses() {
         update_at: string;
     }>>([])
 
-    useEffect(() => {
-        const fetchUserCourses = async () => {
-          const response = await fetch('http://localhost:3000/search/user/courses', {
-            method: 'GET',
-          })
-    
-          const data = await response.json()
-          setUserCourses(data.data)
-          setReload(false)
+    // Busca todos os cursos do usuário para exibir na tabela 
+    const searchUserCourses = useCallback(async () => {
+        const response = await ApiCouser.searchAllUserCourses()
+        if(!response.status){
+            if(response.code === 401){
+                window.alert('Usuário não atenticado. Faça login.')
+                navigate('/login')
+                return;
+            }
+
+            window.alert(response.error)
+            navigate('/dashboard')
+            return;
         }
-    
-        fetchUserCourses()
-      }, [reload])
+
+        setUserCourses(response.data)
+    }, [navigate])
+
+    useEffect(() => {
+        searchUserCourses()
+    }, [searchUserCourses])
 
   return (
     <>

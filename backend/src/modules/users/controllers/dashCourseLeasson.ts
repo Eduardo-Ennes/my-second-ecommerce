@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
-import repositorieCourseLeasson from '../repositories/courseLeasson'
+import repositorieCourseLeasson from '../repositories/dashCourseLeasson'
+import validationLeasson from '../validations/fieldsLeasson'
 import redisClient from '../../../infrastructure/config/redisClient'
 import fs from 'fs';
 import path from 'path'
@@ -80,19 +81,6 @@ export async function searchDetailLeasson(req: Request, res: Response){
 // Atualiza uma aula
 export async function updateLeasson(req: Request, res: Response){
     try{
-        if(req.body.name.length > 75){
-            res.status(400).json({status: false, error: 'O nome da aula pode conter no máximo 75 caracteres.'})
-            return;
-        }
-        else if(req.body.name.length < 1){
-            res.status(400).json({status: false, error: 'O nome do curso não pode ser vazio.'})
-            return;
-        }
-        else if(req.body.position > 100 && req.body.position < 0){
-            res.status(400).json({status: false, error: 'Só pode haver 100 aulas dentro de cada módulo.'})
-            return;
-        }
-
         const id = Number(req.params.id)
         var form: {
             name: string,
@@ -136,7 +124,7 @@ export async function deleteLeasson(req: Request, res: Response){
 
 
 // Fornece o video diretamente para produção da aula
-export async function getLeasson(req: Request, res: Response){
+export async function getVideoLeasson(req: Request, res: Response){
     try{
         const name = req.params.name
         const leassonPath = path.resolve(__dirname, `../videoLeassons/${name}`)

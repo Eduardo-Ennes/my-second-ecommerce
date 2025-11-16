@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useCallback, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
 import ArrowRight from '../../../../assets/arrow-small-right.png'
 import Cross from '../../../../assets/cross.png'
@@ -8,6 +9,7 @@ import ApiCourseFile from '../../../../api/editionCourse/ApiCourseFiles'
 
 
 function FileLeassons({id}: {id: number | null}) {
+    const navigate = useNavigate()
     // O id passado se refere a identificação de uma aula 
 
     const [files, setFiles] = useState<Array<{id: number, file: string, url: string}>>([])
@@ -19,17 +21,22 @@ function FileLeassons({id}: {id: number | null}) {
     
           const response = await ApiCourseFile.searchFiles(id)
           if(!response.status){
+            if(response.code === 401){
+                window.alert('Usuario não autenticado. Faça login novamente.')
+                navigate('/login')
+                return;
+            }
+
             window.alert(response.error)
             return;
           }
 
-          console.log(response)
           setFiles(response.data)
         }catch(error){
             console.log(error)
             window.alert('Houve um error de conexão com a função da api searchFiles.')
         }
-      }, [id])
+      }, [id, navigate])
 
       useEffect(() => {
         handleSearch()
@@ -40,6 +47,12 @@ function FileLeassons({id}: {id: number | null}) {
             if(!infoFile) return;
             const response = await ApiCourseFile.createFile(id, infoFile)
             if(!response.status){
+                if(response.code === 401){
+                    window.alert('Usuario não autenticado. Faça login novamente.')
+                    navigate('/login')
+                    return;
+                }
+
                 window.alert(response.error)
                 setInfoFile('')
                 return;
@@ -56,8 +69,13 @@ function FileLeassons({id}: {id: number | null}) {
     const handleDelete = async (IdFile: number) => {
         try{
             const response = await ApiCourseFile.deleteFile(IdFile)
-            console.log(response)
             if(!response.status){
+                if(response.code === 401){
+                    window.alert('Usuario não autenticado. Faça login novamente.')
+                    navigate('/login')
+                    return;
+                }
+
                 window.alert(response.error)
                 setInfoFile('')
                 return;

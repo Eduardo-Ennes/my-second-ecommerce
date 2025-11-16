@@ -21,6 +21,11 @@ function LoginUser() {
       event.preventDefault()
       const response = await ApisUser.LoginUser(form)
       if(!response?.status){
+        if(response.code === 401){
+            window.alert(response.error)
+            navigate('/login')
+            return;
+        }
         // Essa condição só será acionada se houver problema de autenticação com o usuário.
         // Este response.error não causa conflito com o de baixo, devido ao status retornado, aonde esta condição é acionada e o return encerra a função não permitindo que o código continue.
         setError(response.error)

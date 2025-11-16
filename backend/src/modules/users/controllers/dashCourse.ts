@@ -1,29 +1,10 @@
 import { Request, Response } from 'express'
 import Knex from '../../../infrastructure/config/postgres'
-import validationCourse from '../validations/validationFieldsCourse'
-import repositorieCourse from '../repositories/course'
+import validationCourse from '../validations/fieldsCourse'
+import repositorieCourse from '../repositories/dashCourse'
 import redisClient from '../../../infrastructure/config/redisClient'
 import fs from 'fs';
 import path from 'path'
-
-
-// cria um novo curso
-export async function createCourse(req: Request, res: Response){
-    const form = {...req.body, price: parseFloat(req.body.price), price_promotion: parseFloat(req.body.price_promotion), promotion: Boolean(req.body.promotion)}
-    try{
-        const validations = await validationCourse.Fields(form)
-        if(!validations.status){
-            res.status(400).json({status: validations.status, error: validations.error})
-            return 
-        }
-
-        const result = await repositorieCourse.createCourse(form)
-        res.status(result.code).json(result)
-    }catch(error){
-        console.log(error)
-        res.status(500).json({error: 'Houve um erro no servidor, tente novamente mais tarde.'})
-    }
-}
 
 
 // busca todos os cursos do usuário para edição 
@@ -49,22 +30,43 @@ export async function searchUserAllCouses(req: Request, res: Response){
 }
 
 
+
 // busca um curso específico pelo id para edição na dashboard
 export async function searchUserCourseById(req: Request, res: Response){
     try{
+        console.log('PARAMS ID:', req.params.id)
         const id = Number(req.params.id)
-        const course = await Knex.select('name', 'price', 'price_promotion', 'promotion', 'description', 'status').from('course').where('id', id).first()
-
+        const response = await repositorieCourse.searchUserCourseById(id)
+        
         // Aqui nos apagamos o cache da imagem para que o campo sempre esteja vazio quando for atualizado, não causará problemas com arquivos enviados anteriormente. Logo abaixo na próxima função há mais explicações
+        res.status(response.code).json(response)
         await redisClient.del('imageCache')
-
-        const data = await {...course, promotion: String(course.promotion), status: String(course.status)}
-
-        res.status(200).json({status: true, data: data})
+        return;
     }catch(error){
         res.status(500).json({status: false, error: 'Houve um erro ao buscar o curso no banco de dados. Recarregue a página.'})
     }
 }
+
+
+
+// cria um novo curso
+export async function createCourse(req: Request, res: Response){
+    const form = {...req.body, price: parseFloat(req.body.price), price_promotion: parseFloat(req.body.price_promotion), promotion: Boolean(req.body.promotion)}
+    try{
+        const validations = await validationCourse.Fields(form)
+        if(!validations.status){
+            res.status(400).json({status: validations.status, error: validations.error})
+            return 
+        }
+
+        const result = await repositorieCourse.createCourse(form)
+        res.status(result.code).json(result)
+    }catch(error){
+        console.log(error)
+        res.status(500).json({error: 'Houve um erro no servidor, tente novamente mais tarde.'})
+    }
+}
+
 
 
 export async function updateCourse(req: Request, res: Response){

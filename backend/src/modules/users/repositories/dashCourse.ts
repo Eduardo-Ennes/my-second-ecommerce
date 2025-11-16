@@ -30,10 +30,8 @@ type Response = {
 
 class RepositorieCourse {
     async createCourse(form: Course): Promise<Response> {
-        try{        
+        try{
             const cacheUser = await redisClient.get('user')
-            if(!cacheUser) return {status: false, error: 'Usuário não autenticado.', code: 401}
-
             const user = JSON.parse(cacheUser?.toString())
 
             try{
@@ -56,13 +54,32 @@ class RepositorieCourse {
     }
 
 
+    async searchUserCourseById(id: number){
+        try{  
+            const cacheUser = await redisClient.get('user')
+            const user = JSON.parse(cacheUser?.toString())
+
+            const course = await Knex.select('name', 'price', 'price_promotion', 'promotion', 'description', 'status').from('course').where({id: id, owner: user.id}).first()
+
+            const data = await {...course, promotion: String(course.promotion), status: String(course.status)}
+
+            return{status: true, data: data, code: 200}
+        }catch(error){
+            console.log(error)
+            return {status: false, error: `Houve um error ao buscar os dados do curso no banco de dados.`, code: 500}
+        }
+    }
+
+
     async UpdateCourse(id: number, form: CourseUpdate): Promise<Response> {
         try{
-            console.log(form)
             const cacheUser = await redisClient.get('user')
-            // Verificamos se o ujsuário está autenticado
-            if(!cacheUser) return {status: false, error: 'Usuário não autenticado.', code: 401}
-            const user = JSON.parse(cacheUser?.toString())
+            const user = JSON.parse(cacheUser?.toString()) 
+
+            // Neste caso eu atualizo o curso primeiro por um motivo, se algum usuário malicioso tentar atualizar um curso que não é dele, ele não conseguirá devido a verificação do owner no banco de dados, dará um erro, a função irá parar e não removerá a imagem da pasta media.
+            await Knex('course')
+            .update(form)
+            .where({id: id, owner: user.id})
 
             if('image' in form){
                 // Aqui buscamos a imagem para remove-la da pasta media
@@ -73,10 +90,6 @@ class RepositorieCourse {
                     fs.unlinkSync(resolve)
                 }
             }
-           
-            await Knex('course')
-            .update(form)
-            .where({id: id, owner: user.id})
 
             return {status: true, message: 'Curso atualizado com sucesso.', code: 200}
         }catch(error){

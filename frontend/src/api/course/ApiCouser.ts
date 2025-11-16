@@ -18,8 +18,37 @@ type CourseUpdate = {
 
 
 class ApiCourse{
+    async searchAllUserCourses(){
+      try{
+        const response = await fetch('http://localhost:3000/search/user/courses', {
+            method: 'GET',
+          })
+    
+          const data = await response.json()
+          return data
+      }catch(error){
+        console.log(error)
+        return {status: false, error: "Error ao buscar os seus cursos, falha na conexão com o servidor."}
+      }
+    }
+
+    async searchDetailUserCourse(id: number){
+      try{
+        const response = await fetch(`http://localhost:3000/search/user/course/${id}`, {
+            method: 'GET',
+          });
+    
+          const data = await response.json()
+          console.log('DATA API: ', data)
+          return data
+      }catch(error){
+        console.log(error)
+        return {status: false, error: "Error ao buscar os detalhes do curso, falha na conexão com o servidor."}
+      }
+    }
+
     // API para criar um curso
-    async CreateCouse(form: Course){
+    async CreateCourse(form: Course){
         try{
           const response = await fetch('http://localhost:3000/create/course', {
               method: 'POST',
@@ -30,6 +59,7 @@ class ApiCourse{
               body: JSON.stringify(form)
             })
             const data = await response.json()
+            console.log('DATA: ', data)
             return data
         }catch(error){
           console.log(error)

@@ -54,6 +54,12 @@ function EditionLeassons({id}: {id: number | null}) {
       // Essa função busca todos os dados das aulas, módulo e aulas, está função está na classe da api dos módulos.
       const response = await ApiCourseModule.searchAll(id)
       if(!response.status){
+        if(response.code === 401){
+          window.alert('Usuario não autenticado. Faça login novamente.')
+          navigate('/login')
+          return;
+        }
+
         window.alert(response.error)
         navigate('/dashboard')
       }
@@ -77,6 +83,12 @@ function EditionLeassons({id}: {id: number | null}) {
       const position = course.length + 1
       const response = await ApiCourseModule.createModule(id, createModule, position)
       if(!response.status){
+        if(response.code === 401){
+          window.alert('Usuario não autenticado. Faça login novamente.')
+          navigate('/login')
+          return;
+        }
+        
         window.alert(response.error)
         return;
       }

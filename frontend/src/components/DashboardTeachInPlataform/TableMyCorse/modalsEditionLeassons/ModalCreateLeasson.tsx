@@ -30,7 +30,7 @@ type Props = {
 function ModalCreateLeasson({ idModule, reload }: Props) {
     const navigate = useNavigate()
     const [open, setOpen] = useState(false);
-    const [error, seterror] = useState<string>('')
+    const [error, setError] = useState<string>('')
     const [leasson, setLeasson] = useState<createLeasson>({
         name: '',
         video: ''
@@ -41,7 +41,13 @@ function ModalCreateLeasson({ idModule, reload }: Props) {
             if(!idModule) return 
             const response = await ApiEditionCourse.createLeasson(idModule, leasson)
             if(!response.status){
-                console.log('Daqui a pouco já será feito um error')
+                if(response.code === 401){
+                    window.alert('Usuario não autenticado. Faça login novamente.')
+                    navigate('/login')
+                    return;
+                }
+
+                setError('Daqui a pouco já será feito um error')
                 return;
             }
 
@@ -50,6 +56,7 @@ function ModalCreateLeasson({ idModule, reload }: Props) {
                 name: '',
                 video: ''
             })
+            
             setOpen(false)
         }catch(error){
             console.log(error)

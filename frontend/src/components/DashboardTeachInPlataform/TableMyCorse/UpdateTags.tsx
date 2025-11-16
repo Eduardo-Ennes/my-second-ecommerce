@@ -50,8 +50,14 @@ function Update_tags({ id }: { id: number | null }) {
             const response = await ApiTagsTechnologies.search(id)
 
             if (!response.status) {
+                if(response.code === 401){
+                    window.alert('Usuario não autenticado. Faça login novamente.')
+                    navigate('/login')
+                    return;
+                }
+
                 navigate('/dashboard')
-                return
+                return;
             }
 
             setListTec(response.data)
@@ -80,6 +86,12 @@ function Update_tags({ id }: { id: number | null }) {
             const response = await ApiTagsTechnologies.create(id, idTech)
             
             if(!response.status){
+                if(response.code === 401){
+                    window.alert('Usuario não autenticado. Faça login novamente.')
+                    navigate('/login')
+                    return;
+                }
+
                 window.alert(response.error)
                 navigate('/dashboard')
                 return;
@@ -103,6 +115,12 @@ function Update_tags({ id }: { id: number | null }) {
             const response = await ApiTagsTechnologies.delete(idTech)
 
             if(!response.status){
+                if(response.code === 401){
+                    window.alert('Usuario não autenticado. Faça login novamente.')
+                    navigate('/login')
+                    return;
+                }
+
                 window.alert(response.error)
                 navigate('/dashboard')
                 return;
@@ -128,6 +146,12 @@ const fetchRequisitsCourse = useCallback(async () => {
             const response = await ApiTagsRequisit.search(id)
 
             if (!response.status) {
+                if(response.code === 401){
+                    window.alert('Usuario não autenticado. Faça login novamente.')
+                    navigate('/login')
+                    return;
+                }
+
                 window.alert(response.error)
                 navigate('/dashboard')
                 return;
@@ -153,6 +177,12 @@ const fetchRequisitsCourse = useCallback(async () => {
             const response = await ApiTagsRequisit.create(id, requisit)
 
             if(!response.status){
+                if(response.code === 401){
+                    window.alert('Usuario não autenticado. Faça login novamente.')
+                    navigate('/login')
+                    return;
+                }
+
                 setError(response.error)
                 return
             }
@@ -175,6 +205,12 @@ const fetchRequisitsCourse = useCallback(async () => {
             const response = await ApiTagsRequisit.delete(idRequisit)
 
             if(!response.status){
+                if(response.code === 401){
+                    window.alert('Usuario não autenticado. Faça login novamente.')
+                    navigate('/login')
+                    return;
+                }
+                
                 setError(response.error)
                 return;
             }

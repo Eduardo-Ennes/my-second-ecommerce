@@ -26,28 +26,32 @@ function UpdateCorse({ id }: { id: number | null; }) {
 
 
   useEffect(() => {
-    const ApiSearchDeatilCourse = async () => {
+    // Função que busca as informações do curso selecionado para atualização
+    const SearchDeatilUserCourse = async () => {
       if(id === null) return;
 
-      try {
-        const response = await fetch(`http://localhost:3000/search/user/course/${id}`);
-        const data = await response.json();
-
-        if(data.data) setCourse(data.data);
-        else {
-          window.alert('Erro ao buscar curso');
-          navigate('/dashboard');
+      const response = await ApiCourse.searchDetailUserCourse(id)
+      console.log(response)
+      if(!response.status){
+        if(response.code === 401){
+          window.alert('Usuário não autenticado. Faça o login.')
+          navigate('/login')
+          return;
         }
-      } catch(error) {
-        console.log(error);
+
+        setErr(response.error)
+        navigate('/dashboard')
+        return;
       }
+
+      setCourse(response.data)
     }
 
-    ApiSearchDeatilCourse()
+    SearchDeatilUserCourse()
   }, [id, navigate]);
 
 
-  // função para atuzalizar um curso
+  // função para atuzalizar o curso selecionado
   const handleUpdateCourse = async (event: React.FormEvent<HTMLFormElement>) => {
     try{
       event.preventDefault()
@@ -61,6 +65,12 @@ function UpdateCorse({ id }: { id: number | null; }) {
 
       const response = await ApiCourse.UpdateCourse(id, course)
       if(!response.status){
+        if(response.code === 401){
+          window.alert('Usuário não autenticado. Faça o login.')
+          navigate('/login')
+          return;
+        }
+
         setErr(response.error)
         return;
       }

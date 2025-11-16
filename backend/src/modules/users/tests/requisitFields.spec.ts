@@ -1,4 +1,4 @@
-import ValidationRequisits from '../validations/validationFieldsRequisits'
+import ValidationRequisits from '../validations/fieldsRequisits'
 
 
 describe('Requisits -> teste do campo requisitos do curso', () => { 

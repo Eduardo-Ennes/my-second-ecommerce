@@ -11,7 +11,7 @@ type updateModule = {
 
 
 class repositorieModule {
-    // Cria a aula no banco de dados
+    // Cria o módulo no banco
     async createModule(idCourse: number, name: string, position: number){
         try{
             await Knex.insert({
@@ -49,7 +49,6 @@ class repositorieModule {
     // Atualiza as informações de um módulo
     async updateModule(form: updateModule){
         try{
-            console.log(form)
             await Knex.update({
                 name: form.name,
                 position: form.position

@@ -10,7 +10,7 @@ type updateModule = {
 }
 
 class repositorieCourseLeasson {
-    // Deleta uma aula 
+    // Cria uma aula 
     async createLeasson(idModule: number, name: string, video: string){
         try{
             const consult = await Knex('course_leassons')

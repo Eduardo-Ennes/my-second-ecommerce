@@ -45,12 +45,16 @@ function ModalEditionModule({id, reload}: Props) {
 
       const response = await ApiCourseModule.searchModule(id)
       if(!response.status){
+         if(response.code === 401){
+              window.alert('Usuario não autenticado. Faça login novamente.')
+              navigate('/login')
+              return;
+          }
+
         window.alert(response.error)
         navigate('/dashboard')
         return;
       }
-
-      console.log(response.data)
 
       setModule({
         id: response.data.id,
@@ -74,6 +78,12 @@ function ModalEditionModule({id, reload}: Props) {
     try{
       const response = await ApiCourseModule.updateModule(module)
       if(!response.status){
+         if(response.code === 401){
+            window.alert('Usuario não autenticado. Faça login novamente.')
+            navigate('/login')
+            return;
+        }
+
         window.alert(response.error)
         navigate('/dashboard')
         return;
@@ -93,6 +103,12 @@ function ModalEditionModule({id, reload}: Props) {
     try{
       const response = await ApiCourseModule.deleteModule(id)
       if(!response.status){
+         if(response.code === 401){
+            window.alert('Usuario não autenticado. Faça login novamente.')
+            navigate('/login')
+            return;
+          }
+          
         setError(response.error)
         return;
       }

@@ -8,15 +8,14 @@ import redisClient from './infrastructure/config/redisClient'
 
 
 // importações dos Routes
-import routerCourse from './modules/users/routes/course'
+import routerDashCourse from './modules/users/routes/dashCourse'
+import routerDashTags from './modules/users/routes/dashtags'
+import routesDashCourseModules from './modules/users/routes/dashCourseModule'
+import routesDashCourseLeassons from './modules/users/routes/dashCourseLeasson'
+import routesDashCourseFile from './modules/users/routes/dashCourseFile'
 import routerGetCourse from './modules/users/routes/getCourse'
-import routesCourseModules from './modules/users/routes/courseModule'
-import routesCourseLeassons from './modules/users/routes/courseLeasson'
-import routesCourseFile from './modules/users/routes/courseFile'
 import listFavorite from './modules/users/routes/favoriteAndCard'
 import routerUser from './modules/users/routes/routesUser'
-import routerTags from './modules/users/routes/tags'
-
 
 
 dotenv.config()
@@ -28,13 +27,13 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use(routerUser)
-app.use(routerCourse)
+app.use(routerDashCourse)
 app.use(routerGetCourse)
-app.use(routerTags)
-app.use(routesCourseModules)
+app.use(routerDashTags)
+app.use(routesDashCourseModules)
 app.use(listFavorite)
-app.use(routesCourseLeassons)
-app.use(routesCourseFile)
+app.use(routesDashCourseLeassons)
+app.use(routesDashCourseFile)
 
 
 // Conexão com o postgres e inicialização da aplicação

@@ -38,13 +38,18 @@ function FormUser() {
     const FormRegisterUser = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         const response = await ApisUser.CreateUser(form)
-        console.log('RESPONSE: ', response)
-        if(response.status){
-            navigate('/login'); 
-        }
-        else{
-            setError(response.error)
-        }
+        if(!response.status){
+           if(response.code === 401){
+                window.alert(response.error)
+                navigate('/')
+                return;
+           }
+
+            setError(response.error) 
+            return;
+        } 
+
+        navigate('/login')
     }
 
   return (

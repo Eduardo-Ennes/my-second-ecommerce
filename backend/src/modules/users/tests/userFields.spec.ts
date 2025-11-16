@@ -1,4 +1,4 @@
-import ValidationFieldsUser from '../validations/validationFieldsUser'
+import ValidationFieldsUser from '../validations/fieldsUser'
 
 const validUser = {
   first_name: 'Eduardo',

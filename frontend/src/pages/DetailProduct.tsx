@@ -77,6 +77,12 @@ function DetailProduct() {
             const response = await DetailCourse.addListFavorite(id)
 
             if(!response.status){
+                if(response.code === 401){
+                    window.alert(response.error)
+                    navigate(`/detail/product/${params}`)
+                    return;
+                }
+
                 window.alert(response.error)
                 return;
             }
@@ -95,6 +101,12 @@ function DetailProduct() {
         try{
             const response = await DetailCourse.deleteListFavorite(id)
             if(!response.status){
+                if(response.code === 401){
+                    window.alert(response.error)
+                    navigate(`/detail/product/${params}`)
+                    return;
+                }
+                
                 window.alert(response.error)
                 return;
             }            

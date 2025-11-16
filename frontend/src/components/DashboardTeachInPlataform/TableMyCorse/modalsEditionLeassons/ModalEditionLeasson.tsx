@@ -41,12 +41,16 @@ function ModalEditionLeasson({id, reload}: Props) {
         if(!id) return
         const response = await ApiCourseLeasson.searchDetailLeasson(id)
         if(!response.status){
+           if(response.code === 401){
+              window.alert('Usuario não autenticado. Faça login novamente.')
+              navigate('/login')
+              return;
+            }
           window.alert(response.error)
           navigate('/dashboard')
         }
 
         setLeasson(response.data)
-        console.log(response.data)
       }catch(error){
         console.log(error)
         window.alert('Houve um error de conexão com a função da api searchLeasson.')
@@ -75,6 +79,12 @@ function ModalEditionLeasson({id, reload}: Props) {
             navigate('/dashboard')
             return;
           }
+
+          if(response.code === 401){
+            window.alert('Usuario não autenticado. Faça login novamente.')
+            navigate('/login')
+            return;
+          }
           
           setError(response.error)
           return;
@@ -99,6 +109,12 @@ function ModalEditionLeasson({id, reload}: Props) {
         }
         const response = await ApiCourseLeasson.deleteLeasson(id)
         if(!response.status){
+          if(response.code === 401){
+            window.alert('Usuario não autenticado. Faça login novamente.')
+            navigate('/login')
+            return;
+          }
+          
           setError(response.error)
           return;
         }

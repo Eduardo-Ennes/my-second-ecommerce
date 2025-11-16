@@ -8,10 +8,12 @@ import {
 } from "@/components/ui/alert"
 import ApiCourse from '../../api/course/ApiCouser.js'
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import arrowRightWhite from '../../assets/arrow-right-white.png'
 
 
 function CreateCorse({redirectTo}: {redirectTo: () => void}) {
+  const navigate = useNavigate()
   const [error, setError] = useState("")
 
   const [formCourse, setFormCourse] = useState({
@@ -24,11 +26,16 @@ function CreateCorse({redirectTo}: {redirectTo: () => void}) {
 
   // Função para criar o curso
   const fetchCreateCorse = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
     try{
-      const response = await ApiCourse.CreateCouse(formCourse)
-      console.log(response)
+      event.preventDefault()
+      const response = await ApiCourse.CreateCourse(formCourse)
       if(!response.status){
+        if(response.code === 401){
+          window.alert('Usuario não autenticado. Faça login novamente.')
+          navigate('/login')
+          return;
+        }
+
         setError(response.error)
         return;
       }

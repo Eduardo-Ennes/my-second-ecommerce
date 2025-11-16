@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import redisClient from '../../../infrastructure/config/redisClient'
-import validationFieldsUser from '../validations/validationFieldsUser'
+import validationFieldsUser from '../validations/fieldsUser'
 import repositorieUser from '../repositories/user'
 import { verifyCardLogin } from '../utils/loginVerifyCardUser'
 
