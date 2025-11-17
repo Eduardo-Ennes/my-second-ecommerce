@@ -40,32 +40,26 @@ function ModalEditionModule({id, reload}: Props) {
 
   // Busca os dados do módulo
   const handleSearch = useCallback(async () => {
-    try{
-      if(!id) return;
+    if(!id) return;
 
-      const response = await ApiCourseModule.searchModule(id)
-      if(!response.status){
-         if(response.code === 401){
-              window.alert('Usuario não autenticado. Faça login novamente.')
-              navigate('/login')
-              return;
-          }
+    const response = await ApiCourseModule.searchModule(id)
+    if(!response.status){
+        if(response.code === 401){
+            window.alert('Usuario não autenticado. Faça login novamente.')
+            navigate('/login')
+            return;
+        }
 
-        window.alert(response.error)
-        navigate('/dashboard')
-        return;
-      }
-
-      setModule({
-        id: response.data.id,
-        name: response.data.name,
-        position: response.data.position
-      })
-    }catch(error){
-      console.log(error)
-        window.alert('Houve um error de conexão com a função da api updateModule.')
-        navigate('/dashboard')
+      window.alert(response.error)
+      navigate('/dashboard')
+      return;
     }
+
+    setModule({
+      id: response.data.id,
+      name: response.data.name,
+      position: response.data.position
+    })
   }, [id, navigate])
 
   // Este effect é importante, sempre acionado uma vez quando o template é iniciado, depois só quando chamada a função de dependência.
@@ -75,50 +69,39 @@ function ModalEditionModule({id, reload}: Props) {
 
   // Atualiza o módulo
   const handleUpdate = async () => {
-    try{
-      const response = await ApiCourseModule.updateModule(module)
-      if(!response.status){
-         if(response.code === 401){
-            window.alert('Usuario não autenticado. Faça login novamente.')
-            navigate('/login')
-            return;
-        }
-
-        window.alert(response.error)
-        navigate('/dashboard')
-        return;
+    const response = await ApiCourseModule.updateModule(module)
+    if(!response.status){
+        if(response.code === 401){
+          window.alert('Usuario não autenticado. Faça login novamente.')
+          navigate('/login')
+          return;
       }
 
-      reload()
-      setOpen(false)
-    }catch(error){
-      console.log(error)
-        window.alert('Houve um error de conexão com a função da api updateModule.')
-        navigate('/dashboard')
+      window.alert(response.error)
+      navigate('/dashboard')
+      return;
     }
+
+    reload()
+    setOpen(false)
   }
 
   // Deleta o Módulo
   const handleDelete = async () => {
-    try{
-      const response = await ApiCourseModule.deleteModule(id)
-      if(!response.status){
-         if(response.code === 401){
-            window.alert('Usuario não autenticado. Faça login novamente.')
-            navigate('/login')
-            return;
-          }
-          
-        setError(response.error)
-        return;
-      }
-
-      reload()
-      setOpen(false)
-    }catch(error){
-      console.log(error)
-        window.alert('Houve um error de conexão com a função da api.')
+    const response = await ApiCourseModule.deleteModule(id)
+    if(!response.status){
+        if(response.code === 401){
+          window.alert('Usuario não autenticado. Faça login novamente.')
+          navigate('/login')
+          return;
+        }
+        
+      setError(response.error)
+      return;
     }
+
+    reload()
+    setOpen(false)
   }
 
   return (

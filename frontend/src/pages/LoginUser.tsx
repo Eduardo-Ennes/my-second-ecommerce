@@ -17,8 +17,7 @@ function LoginUser() {
   })
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-    try{
-      event.preventDefault()
+    event.preventDefault()
       const response = await ApisUser.LoginUser(form)
       if(!response?.status){
         if(response.code === 401){
@@ -39,10 +38,6 @@ function LoginUser() {
       }
 
       navigate('/')
-    }catch(error){
-      console.log(error)
-      setError('Houve um error no servidor. Tente novamente.')
-    }
   }
 
 

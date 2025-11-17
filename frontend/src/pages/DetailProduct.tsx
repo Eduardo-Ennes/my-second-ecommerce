@@ -14,7 +14,7 @@ import { Badge } from "@/components/ui/badge"
 import { useCallback, useEffect, useState } from "react"
 // import Avaliation from "@/components/Avaliation"
 import { useParams, useNavigate } from "react-router-dom"
-import DetailCourse from '../api/detailCourse/searchCourse'
+import DetailCourse from '../api/detailCourse'
 
 // Esses são os dados que retornao do response.data
 type Course = {
@@ -45,24 +45,18 @@ function DetailProduct() {
 
     // Busca os dados no backend, como ele vem dados da tabelas do curso, usuário e lista de favoritos
     const handleSearchDetailCourse = useCallback(async () => {
-        try{ 
-            if(!params) return;
-            const response = await DetailCourse.searchCourse(Number(params.id))
+        if(!params) return;
+        const response = await DetailCourse.searchCourse(Number(params.id))
 
-            if(!response.data){
-                window.alert(response.error)
-                navigate('/')
-                return;
-            }
-
-            setCourse(response.data)
-            setIdUser(response.user)
-            setFavorite(response.favorite)
-        }catch(error){
-            console.log(error)
-            window.alert('Houve um erro de conexão com o servidor e não foi possivel buscar os detalhes do produto.')
+        if(!response.data){
+            window.alert(response.error)
             navigate('/')
+            return;
         }
+
+        setCourse(response.data)
+        setIdUser(response.user)
+        setFavorite(response.favorite)
     }, [params, navigate])
 
 
@@ -73,71 +67,55 @@ function DetailProduct() {
 
     // Adicionar um novo curso a lista de favoritos, usado como parametro o id do curso
     const handleAddInListFavorite = async (id: number) => {
-        try{
-            const response = await DetailCourse.addListFavorite(id)
+        const response = await DetailCourse.addListFavorite(id)
 
-            if(!response.status){
-                if(response.code === 401){
-                    window.alert(response.error)
-                    navigate(`/detail/product/${params}`)
-                    return;
-                }
-
+        if(!response.status){
+            if(response.code === 401){
                 window.alert(response.error)
+                navigate(`/detail/product/${params}`)
                 return;
             }
 
-            handleSearchDetailCourse()
-        }catch(error){
-            console.log(error)
-            window.alert('Houve um erro de conexão com a função que adiciona um curso na lista de favoritos.')
-            navigate('/')
+            window.alert(response.error)
+            return;
         }
+
+        handleSearchDetailCourse()
     }
 
 
     // Remover da lista de favoritos, usado como paramêtro o proprio id da tabela 
     const handleDeleteInListFavorite = async (id: number) => {
-        try{
-            const response = await DetailCourse.deleteListFavorite(id)
-            if(!response.status){
-                if(response.code === 401){
-                    window.alert(response.error)
-                    navigate(`/detail/product/${params}`)
-                    return;
-                }
-                
+        const response = await DetailCourse.deleteListFavorite(id)
+        if(!response.status){
+            if(response.code === 401){
                 window.alert(response.error)
+                navigate(`/detail/product/${params}`)
                 return;
-            }            
+            }
+            
+            window.alert(response.error)
+            return;
+        }            
 
-            handleSearchDetailCourse()
-        }catch(error){
-            console.log(error)
-            window.alert('Houve um erro de conexão com a função que remove um curso da lista de favoritos.')
-            navigate('/')
-        }
+        handleSearchDetailCourse()
     }
 
     // Adiciona um curso ao carrinho de compras, id do curso usado como referência
     const handleAddCourseCard = async (id: number) => {
-        try{    
-            const response = await fetch(`http://localhost:3000/add/course/card/${id}`, {
-                method: 'POST'
-            })
-
-            const data = await response.json()
-            if(!data.status){
-                window.alert(data.error)
+        const response = await DetailCourse.addCourseInCard(id)
+        if(!response.status){
+            if(response.code === 401){
+                window.alert(response.error)
+                navigate('login')
                 return;
             }
 
-            navigate('/card')
-        }catch(error){
-            console.log(error)
-            window.alert('Error ao adicionar o curso no carrinho. Falha na conexão com o servidor.')
-            navigate(`/detail/product/${params}`)
+            window.alert(response.error)
+            return;
         }
+
+        navigate('/card')
     }
 
 

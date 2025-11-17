@@ -5,6 +5,7 @@ import iconBook from '../assets/book.png'
 import { Link } from "react-router-dom"
 import { useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import DetailCourse from "../api/detailCourse/index"
 
 
 type Course = {
@@ -29,27 +30,23 @@ function Card() {
 
     // Busca o carrinho de compras
     const searchCourses = useCallback(async () => {
-        try{
-            const response = await fetch('http://localhost:3000/search/courses/card', {
-                method: 'GET'
-            })
+        const response = await DetailCourse.searchCard()
 
-            const data = await response.json()
-            if(!data.status){
-                window.alert(data.error)
-                navigate('/')
+        if(!response.status){
+            if(response.code === 401){
+                window.alert(response.error)
+                navigate('/login')
                 return;
             }
-            
-            // Ambos os valores estão na mesma lista
-            setProduct(data.card[0])
-            // Porem, o total é um objeto ex: {total: 50.00}
-            setTotal(data.card[1].total)
-        }catch(error){
-            console.log(error)
-            window.alert('Houve um erro ao buscar o carrinho de produtos. Falha na coenxão com o servidor.')
-            navigate('/')
+
+            window.alert(response.error)
+            return;
         }
+        
+        // Ambos os valores estão na mesma lista
+        setProduct(response.card[0])
+        // Porem, o total é um objeto ex: {total: 50.00}
+        setTotal(response.card[1].total)
     }, [navigate])
 
 
@@ -60,23 +57,20 @@ function Card() {
 
     // Deleta um produto, usado o id do curso como referência
     const delCourse = async (id: number) => {
-        try{
-            const response = await fetch(`http://localhost:3000/del/course/card/${id}`, {
-                method: 'DELETE'
-            })
+        const response = await DetailCourse.deleteCourseInCard(id)
 
-            const data = await response.json()
-            if(!data.status){
-                window.alert(data.error)
+        if(!response.status){
+            if(response.code === 401){
+                window.alert(response.error)
+                navigate('/login')
                 return;
             }
 
-            searchCourses()
-        }catch(error){
-            console.log(error)
-            window.alert('Houve um erro ao deletar o curso do carrinho de compras. Falha na coenxão com o servidor.')
-            navigate('/')
+            window.alert(response.error)
+            return;
         }
+
+        searchCourses()
     }
 
   return (

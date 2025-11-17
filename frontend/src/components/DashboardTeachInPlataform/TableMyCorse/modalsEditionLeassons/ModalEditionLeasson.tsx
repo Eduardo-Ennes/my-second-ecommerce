@@ -37,25 +37,19 @@ function ModalEditionLeasson({id, reload}: Props) {
 
     // Busca os dados da aula
     const handleSearch = useCallback(async () => {
-      try{
-        if(!id) return
-        const response = await ApiCourseLeasson.searchDetailLeasson(id)
-        if(!response.status){
-           if(response.code === 401){
-              window.alert('Usuario não autenticado. Faça login novamente.')
-              navigate('/login')
-              return;
-            }
-          window.alert(response.error)
-          navigate('/dashboard')
-        }
-
-        setLeasson(response.data)
-      }catch(error){
-        console.log(error)
-        window.alert('Houve um error de conexão com a função da api searchLeasson.')
+      if(!id) return
+      const response = await ApiCourseLeasson.searchDetailLeasson(id)
+      if(!response.status){
+          if(response.code === 401){
+            window.alert('Usuario não autenticado. Faça login novamente.')
+            navigate('/login')
+            return;
+          }
+        window.alert(response.error)
         navigate('/dashboard')
       }
+
+      setLeasson(response.data)
     }, [id, navigate])
 
     // Este effect é importante, sempre acionado uma vez quando o template é iniciado, depois só quando chamada a função de dependência.
@@ -65,67 +59,48 @@ function ModalEditionLeasson({id, reload}: Props) {
 
     // Atualiza uma aula
     const handleUpdate = async () => {
-      try{
-        if(!id){
-          window.alert('Houve um error! Id da aula undefined. Entre em contato com nossa equipe de atendimento.')
+      if(!id) return;
+
+      const response = await ApiCourseLeasson.updateLeasson(id, leasson)
+      if(!response.status){
+        if(response.code == 500){
+          window.alert(response.error)
           navigate('/dashboard')
           return;
         }
 
-        const response = await ApiCourseLeasson.updateLeasson(id, leasson)
-        if(!response.status){
-          if(response.code == 500){
-            window.alert(response.error)
-            navigate('/dashboard')
-            return;
-          }
-
-          if(response.code === 401){
-            window.alert('Usuario não autenticado. Faça login novamente.')
-            navigate('/login')
-            return;
-          }
-          
-          setError(response.error)
+        if(response.code === 401){
+          window.alert('Usuario não autenticado. Faça login novamente.')
+          navigate('/login')
           return;
         }
-
-        reload()
-        setOpen(false)
-      }catch(error){
-        console.log(error)
-        window.alert('Houve um error de conexão com a função da api updateLeasson.')
-        navigate('/dashboard')
+        
+        setError(response.error)
+        return;
       }
+
+      reload()
+      setOpen(false)
     }
 
     // Deleta uma aula 
     const handleDelete = async () => {
-      try{
-        if(!id){
-          window.alert('Houve um error! Id da aula undefined. Entre em contato com nossa equipe de atendimento.')
-          navigate('/dashboard')
+      if(!id) return;
+        
+      const response = await ApiCourseLeasson.deleteLeasson(id)
+      if(!response.status){
+        if(response.code === 401){
+          window.alert('Usuario não autenticado. Faça login novamente.')
+          navigate('/login')
           return;
         }
-        const response = await ApiCourseLeasson.deleteLeasson(id)
-        if(!response.status){
-          if(response.code === 401){
-            window.alert('Usuario não autenticado. Faça login novamente.')
-            navigate('/login')
-            return;
-          }
-          
-          setError(response.error)
-          return;
-        }
-
-        reload()
-        setOpen(false)
-      }catch(error){
-        console.log(error)
-        window.alert('Houve um error de conexão com a função da api deleteLeasson.')
-        navigate('/dashboard')
+        
+        setError(response.error)
+        return;
       }
+
+      reload()
+      setOpen(false)
     }
 
   return (

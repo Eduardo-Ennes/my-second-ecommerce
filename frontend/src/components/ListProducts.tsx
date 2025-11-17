@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import ApiSearchCoursesAndTechnologies from '../api/course/ApiSearchCourses'
+import { useNavigate } from "react-router-dom";
 
 type Courses = {
     id_user: number
@@ -21,22 +22,18 @@ type Props = {
 }
 
 function ListProducts({id, nameSearchCourses}: Props) {
+    const navigate = useNavigate();
     const [courses, setCourses] = useState<Array<Courses>>([])
 
     const handleSearchAllCourses = useCallback(async () => {
-        try{
-            const response =  await ApiSearchCoursesAndTechnologies.SearchAllCourses()
+        const response =  await ApiSearchCoursesAndTechnologies.SearchAllCourses()
 
-            if(!response.status){
-                window.alert(response.error)
-                return;
-            }
-
-            setCourses(response.data)
-        }catch(error){
-            console.log(error)
-            window.alert('Houve um erro de conexão com a função da api TAL.')
+        if(!response.status){
+            window.alert(response.error)
+            return;
         }
+
+        setCourses(response.data)
     }, [])
 
 
@@ -47,49 +44,44 @@ function ListProducts({id, nameSearchCourses}: Props) {
 
     useEffect(() => {
         const handleSearchCourseByTag = async () => {
-            try{
-                if(id == null) return;
-                if(id === 0){
-                    handleSearchAllCourses()
-                    return;
-                } 
+            if(id == null) return;
+            if(id === 0){
+                handleSearchAllCourses()
+                return;
+            } 
 
-                const response = await ApiSearchCoursesAndTechnologies.SearchCourseByTag(id)
+            const response = await ApiSearchCoursesAndTechnologies.SearchCourseByTag(id)
 
-                if(!response.status){
+            if(!response.status){
+                if(response.code === 401){
                     window.alert(response.error)
+                    navigate('/login')
                     return;
                 }
 
-                setCourses(response.data)
-            }catch(error){
-                console.log(error)
-                window.alert('Houve um erro ao buscar os cursos pelo filtro. Tente novamente.')
-                handleSearchAllCourses()
+                window.alert(response.error)
+                return;
             }
+
+            setCourses(response.data)
         }
 
         handleSearchCourseByTag()
-    }, [id, handleSearchAllCourses])
+    }, [id, handleSearchAllCourses, navigate])
     
 
     useEffect(() => {
         const handleSearchCoursesByName = async () => {
-            try{
-                if(!nameSearchCourses) return;
+            if(!nameSearchCourses) return;
 
-                const response = await ApiSearchCoursesAndTechnologies.SearchCoursesByName(nameSearchCourses)
+            const response = await ApiSearchCoursesAndTechnologies.SearchCoursesByName(nameSearchCourses)
 
-                if(!response.status){
-                    window.alert(response.error)
-                    return;
-                }
-
-                setCourses(response.data)
-            }catch(error){
-                console.log(error)
-                window.alert('Erro de conexão com a api de busca dos cursos pelo nome.')
+            if(!response.status){
+                window.alert(response.error)
+                return;
             }
+
+            setCourses(response.data)
         }
 
         handleSearchCoursesByName()

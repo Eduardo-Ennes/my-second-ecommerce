@@ -14,7 +14,7 @@ import {
 import IconSearch from '../assets/search.png'
 import IconHeart from '../assets/heart.png'
 import DropdownMenuAvatar from './DropdownMenuAvatar';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import userApi from '../api/user/UserApi'
 
 
@@ -23,7 +23,7 @@ type argsArgument = {
   nameSearchCourses?: (name: string) => void
 }
 
-function Header({args, nameSearchCourses}: argsArgument) {
+function Header({args}: argsArgument) {
   const navigate = useNavigate();
   const [name, setName] = useState<string>('')
   const [logado, setLogado] = useState<boolean>()
@@ -31,35 +31,14 @@ function Header({args, nameSearchCourses}: argsArgument) {
 
   useEffect(() => {
     const searchCacheUser = async () => {
-      try{
-        const response = await userApi.CacheUser()
+      const response = await userApi.CacheUser()
 
-        setLogado(response.user)
-      }catch(error){
-        console.log(error)
-        window.alert('Houve um error ao buscar o cache do usuário. Falha na conexão com o servidor.')
-        navigate('/')
-      }
+      setLogado(response.user)
     }
 
     searchCacheUser()
 
   }, [navigate])
-
-  const Reset = async () => {
-        const response = await fetch('http://localhost:3000/reset', {
-          method: 'POST'
-        })
-
-        const data = await response.json()
-        setLogado(data.user.login)
-        navigate('/')
-    }
-
-    const handleSearchCourseName = async () => {
-      nameSearchCourses(name)
-      setName('')
-    }
 
   return (
     <>
@@ -77,7 +56,7 @@ function Header({args, nameSearchCourses}: argsArgument) {
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Buscar..." 
                 className='!border-none !outline-none !shadow-none !ring-0'/>
-                <Link to="#" onClick={() => handleSearchCourseName()} className='bg-[oklch(14.5%_0_0)] cursor-pointer text-base pr-3'>
+                <Link to="#" className='bg-[oklch(14.5%_0_0)] cursor-pointer text-base pr-3'>
                   <img src={IconSearch} alt="Icone do search" />
                 </Link>
               </div>

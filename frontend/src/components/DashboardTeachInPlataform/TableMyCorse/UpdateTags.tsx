@@ -29,41 +29,34 @@ function Update_tags({ id }: { id: number | null }) {
     // Função API que busca as tags de tecnologias
     useEffect(() => {
         const fetchTechnologies = async () => {
-            try{
-                const response = await fetch('http://localhost:3000/search/technologies', {
-                    method: 'GET',
-                })
-                const res = await response.json()
-                setTechnologies(res.data) 
+            const response = await fetch('http://localhost:3000/search/technologies', {
+                method: 'GET',
+            })
 
-            }catch(error){
-                console.log(error)
-            }
+            const data = await response.json()
+            setTechnologies(data.data) 
         }
+
         fetchTechnologies()
     }, [])
 
 
     // função para buscar as tags de tecnologias referenciadas a um curso
     const fetchTechnologiesCourse = useCallback(async () => {
-        try {
-            const response = await ApiTagsTechnologies.search(id)
+        const response = await ApiTagsTechnologies.search(id)
 
-            if (!response.status) {
-                if(response.code === 401){
-                    window.alert('Usuario não autenticado. Faça login novamente.')
-                    navigate('/login')
-                    return;
-                }
-
-                navigate('/dashboard')
+        if (!response.status) {
+            if(response.code === 401){
+                window.alert('Usuario não autenticado. Faça login novamente.')
+                navigate('/login')
                 return;
             }
 
-            setListTec(response.data)
-        } catch (error) {
-            console.log(error)
+            navigate('/dashboard')
+            return;
         }
+
+        setListTec(response.data)
 
     }, [id, navigate])
 
@@ -82,58 +75,42 @@ function Update_tags({ id }: { id: number | null }) {
 
     // Função que referencia tags de tecnologia
     const handleAddTech = async (idTech: number) => { 
-        try{
-            const response = await ApiTagsTechnologies.create(id, idTech)
+        const response = await ApiTagsTechnologies.create(id, idTech)
             
-            if(!response.status){
-                if(response.code === 401){
-                    window.alert('Usuario não autenticado. Faça login novamente.')
-                    navigate('/login')
-                    return;
-                }
-
-                window.alert(response.error)
-                navigate('/dashboard')
+        if(!response.status){
+            if(response.code === 401){
+                window.alert('Usuario não autenticado. Faça login novamente.')
+                navigate('/login')
                 return;
             }
-            
-            setTec('')
-            fetchTechnologiesCourse()
-        }catch(error){
-            console.log(error)
-            setError((prev) => [
-                ...prev,
-                'Houve um erro ao chamar a função de criação da tag de tecnologia. Recarregue a página.'
-            ])
+
+            window.alert(response.error)
+            navigate('/dashboard')
+            return;
         }
+        
+        setTec('')
+        fetchTechnologiesCourse()
     }
 
     
     // Função para remover tag de tecnologia
     const handleDeleteTech = async (idTech: number) => {
-        try{
-            const response = await ApiTagsTechnologies.delete(idTech)
+        const response = await ApiTagsTechnologies.delete(idTech)
 
-            if(!response.status){
-                if(response.code === 401){
-                    window.alert('Usuario não autenticado. Faça login novamente.')
-                    navigate('/login')
-                    return;
-                }
-
-                window.alert(response.error)
-                navigate('/dashboard')
+        if(!response.status){
+            if(response.code === 401){
+                window.alert('Usuario não autenticado. Faça login novamente.')
+                navigate('/login')
                 return;
             }
 
-            fetchTechnologiesCourse()
-        }catch(error){
-            console.log(error)
-            setError((prev) => [
-                ...prev,
-                'Houve um erro ao chamar a função de deleção da tag de tecnologia. Recarregue a página.'
-            ])
+            window.alert(response.error)
+            navigate('/dashboard')
+            return;
         }
+
+        fetchTechnologiesCourse()
     }
 
 
@@ -142,26 +119,22 @@ function Update_tags({ id }: { id: number | null }) {
 
 // Função para buscar requisitos de um curso
 const fetchRequisitsCourse = useCallback(async () => {
-        try {
-            const response = await ApiTagsRequisit.search(id)
+        const response = await ApiTagsRequisit.search(id)
 
-            if (!response.status) {
-                if(response.code === 401){
-                    window.alert('Usuario não autenticado. Faça login novamente.')
-                    navigate('/login')
-                    return;
-                }
-
-                window.alert(response.error)
-                navigate('/dashboard')
+        if (!response.status) {
+            if(response.code === 401){
+                window.alert('Usuario não autenticado. Faça login novamente.')
+                navigate('/login')
                 return;
             }
 
-            setListReq(response.data)
-            setRequisit('')
-        } catch (error) {
-            console.log(error)
+            window.alert(response.error)
+            navigate('/dashboard')
+            return;
         }
+
+        setListReq(response.data)
+        setRequisit('')
 
     }, [id, navigate])
 
@@ -173,57 +146,41 @@ const fetchRequisitsCourse = useCallback(async () => {
     // Função para criar uma tag de requisito
     const handleCreateRequisit = async (event: React.MouseEvent<HTMLButtonElement>, requisit: string) => {
         event.preventDefault()
-        try{
-            const response = await ApiTagsRequisit.create(id, requisit)
+        const response = await ApiTagsRequisit.create(id, requisit)
 
-            if(!response.status){
-                if(response.code === 401){
-                    window.alert('Usuario não autenticado. Faça login novamente.')
-                    navigate('/login')
-                    return;
-                }
-
-                setError(response.error)
-                return
+        if(!response.status){
+            if(response.code === 401){
+                window.alert('Usuario não autenticado. Faça login novamente.')
+                navigate('/login')
+                return;
             }
 
-            fetchRequisitsCourse()
-            return;
-        }catch(error){
-            console.log(error)
-            setError((prev) => [
-                ...prev,
-                'Houve um erro ao chamar a função de criação da tag de requisito do curso. Recarregue a página.'
-            ])
+            setError(response.error)
+            return
         }
+
+        fetchRequisitsCourse()
+        return;
     }
 
 
     // Função para remover tag de requisito
     const handleDeleteRequisit = async (idRequisit: number) => {
-        try{
-            const response = await ApiTagsRequisit.delete(idRequisit)
+        const response = await ApiTagsRequisit.delete(idRequisit)
 
-            if(!response.status){
-                if(response.code === 401){
-                    window.alert('Usuario não autenticado. Faça login novamente.')
-                    navigate('/login')
-                    return;
-                }
-                
-                setError(response.error)
+        if(!response.status){
+            if(response.code === 401){
+                window.alert('Usuario não autenticado. Faça login novamente.')
+                navigate('/login')
                 return;
             }
-
-            fetchRequisitsCourse()
+            
+            setError(response.error)
             return;
-        }catch(error){
-            console.log(error)
-            setError((prev) => [
-                ...prev,
-                'Houve um erro ao chamar a função de deleção da tag de requisito do curso. Recarregue a página.'
-            ])
         }
+
+        fetchRequisitsCourse()
+        return;
     }
 
 

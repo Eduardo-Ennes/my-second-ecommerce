@@ -1,6 +1,7 @@
 import '../css/navCategories.css'
 import IconApps from '../assets/apps.png'
 import ApiSearchCoursesAndTechnologies from '../api/course/ApiSearchCourses'
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from "react";
 
 
@@ -10,6 +11,7 @@ interface Tag {
 }
 
 function NavCategories({ id_tag }: { id_tag: (id: number | null) => void }) {
+  const navigate = useNavigate();
   const [tags, setTags] = useState<Tag[]>([]);
   const scrollContainer = useRef<HTMLDivElement | null>(null);
 
@@ -19,22 +21,23 @@ function NavCategories({ id_tag }: { id_tag: (id: number | null) => void }) {
 
   useEffect(() => {
     const searchAllTagsTechnologies = async () => {
-      try{
         const response = await ApiSearchCoursesAndTechnologies.searchAllTagsTechnologies()
         if(!response.status){
+          if(response.code === 401){
+            window.alert(response.error)
+            navigate('/login')
+            return;
+          }
+
           window.alert(response.error)
           return;
         }
 
         setTags(response.data)
-      }catch(error){
-        console.log(error)
-        window.alert('Houve um erro ao buscar as tags de tecnologia. Erro de conexão com o servidor.')
-      }
     }
 
     searchAllTagsTechnologies()
-  }, [])
+  }, [navigate])
 
 
   const scroll = (direction: "left" | "right") => {

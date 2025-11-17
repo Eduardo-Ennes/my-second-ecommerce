@@ -13,20 +13,14 @@ import userApi from '../api/user/UserApi'
 function DropdownMenuAvatar() {
 
   const logouth = async () => {
-    try{
-      const response = await userApi.logouthUser()
+    const response = await userApi.logouthUser()
 
-      if(!response.status){
-        window.alert(response.error)
-        return;
-      }
-
-      window.location.reload()
-    }catch(error){
-      console.log(error)
-      window.alert('Houve um erro ao realizar o logouth. Falha na conexão com o servidor.')
+    if(!response.status){
+      window.alert(response.error)
       return;
     }
+
+    window.location.reload()
   }
   
   return (

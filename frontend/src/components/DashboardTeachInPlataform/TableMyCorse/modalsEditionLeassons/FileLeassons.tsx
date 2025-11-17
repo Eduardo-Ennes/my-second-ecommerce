@@ -16,11 +16,10 @@ function FileLeassons({id}: {id: number | null}) {
     const [infoFile, setInfoFile] = useState<string | File>('')
 
     const handleSearch = useCallback(async () => {
-        try{
-          if(!id) return;
+        if(!id) return;
     
-          const response = await ApiCourseFile.searchFiles(id)
-          if(!response.status){
+        const response = await ApiCourseFile.searchFiles(id)
+        if(!response.status){
             if(response.code === 401){
                 window.alert('Usuario não autenticado. Faça login novamente.')
                 navigate('/login')
@@ -29,13 +28,9 @@ function FileLeassons({id}: {id: number | null}) {
 
             window.alert(response.error)
             return;
-          }
-
-          setFiles(response.data)
-        }catch(error){
-            console.log(error)
-            window.alert('Houve um error de conexão com a função da api searchFiles.')
         }
+
+        setFiles(response.data)
       }, [id, navigate])
 
       useEffect(() => {
@@ -43,49 +38,39 @@ function FileLeassons({id}: {id: number | null}) {
       }, [handleSearch])
 
     const handleCreate = async () => {
-        try{
-            if(!infoFile) return;
-            const response = await ApiCourseFile.createFile(id, infoFile)
-            if(!response.status){
-                if(response.code === 401){
-                    window.alert('Usuario não autenticado. Faça login novamente.')
-                    navigate('/login')
-                    return;
-                }
-
-                window.alert(response.error)
-                setInfoFile('')
+        if(!infoFile) return;
+        const response = await ApiCourseFile.createFile(id, infoFile)
+        if(!response.status){
+            if(response.code === 401){
+                window.alert('Usuario não autenticado. Faça login novamente.')
+                navigate('/login')
                 return;
             }
 
-            handleSearch()
-        }catch(error){
-            console.log(error)
-            window.alert('Error de conexão com a função da api createFile.')
+            window.alert(response.error)
+            setInfoFile('')
+            return;
         }
+
+        handleSearch()
     }
 
 
     const handleDelete = async (IdFile: number) => {
-        try{
-            const response = await ApiCourseFile.deleteFile(IdFile)
-            if(!response.status){
-                if(response.code === 401){
-                    window.alert('Usuario não autenticado. Faça login novamente.')
-                    navigate('/login')
-                    return;
-                }
-
-                window.alert(response.error)
-                setInfoFile('')
+        const response = await ApiCourseFile.deleteFile(IdFile)
+        if(!response.status){
+            if(response.code === 401){
+                window.alert('Usuario não autenticado. Faça login novamente.')
+                navigate('/login')
                 return;
             }
 
-            handleSearch()
-        }catch(error){
-            console.log(error)
-            window.alert('Error de conexão com a função da api deleteFile.')
+            window.alert(response.error)
+            setInfoFile('')
+            return;
         }
+
+        handleSearch()
     }
 
   return (

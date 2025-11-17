@@ -50,8 +50,7 @@ function EditionLeassons({id}: {id: number | null}) {
 
   // Busca todo o objeto para as exibições dos módulos e aulas
   const SearchLeassons = useCallback(async () => {
-    try{
-      // Essa função busca todos os dados das aulas, módulo e aulas, está função está na classe da api dos módulos.
+    // Essa função busca todos os dados das aulas, módulo e aulas, está função está na classe da api dos módulos.
       const response = await ApiCourseModule.searchAll(id)
       if(!response.status){
         if(response.code === 401){
@@ -65,11 +64,6 @@ function EditionLeassons({id}: {id: number | null}) {
       }
  
       setCourse(response.data)
-    }catch(error){
-      console.log(error)
-      window.alert('Houve um error ao se conectar a função da api que busca as aulas. Tente novamente.')
-      navigate('/dashboard')
-    }
   }, [id, navigate])
 
   useEffect(() => {
@@ -79,27 +73,21 @@ function EditionLeassons({id}: {id: number | null}) {
 
   // Cria um módulo
   const handleCreateModule = async () => {
-    try{
-      const position = course.length + 1
-      const response = await ApiCourseModule.createModule(id, createModule, position)
-      if(!response.status){
-        if(response.code === 401){
-          window.alert('Usuario não autenticado. Faça login novamente.')
-          navigate('/login')
-          return;
-        }
-        
-        window.alert(response.error)
+    const position = course.length + 1
+    const response = await ApiCourseModule.createModule(id, createModule, position)
+    if(!response.status){
+      if(response.code === 401){
+        window.alert('Usuario não autenticado. Faça login novamente.')
+        navigate('/login')
         return;
       }
-
-      SearchLeassons()
-      setCreateModule('')
-    }catch(error){
-      console.log(error)
-      window.alert('Houve um error ao chamar a função da api de criação do módulo. Tente novamente. ')
-      navigate('/dashboard')
+      
+      window.alert(response.error)
+      return;
     }
+
+    SearchLeassons()
+    setCreateModule('')
   }
 
   return (

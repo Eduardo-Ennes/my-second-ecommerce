@@ -53,33 +53,29 @@ function UpdateCorse({ id }: { id: number | null; }) {
 
   // função para atuzalizar o curso selecionado
   const handleUpdateCourse = async (event: React.FormEvent<HTMLFormElement>) => {
-    try{
-      event.preventDefault()
-      if(!course) return 
+    event.preventDefault()
+    if(!course) return 
 
-      if(!id){
-        window.alert('ID do curso não encontrado. Tente novamente.')
-        navigate('/dashboard')
-        return;
-      } 
+    if(!id){
+      window.alert('ID do curso não encontrado. Tente novamente.')
+      navigate('/dashboard')
+      return;
+    } 
 
-      const response = await ApiCourse.UpdateCourse(id, course)
-      if(!response.status){
-        if(response.code === 401){
-          window.alert('Usuário não autenticado. Faça o login.')
-          navigate('/login')
-          return;
-        }
-
-        setErr(response.error)
+    const response = await ApiCourse.UpdateCourse(id, course)
+    if(!response.status){
+      if(response.code === 401){
+        window.alert('Usuário não autenticado. Faça o login.')
+        navigate('/login')
         return;
       }
 
-      window.alert(response.message)
-      navigate('/dashboard')
-    }catch(error){
-      console.log(error)
+      setErr(response.error)
+      return;
     }
+
+    window.alert(response.message)
+    navigate('/dashboard')
   }
 
   return (

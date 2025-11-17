@@ -37,31 +37,26 @@ function ModalCreateLeasson({ idModule, reload }: Props) {
     })
 
     const handleCreateLeasson = async () => {
-        try{
-            if(!idModule) return 
-            const response = await ApiEditionCourse.createLeasson(idModule, leasson)
-            if(!response.status){
-                if(response.code === 401){
-                    window.alert('Usuario não autenticado. Faça login novamente.')
-                    navigate('/login')
-                    return;
-                }
-
-                setError('Daqui a pouco já será feito um error')
+        if(!idModule) return 
+        const response = await ApiEditionCourse.createLeasson(idModule, leasson)
+        if(!response.status){
+            if(response.code === 401){
+                window.alert('Usuario não autenticado. Faça login novamente.')
+                navigate('/login')
                 return;
             }
 
-            reload()
-            setLeasson({
-                name: '',
-                video: ''
-            })
-            
-            setOpen(false)
-        }catch(error){
-            console.log(error)
-            window.alert('Error de conexão com a função da api, tente novamente.')
+            setError('Daqui a pouco já será feito um error')
+            return;
         }
+
+        reload()
+        setLeasson({
+            name: '',
+            video: ''
+        })
+        
+        setOpen(false)
     }
 
   return (

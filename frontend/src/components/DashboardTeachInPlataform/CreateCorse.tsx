@@ -26,33 +26,28 @@ function CreateCorse({redirectTo}: {redirectTo: () => void}) {
 
   // Função para criar o curso
   const fetchCreateCorse = async (event: React.FormEvent<HTMLFormElement>) => {
-    try{
-      event.preventDefault()
-      const response = await ApiCourse.CreateCourse(formCourse)
-      if(!response.status){
-        if(response.code === 401){
-          window.alert('Usuario não autenticado. Faça login novamente.')
-          navigate('/login')
-          return;
-        }
-
-        setError(response.error)
+    event.preventDefault()
+    const response = await ApiCourse.CreateCourse(formCourse)
+    if(!response.status){
+      if(response.code === 401){
+        window.alert('Usuario não autenticado. Faça login novamente.')
+        navigate('/login')
         return;
       }
 
-      window.alert(response.message)
-      setFormCourse({
-        name: '',
-        price: 0,
-        price_promotion: 0,
-        promotion: '',
-        description: ''
-      })
-      redirectTo()
-    }catch(error){
-      console.log(error)
-      setError('Houve um error no servidor. Tente novamente.')
+      setError(response.error)
+      return;
     }
+
+    window.alert(response.message)
+    setFormCourse({
+      name: '',
+      price: 0,
+      price_promotion: 0,
+      promotion: '',
+      description: ''
+    })
+    redirectTo()
   }
 
 

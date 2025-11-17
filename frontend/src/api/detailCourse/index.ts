@@ -19,6 +19,66 @@ class DetailCourse {
     }
 
 
+    // Adiciona um curso ao carrinho de compras
+    async addCourseInCard(id: number){
+        try{
+            const passwordApis = localStorage.getItem('passwordApis')
+            const response = await fetch(`http://localhost:3000/add/course/card/${id}`, {
+                method: 'POST',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
+            })
+
+            const data = await response.json()
+            return data
+        }catch(error){
+            console.log(error)
+            return{status: false, error: 'Houve um erro ao adicionar o curso no carrinho de compras. Falha na conexão com o servidor.'}
+        }
+    }
+
+
+    // Busca o carrinho de compras
+    async searchCard(){
+        try{
+            const passwordApis = localStorage.getItem('passwordApis')
+            const response = await fetch('http://localhost:3000/search/courses/card', {
+                method: 'GET',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
+            })
+
+            const data = await response.json()
+            return data
+        }catch(error){
+            console.log(error)
+            return{status: false, error: 'Houve um erro ao buscar as informações do carrinho de compras. Falha na conexão com o servidor.'}
+        }
+    }
+
+
+    async deleteCourseInCard(id: number){
+        try{
+            const passwordApis = localStorage.getItem('passwordApis')
+            const response = await fetch(`http://localhost:3000/del/course/card/${id}`, 
+                {
+                method: 'DELETE',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
+            })
+
+            const data = await response.json()
+            return data
+        }catch(error){
+            console.log(error)
+            return{status: false, error: 'Houve um erro ao remover o curso do carrinho de compras. Falha na conexão com o servidor.'}
+        }
+    }
+
+
     // Adiciona um curso a lista de favoritos
     async addListFavorite(id: number){
         try{
