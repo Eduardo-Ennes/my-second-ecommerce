@@ -1,12 +1,15 @@
 import { Request, Response } from 'express'
 import Knex from '../../../infrastructure/config/postgres'
 import path from 'path'
+import dotenv from 'dotenv'
 import redisClient from '../../../infrastructure/config/redisClient';
 import repositorieDetailCourse from '../repositories/deatilCourse'
 
+dotenv.config()
+
 
 class getCourseAndTagTechnologies {
-    // Busca todas as tags de tecnologia
+    // Funças que busca todas as tags de tecnologia para filtrar os cursos 
     async searchAllTagTechnologies(req: Request, res: Response){
         try{
             const data = await Knex.select('id', 'tech').from('technologies')
@@ -17,11 +20,22 @@ class getCourseAndTagTechnologies {
         }
     }
 
-    // Busca todos os cursos
+
+    // Rota que envia a password para autenticação das requisições da api
+    async sendPasswordApis(req: Request, res: Response){
+        try{
+            const passwordApi = await redisClient.get('autheticationApis')
+            res.status(200).json({status: true, passwordApi: passwordApi})
+        }catch(error){
+            res.status(500).json({status: false, error: 'Houve um error na segurança da api.'})
+        }
+    }
+
+
+    // Esta seria a função home, busca todos os cursos para exibir na tela inicial, com ela se cria também o carrinho de compras.
     async searchAllCourses(req: Request, res: Response){
         try{
             const card = await redisClient.get('card')
-            // Se o carrinho de compras existir passa direto.
             if(!card) await redisClient.set('card', JSON.stringify([[], {total: '0'}]))
 
             const data = await Knex('course as c')

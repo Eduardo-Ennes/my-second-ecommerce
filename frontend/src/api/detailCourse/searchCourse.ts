@@ -2,8 +2,12 @@ class DetailCourse {
     // Busca dados de um curso, usuário e lista de favoritos
     async searchCourse(id: number){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch(`http://localhost:3000/search/course/detail/${id}`, {
-                method: 'GET'
+                method: 'GET',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
             })
 
             const data = await response.json()
@@ -18,8 +22,12 @@ class DetailCourse {
     // Adiciona um curso a lista de favoritos
     async addListFavorite(id: number){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch(`http://localhost:3000/add/favorite/${id}`, {
-                method: 'POST'
+                method: 'POST',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
             })
 
             const data = await response.json()
@@ -34,8 +42,12 @@ class DetailCourse {
     // Deleta um curso da lista de favoritos
     async deleteListFavorite(id: number){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch(`http://localhost:3000/delete/favorite/${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
             })
 
             const data = await response.json()

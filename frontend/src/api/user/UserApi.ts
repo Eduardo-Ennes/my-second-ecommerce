@@ -18,8 +18,12 @@ type LoginUser = {
 class ApisUser {
     async CacheUser(){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch('http://localhost:3000/search/cache/user', {
                 method: 'GET',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
             })
 
             const data = await response.json()
@@ -33,11 +37,13 @@ class ApisUser {
 
     async CreateUser(form: user) {
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch('http://localhost:3000/create/user', {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json', 
                     'Accept': 'application/json',
+                    'passwordapis': passwordApis || ''
                 },
                 body: JSON.stringify(form)
             })
@@ -52,11 +58,13 @@ class ApisUser {
 
     async LoginUser(form: LoginUser){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch('http://localhost:3000/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'passwordapis': passwordApis || ''
                 },
                 body: JSON.stringify(form)
             })
@@ -71,8 +79,12 @@ class ApisUser {
 
     async logouthUser(){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch('http://localhost:3000/logouth', {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
             })
 
             const data = await response.json()

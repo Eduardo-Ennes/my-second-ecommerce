@@ -1,11 +1,13 @@
 class ApiTagsRequisit {
     async create(idCourse: number | null, requisit: string){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch(`http://localhost:3000/create/course/tag/requisit/${idCourse}`, {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json',
-                    'accept': 'application/json'
+                    'accept': 'application/json',
+                    'passwordapis': passwordApis || ''
                 },
                 body: JSON.stringify({requisit: requisit})
             })
@@ -21,8 +23,12 @@ class ApiTagsRequisit {
 
     async delete(id: number | null){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch(`http://localhost:3000/delete/tag/requisit/course/${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
             })
 
             const data = response.json()
@@ -36,8 +42,12 @@ class ApiTagsRequisit {
 
     async search(id: number | null){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch(`http://localhost:3000/search/tags/requisits/course/${id}`, {
-                method: 'GET'
+                method: 'GET',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
             })
 
             const data = response.json()

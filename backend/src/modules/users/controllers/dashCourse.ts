@@ -106,6 +106,7 @@ export async function updateCourse(req: Request, res: Response){
 }
 
 
+// MUDAR PARA O ARQUIVO getCourseAndTechnologies
 // Busca todas as tags de tecnologias para o cadastro do curso
 export async function searchTagstechnologies(req: Request, res: Response){
     try{

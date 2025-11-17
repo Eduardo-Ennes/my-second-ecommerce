@@ -13,7 +13,15 @@ import DashboardProfile from './pages/DashboardProfile.tsx'
 import FinishBuy from './pages/FinishBuy.tsx'
 import MyShops from './pages/MyShops.tsx'
 
+import { setPasswordApis } from './api/setPasswordApis/passwordApis.ts'
+import { useEffect } from 'react'
+
 function App() {
+
+  useEffect(() => {
+    console.log('SETOU!!!!!!!!!!!')
+    setPasswordApis()
+  })
 
   return (
     <>

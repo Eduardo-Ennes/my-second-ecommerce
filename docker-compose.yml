@@ -11,6 +11,7 @@ services:
       # arquivo dockerfile dentro da pasta
     environment:
       - PORT=${PORT}
+      - PASSWORD_REQ_API=${PASSWORD_REQ_API}
       - DB_HOST=${DB_HOST}  # Deve ser o service do bd, no caso postgres 
       - DB_DATABASE=${DB_DATABASE} # My_Second_Ecommerce
       - DB_USER=${POSTGRES_USER}

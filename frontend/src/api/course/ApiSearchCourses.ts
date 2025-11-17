@@ -1,11 +1,16 @@
 
 
-// Nesta classe estão as funções que filtram os cursos por id e nome, como forma de pesquisa do usuário. E também está incluido a api que buscas as tags de tecnologia do backend para serem usadas como filtro de pesquisa.  
+// Nesta classe temos duas funções padões: 1- busca as tags de tecnologia para servir de filtro para pesquisas, 2 - padrão que busca todos os cursos para exibir na tela inicial, 3 e 4 - são funções de filtros de pesquisa por tag de tecnologia ou nome digitado.  
 class ApiSearchCoursesAndTechnologies{
+    // Busca todas as tags de tecnologia para filtrar os cursos
     async searchAllTagsTechnologies(){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch('http://localhost:3000/search/course/all/tags/technologies', {
-                method: 'GET'
+                method: 'GET',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                }
             })
 
             const data = await response.json()
@@ -17,10 +22,16 @@ class ApiSearchCoursesAndTechnologies{
     }
 
 
+    // Busca todos os cursos para exibir na tela inicial
     async SearchAllCourses(){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
+
             const response = await fetch('http://localhost:3000/search/all/courses', {
-                method: 'GET'
+                method: 'GET',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                }
             })
 
             const data = await response.json()
@@ -32,10 +43,15 @@ class ApiSearchCoursesAndTechnologies{
     }
 
 
+    // Busca cursos relacionados a tag selecionada
     async SearchCourseByTag(id: number | null){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch(`http://localhost:3000/search/course/filter/tag/tecnologie/${id}`, {
-                method: 'GET' 
+                method: 'GET',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                }
             })
 
             const data = await response.json()
@@ -47,10 +63,15 @@ class ApiSearchCoursesAndTechnologies{
     }
 
 
+    // Busca cursos pelo nome
     async SearchCoursesByName(name: string){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch(`http://localhost:3000/search/course/filter/${name}`, {
-                method: 'GET'
+                method: 'GET',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
             })
 
             const data = await response.json()

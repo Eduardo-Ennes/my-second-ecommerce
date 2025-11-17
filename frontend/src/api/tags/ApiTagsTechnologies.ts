@@ -2,11 +2,13 @@ class ApiTagsTechnologies{
     // Função api para criação de referência de tag de tecnologia a um curso
     async create(idCourse: number | null, idTech: number){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch('http://localhost:3000/create/reference/course/tag/technologie', {
                 method: 'POST',
                 headers: {
                 'content-type': 'application/json',
-                'accept': 'application/json'
+                'accept': 'application/json',
+                'passwordapis': passwordApis || ''
               },
               body: JSON.stringify({
                 idCourse: idCourse,
@@ -24,8 +26,12 @@ class ApiTagsTechnologies{
 
     async delete(id: number){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch(`http://localhost:3000/delete/tag/technologie/course/${id}`,{
-                method: 'DELETE'
+                method: 'DELETE', 
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
             })
 
             const data = response.json()
@@ -39,7 +45,12 @@ class ApiTagsTechnologies{
     // Função que busca as tecnologias referentes a um curso
     async search(id: number | null){
         try{
-            const response = await fetch(`http://localhost:3000/search/tags/technologies/course/${id}`)
+            const passwordApis = localStorage.getItem('passwordApis')
+            const response = await fetch(`http://localhost:3000/search/tags/technologies/course/${id}`, {
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
+            })
 
             const data = response.json()
             return data

@@ -1,8 +1,10 @@
 import express from 'express'
 import cors from 'cors'
-import dotenv from 'dotenv'
+import bcrypt from 'bcrypt'
 import knex from './infrastructure/config/postgres'
 import redisClient from './infrastructure/config/redisClient'
+import dotenv from 'dotenv'
+dotenv.config()
 // import swaggerUi from 'swagger-ui-express'
 // import swaggerJsdoc from "swagger-jsdoc";
 
@@ -13,12 +15,10 @@ import routerDashTags from './modules/users/routes/dashtags'
 import routesDashCourseModules from './modules/users/routes/dashCourseModule'
 import routesDashCourseLeassons from './modules/users/routes/dashCourseLeasson'
 import routesDashCourseFile from './modules/users/routes/dashCourseFile'
-import routerGetCourse from './modules/users/routes/getCourse'
+import routerhomeAndDetailCourse from './modules/users/routes/homeAndDetailCourse'
 import listFavorite from './modules/users/routes/favoriteAndCard'
 import routerUser from './modules/users/routes/routesUser'
 
-
-dotenv.config()
 
 const app = express()
 app.use(cors())
@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use(routerUser)
 app.use(routerDashCourse)
-app.use(routerGetCourse)
+app.use(routerhomeAndDetailCourse)
 app.use(routerDashTags)
 app.use(routesDashCourseModules)
 app.use(listFavorite)
@@ -45,7 +45,10 @@ redisClient.connect()
         .then(() => {
             console.log("Conexão com o banco postgres realizada com sucesso!")
 
-            app.listen(process.env.PORT, () => {
+            app.listen(process.env.PORT, async () => {
+                // Eu gerei e criptografei a senha de autenticação das apis nesta etapa, por que será processada apenas uma vez, quando o servidor iniciar. 
+                const passwordApis = await bcrypt.hash(process.env.PASSWORD_REQ_API, 10)
+                await redisClient.set('autheticationApis', passwordApis)
                 console.log("Servidor iniciado com sucesso!")
                 console.log(`Rodando na porta ${process.env.PORT}`)
             })

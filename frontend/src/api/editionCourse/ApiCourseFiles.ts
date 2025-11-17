@@ -1,12 +1,16 @@
 class ApiCourseFiles {
     async createFile(id: number | null, file: string | File){
         try{
+           const passwordApis = localStorage.getItem('passwordApis')
            const formData = new FormData()
 
            formData.append('file', file)
 
             const response = await fetch(`http://localhost:3000/create/course/file/${id}`, {
                 method: 'POST', 
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
                 body: formData
             })
 
@@ -20,8 +24,12 @@ class ApiCourseFiles {
 
     async searchFiles(id: number | null){
          try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch(`http://localhost:3000/search/course/files/${id}`, {
-                method: 'GET', 
+                method: 'GET',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                }, 
             })
 
             const data = await response.json()
@@ -35,13 +43,15 @@ class ApiCourseFiles {
 
     async deleteFile(id: number | null){
         try{
-            console.log(id)
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch(`http://localhost:3000/delete/course/file/${id}`, {
                 method: 'DELETE', 
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
             })
 
             const data = await response.json()
-            console.log(data)
             return data 
         }catch(error){
             console.log(error)

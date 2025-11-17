@@ -7,6 +7,7 @@ class ApiCourseLeasson {
     // Cria um aula 
     async createLeasson(idModule: number | null, form: createLeasson){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const formData = new FormData()
             formData.append('name', form.name)
             formData.append('idModule', idModule?.toString() ?? '' )
@@ -16,6 +17,9 @@ class ApiCourseLeasson {
 
             const response = await fetch('http://localhost:3000/create/course/leasson', {
                 method: 'POST',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
                 body: formData
             })
 
@@ -31,8 +35,12 @@ class ApiCourseLeasson {
     // Busca dados de uma aula
     async searchDetailLeasson(id: number | null){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch(`http://localhost:3000/search/course/detail/leasson/${id}`, {
-                method: 'GET'
+                method: 'GET',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
             })
 
             const data = await response.json()
@@ -47,6 +55,7 @@ class ApiCourseLeasson {
     // Atualiza uma aula 
     async updateLeasson(id: number, form: {name: string, file: string | File, position: number}){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const formData = new FormData()
             formData.append('name', form.name)
             if(form.file){
@@ -56,6 +65,9 @@ class ApiCourseLeasson {
 
             const response = await fetch(`http://localhost:3000/update/course/leasson/${id}`, {
                 method: 'PUT',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
                 body: formData
             })
 
@@ -71,15 +83,18 @@ class ApiCourseLeasson {
     // Deleta uma aula 
     async deleteLeasson(id: number | null){
         try{
+            const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch(`http://localhost:3000/delete/course/leasson/${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
             })
 
             const data = await response.json()
             return data
         }catch(error){
             console.log(error)
-            console.log('aqui')
             return{status: false, error: 'Houve um error ao deletar a aula, falha na conexão com o servidor.'}
         }
     }

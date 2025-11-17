@@ -20,8 +20,12 @@ type CourseUpdate = {
 class ApiCourse{
     async searchAllUserCourses(){
       try{
+        const passwordApis = localStorage.getItem('passwordApis')
         const response = await fetch('http://localhost:3000/search/user/courses', {
             method: 'GET',
+            headers: {
+                'passwordapis': passwordApis || ''
+            },
           })
     
           const data = await response.json()
@@ -34,12 +38,15 @@ class ApiCourse{
 
     async searchDetailUserCourse(id: number){
       try{
+        const passwordApis = localStorage.getItem('passwordApis')
         const response = await fetch(`http://localhost:3000/search/user/course/${id}`, {
             method: 'GET',
+            headers: {
+              'passwordapis': passwordApis || ''
+            },
           });
     
           const data = await response.json()
-          console.log('DATA API: ', data)
           return data
       }catch(error){
         console.log(error)
@@ -50,16 +57,17 @@ class ApiCourse{
     // API para criar um curso
     async CreateCourse(form: Course){
         try{
+          const passwordApis = localStorage.getItem('passwordApis')
           const response = await fetch('http://localhost:3000/create/course', {
               method: 'POST',
               headers: {
                 'content-type': 'application/json',
-                'accept': 'application/json'
+                'accept': 'application/json',
+                'passwordapis': passwordApis || ''
               },
               body: JSON.stringify(form)
             })
             const data = await response.json()
-            console.log('DATA: ', data)
             return data
         }catch(error){
           console.log(error)
@@ -71,6 +79,7 @@ class ApiCourse{
     // API para atualizar um curso
     async UpdateCourse(id: number, form: CourseUpdate){
       try{
+        const passwordApis = localStorage.getItem('passwordApis')
         if (!form || !id) return;
         
         const formData = new FormData()
@@ -88,6 +97,9 @@ class ApiCourse{
 
         const response = await fetch(`http://localhost:3000/update/course/${id}`, {
           method: 'PUT',
+          headers: {
+            'passwordapis': passwordApis || ''
+          },
           body: formData
         })
 
