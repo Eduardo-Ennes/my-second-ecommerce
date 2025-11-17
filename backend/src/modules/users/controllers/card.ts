@@ -2,9 +2,8 @@ import { Request, Response } from 'express'
 import operationsCard from '../utils/operationsCard'
 import redisClient from '../../../infrastructure/config/redisClient'
 
-
+// Apenas as operações do carrinho de compras 
 class card {
-    // Adiciona um curso 
     async add(req: Request, res: Response){
         try{
             const id = Number(req.params.id)
@@ -16,8 +15,7 @@ class card {
     }
 
 
-    // Busca as informações 
-    async getCard(req: Request, res: Response){
+    async get(req: Request, res: Response){
         try{
             const cacheCard = await redisClient.get('card')
             if(!cacheCard){
@@ -33,7 +31,6 @@ class card {
     }
 
 
-    // Remo0ve um curso
     async del(req: Request, res: Response){
         try{
             const id = Number(req.params.id)

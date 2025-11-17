@@ -25,7 +25,4 @@ router.get('/search/course/filter/:name', authenticationApi, getCourseAndTagTech
 // Rota que apenas fornece a imagem do curso
 router.get('/search/course/image/:name', getCourseAndTagTechnologies.getImageCourse)
 
-// Busca apenas um curso específico para exibir seus detalhes
-router.get('/search/course/detail/:id', authenticationApi, getCourseAndTagTechnologies.searchDetailCourse)
-
 export default router

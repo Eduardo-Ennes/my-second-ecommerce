@@ -99,6 +99,26 @@ class DetailCourse {
     }
 
 
+    async searchListFavorite(){
+        try{
+            console.log('API ACIONADA')
+            const passwordApis = localStorage.getItem('passwordApis')
+            const response = await fetch('http://localhost:3000/search/list/favorite', {
+                method: 'GET',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
+            })
+
+            const data = await response.json()
+            return data 
+        }catch(error){
+            console.log(error)
+            return{status: false, error: 'Houve um erro ao buscar a lista de favoritos. Falha na conexão com o servidor.'}
+        }
+    }
+
+
     // Deleta um curso da lista de favoritos
     async deleteListFavorite(id: number){
         try{

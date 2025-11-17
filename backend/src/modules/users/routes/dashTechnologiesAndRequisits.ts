@@ -8,7 +8,7 @@ import { createTechCourse,
     deleteTechCourse,
     createTagRequisist,
     searchRequisitsCourse,
-    deleteRequisitCourse } from '../controllers/dashTagsTechnologiesAnsRequisits'
+    deleteRequisitCourse } from '../controllers/dashTagsTechnologiesAndRequisits'
 
     
 // Technologie

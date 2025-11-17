@@ -11,13 +11,14 @@ dotenv.config()
 
 // importações dos Routes
 import routerDashCourse from './modules/users/routes/dashCourse'
-import routerDashTags from './modules/users/routes/dashtags'
+import routerDashTechnologiesAndRequisits from './modules/users/routes/dashTechnologiesAndRequisits'
 import routesDashCourseModules from './modules/users/routes/dashCourseModule'
 import routesDashCourseLeassons from './modules/users/routes/dashCourseLeasson'
 import routesDashCourseFile from './modules/users/routes/dashCourseFile'
-import routerhomeAndDetailCourse from './modules/users/routes/homeAndDetailCourse'
-import listFavorite from './modules/users/routes/favoriteAndCard'
+import routerhome from './modules/users/routes/homeAndDetailCourse'
+import listFavoriteAndCard from './modules/users/routes/favoriteAndCard'
 import routerUser from './modules/users/routes/routesUser'
+import routerDetailCourse from './modules/users/routes/detailCourse'
 
 
 const app = express()
@@ -26,12 +27,15 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
+app.use(routerhome)
+app.use(routerDetailCourse)
 app.use(routerUser)
-app.use(routerDashCourse)
-app.use(routerhomeAndDetailCourse)
-app.use(routerDashTags)
+app.use(listFavoriteAndCard)
+
+// Router das operações da dashboard
+app.use(routerDashCourse)   
+app.use(routerDashTechnologiesAndRequisits)
 app.use(routesDashCourseModules)
-app.use(listFavorite)
 app.use(routesDashCourseLeassons)
 app.use(routesDashCourseFile)
 

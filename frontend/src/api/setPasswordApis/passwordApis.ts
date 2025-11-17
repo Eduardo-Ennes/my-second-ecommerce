@@ -5,7 +5,6 @@ export async function setPasswordApis(){
         })
 
         const data = await response.json()
-        console.log(data.passwordApi)
         localStorage.setItem('passwordApis', data.passwordApi)
         return true
     }catch(error){

@@ -52,23 +52,6 @@ class getCourseAndTagTechnologies {
     }
 
 
-    async searchDetailCourse(req: Request, res: Response){
-        try{
-            const id = Number(req.params.id)
-            const response = await repositorieDetailCourse.searchDetail(id)
-
-            if(!response.status){
-                res.status(500).json(response)
-                return;
-            }
-
-            res.status(200).json(response)
-        }catch(error){
-            res.status(500).json({status: false, error: 'Houve um error ao buscar os detalhes do curso. '})
-        }
-    }
-
-
     // Busca cursos relacionados a uma determinada tag
     async searchCoursesFilterTag(req: Request, res: Response){
         try{
