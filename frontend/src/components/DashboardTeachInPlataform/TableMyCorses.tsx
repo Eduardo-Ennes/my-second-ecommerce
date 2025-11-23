@@ -18,9 +18,9 @@ import ApiCouser from '../../api/course/ApiCouser'
 
 function TableMyCorses() {
     const navigate = useNavigate()
-    // const reloadSearchUserCourses = () => {
-    //     searchUserCourses()
-    // }
+    const reloadSearchUserCourses = () => {
+        searchUserCourses()
+    }
 
     const [editionCorse, setEditionCorse] = useState<false | true>(false)
     const [id, setId] = useState<number| null>(null)
@@ -122,7 +122,7 @@ function TableMyCorses() {
             </TableBody>
         </Table>
 
-        {editionCorse && <UpdateCorse id={id} /> }
+        {editionCorse && <UpdateCorse id={id} reload={reloadSearchUserCourses}/> }
         {editionCorse && <UpdateTags id={id} /> }
         {editionCorse && <EditionLeassons id={id}/> }
     </>

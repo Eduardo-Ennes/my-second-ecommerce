@@ -1,4 +1,22 @@
 class ApiTagsTechnologies{
+    async searchTagsTechnologies(){
+        try{
+            const passwordApis = localStorage.getItem('passwordApis')
+            const response = await fetch('http://localhost:3000/search/technologies', {
+                method: 'GET',
+                headers: {
+                    'passwordapis': passwordApis || ''
+                },
+            })
+
+            const data = await response.json()
+            return data
+        }catch(error){
+            console.log(error)
+            return {status: false, error: 'Error ao buscar a lista de tags de tecnologia para edição do curso, falha na conexão com o servidor.'}
+        }
+    }
+
     // Função api para criação de referência de tag de tecnologia a um curso
     async create(idCourse: number | null, idTech: number){
         try{

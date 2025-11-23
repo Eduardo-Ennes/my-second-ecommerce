@@ -40,11 +40,11 @@ class ApiCourse{
       try{
         const passwordApis = localStorage.getItem('passwordApis')
         const response = await fetch(`http://localhost:3000/search/user/course/${id}`, {
-            method: 'GET',
-            headers: {
-              'passwordapis': passwordApis || ''
-            },
-          });
+          method: 'GET',
+          headers: {
+            'passwordapis': passwordApis || ''
+          },
+        });
     
           const data = await response.json()
           return data

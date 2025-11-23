@@ -101,7 +101,6 @@ class DetailCourse {
 
     async searchListFavorite(){
         try{
-            console.log('API ACIONADA')
             const passwordApis = localStorage.getItem('passwordApis')
             const response = await fetch('http://localhost:3000/search/list/favorite', {
                 method: 'GET',

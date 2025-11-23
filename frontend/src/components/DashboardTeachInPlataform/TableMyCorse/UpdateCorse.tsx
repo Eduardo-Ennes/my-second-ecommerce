@@ -19,7 +19,7 @@ type Course = {
   description: string
 }
 
-function UpdateCorse({ id }: { id: number | null; }) {
+function UpdateCorse({ id, reload }: { id: number | null; reload: () => void }) {
   const navigate = useNavigate()
   const [err, setErr] = useState('')
   const [course, setCourse] = useState<Course | null>(null)
@@ -31,7 +31,6 @@ function UpdateCorse({ id }: { id: number | null; }) {
       if(id === null) return;
 
       const response = await ApiCourse.searchDetailUserCourse(id)
-      console.log(response)
       if(!response.status){
         if(response.code === 401){
           window.alert('Usuário não autenticado. Faça o login.')
@@ -75,6 +74,7 @@ function UpdateCorse({ id }: { id: number | null; }) {
     }
 
     window.alert(response.message)
+    reload()
     navigate('/dashboard')
   }
 

@@ -1,10 +1,10 @@
 import { Button } from '@headlessui/react'
 import { ScrollArea } from "@/components/ui/scroll-area"
-import ArrowRigthWhite from '../../../assets/arrow-right-white.png'
 import { Link } from 'react-router-dom'
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Alert, AlertTitle } from '@/components/ui/alert'
+import ArrowRigthWhite from '../../../assets/arrow-right-white.png'
 
 import ApiTagsTechnologies from '../../../api/tags/ApiTagsTechnologies'
 import ApiTagsRequisit from '../../../api/tags/ApiTgasRequisit'
@@ -29,20 +29,32 @@ function Update_tags({ id }: { id: number | null }) {
     // Função API que busca as tags de tecnologias
     useEffect(() => {
         const fetchTechnologies = async () => {
-            const response = await fetch('http://localhost:3000/search/technologies', {
-                method: 'GET',
-            })
+            const response = await ApiTagsTechnologies.searchTagsTechnologies()
+            console.log('RESPONSE')
+            console.log(response)
+            if(!response.status){
+                if(response.code === 401){
+                    window.alert(response.error)
+                    navigate('/login')
+                    return;
+                }
 
-            const data = await response.json()
-            setTechnologies(data.data) 
+                window.alert(response.error)
+                console.log('DEU ERROR AQUI')
+                navigate('/dashboard')
+                return;
+            }
+
+            setTechnologies(response.data) 
         }
 
         fetchTechnologies()
-    }, [])
+    }, [navigate])
 
 
     // função para buscar as tags de tecnologias referenciadas a um curso
     const fetchTechnologiesCourse = useCallback(async () => {
+        if(!id) return;
         const response = await ApiTagsTechnologies.search(id)
 
         if (!response.status) {
@@ -119,22 +131,23 @@ function Update_tags({ id }: { id: number | null }) {
 
 // Função para buscar requisitos de um curso
 const fetchRequisitsCourse = useCallback(async () => {
-        const response = await ApiTagsRequisit.search(id)
+    if(!id) return;
+    const response = await ApiTagsRequisit.search(id)
 
-        if (!response.status) {
-            if(response.code === 401){
-                window.alert('Usuario não autenticado. Faça login novamente.')
-                navigate('/login')
-                return;
-            }
-
-            window.alert(response.error)
-            navigate('/dashboard')
+    if (!response.status) {
+        if(response.code === 401){
+            window.alert('Usuario não autenticado. Faça login novamente.')
+            navigate('/login')
             return;
         }
 
-        setListReq(response.data)
-        setRequisit('')
+        window.alert(response.error)
+        navigate('/dashboard')
+        return;
+    }
+
+    setListReq(response.data)
+    setRequisit('')
 
     }, [id, navigate])
 

@@ -106,13 +106,12 @@ export async function updateCourse(req: Request, res: Response){
 }
 
 
-// MUDAR PARA O ARQUIVO getCourseAndTechnologies
-// Busca todas as tags de tecnologias para o cadastro do curso
+// Busca todas as tags de tecnologias para o cadastro e atualização dos curso
 export async function searchTagstechnologies(req: Request, res: Response){
     try{
         const technologies = await Knex.select('id', 'tech').from('technologies')
-        res.status(200).json({data: technologies})
+        res.status(200).json({status: true, data: technologies})
     }catch(error){
-        res.status(500).json({error: 'Houve um erro ao tentar buscar as tags de tecnologias.Recarregue a página.'})
+        res.status(500).json({status: false, error: 'Houve um erro ao tentar buscar as tags de tecnologias.Recarregue a página.'})
     }
 }

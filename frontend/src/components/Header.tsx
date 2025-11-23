@@ -23,7 +23,7 @@ type argsArgument = {
   nameSearchCourses?: (name: string) => void
 }
 
-function Header({args}: argsArgument) {
+function Header({args, nameSearchCourses}: argsArgument) {
   const navigate = useNavigate();
   const [name, setName] = useState<string>('')
   const [logado, setLogado] = useState<boolean>()
@@ -38,7 +38,12 @@ function Header({args}: argsArgument) {
 
     searchCacheUser()
 
-  }, [navigate])
+  }, [navigate, nameSearchCourses])
+
+  const handleSearchName = () => {
+    if(!name) return;
+    nameSearchCourses?.(name)
+  }
 
   return (
     <>
@@ -53,7 +58,10 @@ function Header({args}: argsArgument) {
                 <Input 
                 type="text" 
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => {
+                  setName(e.target.value)
+                  handleSearchName()
+                }}
                 placeholder="Buscar..." 
                 className='!border-none !outline-none !shadow-none !ring-0'/>
                 <Link to="#" className='bg-[oklch(14.5%_0_0)] cursor-pointer text-base pr-3'>

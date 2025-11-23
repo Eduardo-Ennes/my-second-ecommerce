@@ -16,7 +16,7 @@ const upload = multer(multerConfig)
 router.get('/search/user/courses', authenticationApi, authenticationUser, searchUserAllCouses)
 
 // Course
-router.post('/create/course', authenticationApi, authenticationUser, createCourse)
+router.post('/create/course', authenticationApi,  authenticationUser, createCourse)
 router.get('/search/technologies', authenticationApi, authenticationUser, searchTagstechnologies)
 router.get('/search/user/course/:id', authenticationApi, authenticationUser, searchUserCourseById)
 router.put('/update/course/:id', authenticationApi, authenticationUser, upload.single('file'), updateCourse)

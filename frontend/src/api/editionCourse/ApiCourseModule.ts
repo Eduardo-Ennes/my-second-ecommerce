@@ -48,7 +48,7 @@ class ApiCourseModule {
             return data 
         }catch(error){
             console.log(error)
-            return{status: false, error: 'Houve um error ao atualizar o módulo, falha na conexão com o servidor, tente novamente.'}
+            return{status: false, error: 'Houve um error ao buscar as informações do  módulo, falha na conexão com o servidor, tente novamente.'}
         }
     }
 
@@ -57,8 +57,6 @@ class ApiCourseModule {
     async updateModule(form: updateModule){
         try{
             const passwordApis = localStorage.getItem('passwordApis')
-            console.log(form) // Aqui mostra em objeto
-            // Id é passado pelo formulário
             const response = await fetch('http://localhost:3000/update/course/module', {
                 method: 'POST',
                 headers: {
@@ -86,7 +84,6 @@ class ApiCourseModule {
     async deleteModule(id: number | null){
         try{
             const passwordApis = localStorage.getItem('passwordApis')
-            console.log(id)
             const response = await fetch(`http://localhost:3000/delete/course/module/${id}`, {
                 method: 'DELETE',
                 headers: {
@@ -115,6 +112,7 @@ class ApiCourseModule {
             })
 
             const data = await response.json()
+            console.log(data)
             return data 
         }catch(error){
             console.log(error)

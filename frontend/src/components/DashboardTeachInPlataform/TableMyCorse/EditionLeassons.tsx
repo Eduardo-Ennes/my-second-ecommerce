@@ -51,19 +51,20 @@ function EditionLeassons({id}: {id: number | null}) {
   // Busca todo o objeto para as exibições dos módulos e aulas
   const SearchLeassons = useCallback(async () => {
     // Essa função busca todos os dados das aulas, módulo e aulas, está função está na classe da api dos módulos.
-      const response = await ApiCourseModule.searchAll(id)
-      if(!response.status){
-        if(response.code === 401){
-          window.alert('Usuario não autenticado. Faça login novamente.')
-          navigate('/login')
-          return;
-        }
-
-        window.alert(response.error)
-        navigate('/dashboard')
+    if(!id) return;
+    const response = await ApiCourseModule.searchAll(id)
+    if(!response.status){
+      if(response.code === 401){
+        window.alert('Usuario não autenticado. Faça login novamente.')
+        navigate('/login')
+        return;
       }
- 
-      setCourse(response.data)
+
+      window.alert(response.error)
+      navigate('/dashboard')
+    }
+
+    setCourse(response.data)
   }, [id, navigate])
 
   useEffect(() => {
